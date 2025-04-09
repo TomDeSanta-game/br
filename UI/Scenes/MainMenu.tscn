@@ -1,0 +1,66 @@
+[gd_scene load_steps=5 format=3 uid="uid://cnx4ney8jniti"]
+
+[ext_resource type="Script" uid="uid://hkmrdh8fp1t2" path="res://UI/Scripts/MainMenu.gd" id="1_05a1h"]
+[ext_resource type="FontFile" uid="uid://bgx8gu7aobui5" path="res://assets/Fonts/pixel_font.ttf" id="2_yxndq"]
+[ext_resource type="FontFile" uid="uid://bw75xcxjn2qfo" path="res://assets/Fonts/Helvetica.ttf" id="3_y4ex5"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_y4ex5"]
+font = ExtResource("3_y4ex5")
+font_size = 128
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_05a1h")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -100.0
+offset_top = -100.0
+offset_right = 100.0
+offset_bottom = 100.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Title" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_yxndq")
+theme_override_font_sizes/font_size = 48
+text = "Breaking Bad"
+label_settings = SubResource("LabelSettings_y4ex5")
+horizontal_alignment = 1
+
+[node name="Spacer1" type="Control" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+
+[node name="StartButton" type="Button" parent="VBoxContainer"]
+texture_filter = 6
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Start"
+
+[node name="OptionsButton" type="Button" parent="VBoxContainer"]
+texture_filter = 6
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Options"
+
+[node name="QuitButton" type="Button" parent="VBoxContainer"]
+texture_filter = 6
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Quit"
+
+[connection signal="pressed" from="VBoxContainer/StartButton" to="." method="_on_start_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/OptionsButton" to="." method="_on_options_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/QuitButton" to="." method="_on_quit_button_pressed"]

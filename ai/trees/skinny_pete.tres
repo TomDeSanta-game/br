@@ -1,0 +1,14 @@
+[gd_resource type="BehaviorTree" load_steps=4 format=3 uid="uid://crqekrwtvfuii"]
+
+[sub_resource type="BlackboardPlan" id="BlackboardPlan_6wpyt"]
+
+[sub_resource type="BTSequence" id="BTSequence_uyy1q"]
+custom_name = "Random Move Sequence"
+
+[sub_resource type="BTSelector" id="BTSelector_yhe0h"]
+custom_name = "Skinny Pete"
+children = [SubResource("BTSequence_uyy1q")]
+
+[resource]
+blackboard_plan = SubResource("BlackboardPlan_6wpyt")
+root_task = SubResource("BTSelector_yhe0h")
