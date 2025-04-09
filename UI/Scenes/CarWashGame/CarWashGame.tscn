@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://cduevh3w5jqjp"]
+
+[ext_resource type="PackedScene" uid="uid://deta1fjremim5" path="res://UI/Scenes/CarWashGame/CarWashUI.tscn" id="1_cqw3m"]
+
+[node name="CarWashGame" type="Node"]
+
+[node name="CarWashUI" parent="." instance=ExtResource("1_cqw3m")]

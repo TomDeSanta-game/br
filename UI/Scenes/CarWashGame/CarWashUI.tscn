@@ -1,0 +1,186 @@
+[gd_scene load_steps=7 format=3 uid="uid://deta1fjremim5"]
+
+[ext_resource type="Script" uid="uid://b45byvxcqxvjo" path="res://UI/Scripts/CarWashGame/CarWashUI.gd" id="1_3hdbr"]
+[ext_resource type="FontFile" uid="uid://bgx8gu7aobui5" path="res://assets/Fonts/pixel_font.ttf" id="3_cjxwm"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_ag7ee"]
+font = ExtResource("3_cjxwm")
+font_size = 20
+outline_size = 1
+outline_color = Color(0, 0, 0, 1)
+shadow_color = Color(0, 0, 0, 0.392157)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_k8q6r"]
+bg_color = Color(0.137255, 0.137255, 0.137255, 0.784314)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.4, 0.4, 0.4, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_amd7f"]
+bg_color = Color(0.2, 0.6, 0.2, 0.862745)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.3, 0.7, 0.3, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pq12b"]
+bg_color = Color(0.8, 0.8, 0.8, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.6, 0.6, 0.6, 1)
+
+[node name="CarWashUI" type="Node2D"]
+script = ExtResource("1_3hdbr")
+
+[node name="PixelBackground" type="ColorRect" parent="."]
+visible = false
+offset_right = 1152.0
+offset_bottom = 648.0
+color = Color(0.117647, 0.117647, 0.117647, 0.176471)
+
+[node name="TitleLabel" type="Label" parent="."]
+visible = false
+offset_left = 448.0
+offset_top = 20.0
+offset_right = 704.0
+offset_bottom = 60.0
+text = "MINI GAME"
+label_settings = SubResource("LabelSettings_ag7ee")
+horizontal_alignment = 1
+
+[node name="Meter" type="Node2D" parent="."]
+position = Vector2(576, 324)
+scale = Vector2(0.8, 0.8)
+
+[node name="Background" type="Panel" parent="Meter"]
+offset_left = -250.0
+offset_top = -40.0
+offset_right = 250.0
+offset_bottom = 40.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_k8q6r")
+
+[node name="ProgressBar" type="ColorRect" parent="Meter"]
+offset_left = -245.0
+offset_top = 45.0
+offset_right = 245.0
+offset_bottom = 55.0
+color = Color(0.141176, 0.141176, 0.141176, 0.784314)
+
+[node name="ProgressFill" type="ColorRect" parent="Meter/ProgressBar"]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 1.0
+offset_right = 1.0
+offset_bottom = 9.0
+color = Color(0.2, 0.6, 0.2, 1)
+
+[node name="GoodZone" type="Panel" parent="Meter"]
+offset_left = -40.0
+offset_top = -35.0
+offset_right = 40.0
+offset_bottom = 35.0
+pivot_offset = Vector2(40, 35)
+theme_override_styles/panel = SubResource("StyleBoxFlat_amd7f")
+
+[node name="Indicator" type="Panel" parent="Meter"]
+offset_left = -3.0
+offset_top = -38.0
+offset_right = 3.0
+offset_bottom = 38.0
+pivot_offset = Vector2(3, 38)
+theme_override_styles/panel = SubResource("StyleBoxFlat_pq12b")
+
+[node name="WaterLine" type="ColorRect" parent="Meter"]
+offset_left = -250.0
+offset_right = 250.0
+offset_bottom = 2.0
+color = Color(0.4, 0.4, 0.4, 0.392157)
+
+[node name="TickMarks" type="Node2D" parent="Meter"]
+position = Vector2(0, -20)
+
+[node name="Tick1" type="ColorRect" parent="Meter/TickMarks"]
+offset_left = -225.0
+offset_top = -8.0
+offset_right = -223.0
+offset_bottom = -4.0
+color = Color(0.8, 0.8, 0.8, 1)
+
+[node name="Tick2" type="ColorRect" parent="Meter/TickMarks"]
+offset_left = -165.0
+offset_top = -8.0
+offset_right = -163.0
+offset_bottom = -4.0
+color = Color(0.8, 0.8, 0.8, 1)
+
+[node name="Tick3" type="ColorRect" parent="Meter/TickMarks"]
+offset_left = -105.0
+offset_top = -8.0
+offset_right = -103.0
+offset_bottom = -4.0
+color = Color(0.8, 0.8, 0.8, 1)
+
+[node name="Tick4" type="ColorRect" parent="Meter/TickMarks"]
+offset_left = -45.0
+offset_top = -8.0
+offset_right = -43.0
+offset_bottom = -4.0
+color = Color(0.8, 0.8, 0.8, 1)
+
+[node name="Tick5" type="ColorRect" parent="Meter/TickMarks"]
+offset_left = 43.0
+offset_top = -8.0
+offset_right = 45.0
+offset_bottom = -4.0
+color = Color(0.8, 0.8, 0.8, 1)
+
+[node name="Tick6" type="ColorRect" parent="Meter/TickMarks"]
+offset_left = 103.0
+offset_top = -8.0
+offset_right = 105.0
+offset_bottom = -4.0
+color = Color(0.8, 0.8, 0.8, 1)
+
+[node name="Tick7" type="ColorRect" parent="Meter/TickMarks"]
+offset_left = 163.0
+offset_top = -8.0
+offset_right = 165.0
+offset_bottom = -4.0
+color = Color(0.8, 0.8, 0.8, 1)
+
+[node name="Tick8" type="ColorRect" parent="Meter/TickMarks"]
+offset_left = 223.0
+offset_top = -8.0
+offset_right = 225.0
+offset_bottom = -4.0
+color = Color(0.8, 0.8, 0.8, 1)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="ScorePanel" type="Panel" parent="CanvasLayer"]
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 240.0
+offset_bottom = 55.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_k8q6r")
+
+[node name="Label" type="Label" parent="CanvasLayer"]
+offset_left = 30.0
+offset_top = 23.0
+offset_right = 190.0
+offset_bottom = 52.0
+text = "Score: 0%"
+label_settings = SubResource("LabelSettings_ag7ee")

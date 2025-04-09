@@ -22,7 +22,6 @@ SceneManager="*res://addons/scene_manager/SceneManager.tscn"
 Log="*res://addons/logger/logger.gd"
 IdManager="*res://Systems/Scripts/id_manager.gd"
 QuestSystem="*res://addons/quest_system/quest_manager.gd"
-QuestManager="*res://Singletons/Scripts/QuestManager/quest_manager.gd"
 SoundManager="*res://addons/sound_manager/sound_manager.gd"
 SignalBus="*res://Singletons/Scripts/SignalBus/signal_bus.gd"
 LimboConsole="*res://addons/limbo_console/limbo_console.gd"
@@ -156,6 +155,12 @@ limbo_console_toggle={
 HUI={
 "deadzone": 0.2,
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194340,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
+]
+}
+Zerostovik={
+"deadzone": 0.2,
+"events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":1,"position":Vector2(90, 21),"global_position":Vector2(99, 67),"factor":1.0,"button_index":1,"canceled":false,"pressed":true,"double_click":false,"script":null)
+, Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":32,"key_label":0,"unicode":32,"location":0,"echo":false,"script":null)
 ]
 }
 
