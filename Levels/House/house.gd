@@ -45,5 +45,7 @@ func _on_car_body_entered(body: Node2D) -> void:
 		player.hide()
 		player.set_physics_process(false)
 		player.set_process_unhandled_input(false)
-		await get_tree().create_timer(3.0).timeout
 		player.hide_ui(true)
+		$AnimationPlayer.play("CAR")
+		await get_tree().create_timer(1.0).timeout
+		SceneManager.change_scene("res://UI/Scenes/CarWashGame/CarWashGame.tscn")

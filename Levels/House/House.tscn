@@ -1,4 +1,4 @@
-[gd_scene load_steps=48 format=4 uid="uid://bxp07xa40uxl5"]
+[gd_scene load_steps=51 format=4 uid="uid://bxp07xa40uxl5"]
 
 [ext_resource type="Script" uid="uid://qasp5kjmf5xb" path="res://Levels/House/house.gd" id="1_7x4gs"]
 [ext_resource type="Texture2D" uid="uid://sdrha8jkkf78" path="res://assets/Tileset/house.png" id="1_lhl45"]
@@ -4187,6 +4187,43 @@ physics_layer_0/collision_mask = 2
 sources/0 = SubResource("TileSetAtlasSource_p6oj2")
 sources/1 = SubResource("TileSetAtlasSource_rqnpk")
 
+[sub_resource type="Animation" id="Animation_pbwse"]
+resource_name = "CAR"
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Car:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(380, -240), Vector2(400, -240), Vector2(420, -240), Vector2(440, -240), Vector2(460, -240), Vector2(500, -240)]
+}
+
+[sub_resource type="Animation" id="Animation_0w8td"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Car:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(380, -240)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_rrf46"]
+_data = {
+&"CAR": SubResource("Animation_pbwse"),
+&"RESET": SubResource("Animation_0w8td")
+}
+
 [node name="House" type="Node2D"]
 script = ExtResource("1_7x4gs")
 
@@ -4302,22 +4339,21 @@ position = Vector2(35, -448.5)
 shape = SubResource("RectangleShape2D_oreut")
 
 [node name="Car" type="StaticBody2D" parent="."]
+position = Vector2(380, -240)
 collision_mask = 2
 
 [node name="Sprite2D" type="Sprite2D" parent="Car"]
-position = Vector2(380, -240)
 scale = Vector2(1.5, 1.5)
 texture = ExtResource("9_pa8gw")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Car"]
-position = Vector2(380, -240)
 shape = SubResource("RectangleShape2D_rrf46")
 
 [node name="CarCollidor" type="Area2D" parent="."]
+position = Vector2(380, -240)
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CarCollidor"]
-position = Vector2(380, -240)
 shape = SubResource("RectangleShape2D_0w8td")
 
 [node name="TileMapLayer_Furniture" type="TileMapLayer" parent="."]
@@ -4336,3 +4372,8 @@ position = Vector2(24, 42)
 
 [node name="WaltJR" parent="NPC\'S" instance=ExtResource("16_rrf46")]
 position = Vector2(45, 23)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_rrf46")
+}
