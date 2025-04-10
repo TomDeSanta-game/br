@@ -1,6 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://cx0rqd7wvxyyn"]
+[gd_scene load_steps=8 format=3 uid="uid://cx0rqd7wvxyyn"]
 
 [ext_resource type="Texture2D" uid="uid://cfcrpmaxa67x8" path="res://assets/Tileset/Road.png" id="1_ajj6m"]
+[ext_resource type="Script" uid="uid://chypldqow57tj" path="res://Levels/RideWithHank/ride_with_hank.gd" id="1_q1rvs"]
+[ext_resource type="PackedScene" uid="uid://c7c4cbnye20ot" path="res://Entities/Scenes/Jesse/jesse.tscn" id="3_q1rvs"]
 [ext_resource type="Texture2D" uid="uid://dxjewenpnbugm" path="res://assets/Cars/car_front.png" id="3_xool7"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_4oyke"]
@@ -293,6 +295,7 @@ sources/0 = SubResource("TileSetAtlasSource_4oyke")
 size = Vector2(16, 40)
 
 [node name="RideWithHank" type="Node2D"]
+script = ExtResource("1_q1rvs")
 
 [node name="TileMapLayer_Road" type="TileMapLayer" parent="."]
 tile_map_data = PackedByteArray(0, 0, 1, 0, 2, 0, 0, 0, 13, 0, 0, 0, 0, 0, 1, 0, 7, 0, 0, 0, 13, 0, 0, 0, 0, 0)
@@ -306,6 +309,10 @@ texture = ExtResource("3_xool7")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Car"]
 shape = SubResource("RectangleShape2D_q1rvs")
+
+[node name="Jesse" parent="." instance=ExtResource("3_q1rvs")]
+position = Vector2(0, 60)
+scale = Vector2(0.5, 0.5)
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(24, 78)

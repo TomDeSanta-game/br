@@ -1,6 +1,7 @@
-[gd_scene load_steps=41 format=3 uid="uid://c7c4cbnye20ot"]
+[gd_scene load_steps=42 format=3 uid="uid://c7c4cbnye20ot"]
 
 [ext_resource type="Texture2D" uid="uid://b5erc2om7tl15" path="res://assets/Characters/Jesse/idle.png" id="1_e3v5y"]
+[ext_resource type="Script" uid="uid://bi8sq0nb20ss1" path="res://Entities/Scripts/Jesse/jesse.gd" id="1_gwxeq"]
 [ext_resource type="Texture2D" uid="uid://dkv10qod5ih8o" path="res://assets/Characters/Jesse/run.png" id="2_gwxeq"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_6jucn"]
@@ -292,6 +293,7 @@ animations = [{
 size = Vector2(13, 14)
 
 [node name="Jesse" type="CharacterBody2D"]
+script = ExtResource("1_gwxeq")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_o5fh7")

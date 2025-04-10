@@ -12,16 +12,11 @@ const ANIMATIONS: Dictionary = {
 
 # Variables
 var speed: float = 100.0
-var dialogic_started: bool = false
 var can_toggle_inventory: bool = true
 var inventory_toggled: bool = false
 var direction: Vector2 = Vector2.ZERO
-var camera_manager
 var is_interact_mode = false
-var can_interact = false
-var interactable_object = null
 var ui_hidden = false
-var current_area = null
 var is_running = false
 
 # References
