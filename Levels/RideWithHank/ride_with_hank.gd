@@ -15,26 +15,78 @@ var formation_center
 var move_direction = Vector2(-1, 0)
 var rotation_speed = 4.0
 var time_passed = 0.0
-var camera_target = Vector2(0, 0)
 var daylight_intensity = 0.06
 var daylight_direction = 1
 var house_position = Vector2(-150, 80)
+var car_position = Vector2(24, 58)
 var target_reached = false
-var camera_smoothness = 0.8
+var house_focus_complete = false
+var car_focus_timer = 0.0
+var house_focus_timer = 3.0
 var camera_transition_time = 0.0
-var camera_transition_duration = 2.0
+var camera_transition_duration = 3.5
+var car_transition_duration = 2.5
+var formation_center_smoothed = Vector2.ZERO
+var camera_target_position = Vector2.ZERO
+var camera_offset = Vector2(0, -15)
+var initial_zoom = Vector2(5, 5)
+var target_zoom = Vector2(4, 4)
+var car_focus_zoom = Vector2(4.5, 4.5)
+var current_zoom = Vector2(5, 5)
+var zoom_speed = 0.5
+var dust_particles = []
+var dialogic_started = false
 
 func _ready() -> void:
 	$Jesse.speed = 30.0
 	
 	for i in range(1, 7):
 		officers.append(get_node("PoliceOfficers/PoliceOfficer" + str(i)))
+		var particles = get_node("PoliceOfficers/PoliceOfficer" + str(i) + "/CPUParticles2D")
+		dust_particles.append(particles)
 	
 	formation_center = calculate_formation_center()
-	camera_target = formation_center
-	$Camera2D.position = formation_center
+	formation_center_smoothed = formation_center
+	camera_target_position = formation_center
+	
+	$Camera2D.global_position = formation_center
+	$Camera2D.zoom = initial_zoom
+	current_zoom = initial_zoom
 	
 	toggle_dust_particles(false)
+	
+	$Camera2D.position_smoothing_enabled = true
+	$Camera2D.position_smoothing_speed = 3.0
+	
+	if has_node("Background"):
+		$Background.color = Color(0.95, 0.87, 0.73, 1.0)
+		
+	if has_node("AmbientVignette"):
+		$AmbientVignette.color = Color(0.1, 0.05, 0.0, 0.4)
+	
+	if has_node("House/HouseBase"):
+		$House/HouseBase.color = Color(0.8, 0.65, 0.45, 1.0)
+	
+	if has_node("House/HouseRoof"):
+		$House/HouseRoof.color = Color(0.5, 0.3, 0.15, 1.0)
+	
+	create_desert_dust()
+
+func create_desert_dust() -> void:
+	var desert_dust = CPUParticles2D.new()
+	desert_dust.name = "DesertDust"
+	desert_dust.amount = 30
+	desert_dust.lifetime = 6.0
+	desert_dust.preprocess = 3.0
+	desert_dust.emission_shape = CPUParticles2D.EMISSION_SHAPE_RECTANGLE
+	desert_dust.emission_rect_extents = Vector2(400, 200)
+	desert_dust.gravity = Vector2(10, -5)
+	desert_dust.initial_velocity_min = 3.0
+	desert_dust.initial_velocity_max = 8.0
+	desert_dust.scale_amount_min = 0.5
+	desert_dust.scale_amount_max = 2.0
+	desert_dust.color = Color(0.9, 0.8, 0.6, 0.1)
+	add_child(desert_dust)
 
 func _physics_process(delta: float) -> void:
 	if Input.is_action_just_pressed("ui_accept"):
@@ -48,10 +100,30 @@ func _physics_process(delta: float) -> void:
 		if !target_reached:
 			move_officers_towards_house(delta)
 		else:
+			house_focus_timer -= delta
+			if house_focus_timer <= 0 && !house_focus_complete:
+				house_focus_complete = true
+				camera_transition_time = 0.0
+			
 			surround_house(delta)
+			
+			if house_focus_complete:
+				update_car_focus(delta)
 			
 		update_camera(delta)
 		update_particles_intensity()
+
+func update_car_focus(delta: float) -> void:
+	car_focus_timer += delta
+	
+	if car_focus_timer >= 1.0 && !dialogic_started:
+		dialogic_started = true
+		if Engine.has_singleton("Dialogic"):
+			var Dialogic = Engine.get_singleton("Dialogic")
+			Dialogic.start("ridewithhank")
+		elif has_node("/root/Dialogic"):
+			var Dialogic = get_node("/root/Dialogic")
+			Dialogic.start("ridewithhank")
 
 func calculate_formation_center() -> Vector2:
 	var center = Vector2(0, 0)
@@ -62,6 +134,8 @@ func calculate_formation_center() -> Vector2:
 func move_officers_towards_house(delta: float) -> void:
 	var direction_to_house = (house_position - formation_center).normalized()
 	formation_center += direction_to_house * raid_speed * delta
+	
+	formation_center_smoothed = formation_center_smoothed.lerp(formation_center, delta * 1.5)
 	
 	for i in range(officers.size()):
 		var officer = officers[i]
@@ -124,34 +198,59 @@ func handle_collision(officer: CharacterBody2D) -> void:
 		formation_center += push_direction.normalized() * 10.0
 
 func update_camera(delta: float) -> void:
-	var prev_target = camera_target
+	var approach_vector = Vector2.ZERO
 	
 	if target_reached:
-		camera_transition_time += delta
-		var transition_progress = min(camera_transition_time / camera_transition_duration, 1.0)
-		var weight = smooth_transition(transition_progress)
-		
-		var center_target = formation_center
-		var house_target = house_position
-		
-		camera_target = center_target.lerp(house_target, weight)
+		if !house_focus_complete:
+			camera_transition_time += delta
+			var transition_progress = min(camera_transition_time / camera_transition_duration, 1.0)
+			var weight = ease_out_cubic(transition_progress)
+			
+			var direction_to_house = (house_position - formation_center_smoothed).normalized()
+			approach_vector = direction_to_house * 20.0 * (1.0 - weight)
+			
+			var target_pos = house_position + Vector2(0, -10)
+			
+			camera_target_position = lerp(
+				formation_center_smoothed + approach_vector + camera_offset,
+				target_pos,
+				weight
+			)
+			
+			current_zoom = current_zoom.lerp(target_zoom, delta * zoom_speed)
+		else:
+			camera_transition_time += delta
+			var car_transition_progress = min(camera_transition_time / car_transition_duration, 1.0)
+			var car_weight = ease_out_cubic(car_transition_progress)
+			
+			var target_pos = car_position + Vector2(0, -5)
+			
+			camera_target_position = lerp(
+				camera_target_position,
+				target_pos,
+				car_weight * delta * 3.0
+			)
+			
+			current_zoom = current_zoom.lerp(car_focus_zoom, delta * 3.0)
 	else:
-		camera_target = formation_center
+		var direction_to_house = (house_position - formation_center_smoothed).normalized()
+		approach_vector = direction_to_house * 20.0
+		camera_target_position = formation_center_smoothed + approach_vector + camera_offset
 	
-	var camera_speed = delta * (1.0 - camera_smoothness)
-	$Camera2D.position = $Camera2D.position.lerp(camera_target, camera_speed * 10.0)
+	$Camera2D.global_position = camera_target_position
+	$Camera2D.zoom = current_zoom
 
-func smooth_transition(t: float) -> float:
-	return t * t * (3.0 - 2.0 * t)
-
+func ease_out_cubic(t: float) -> float:
+	return 1.0 - pow(1.0 - t, 3)
+		
 func toggle_dust_particles(enabled: bool) -> void:
-	for officer in officers:
-		var particles = officer.get_node("CPUParticles2D")
+	for particles in dust_particles:
 		particles.emitting = enabled
 
 func update_particles_intensity() -> void:
-	for officer in officers:
-		var particles = officer.get_node("CPUParticles2D")
+	for i in range(officers.size()):
+		var officer = officers[i]
+		var particles = dust_particles[i]
 		var speed = officer.velocity.length()
 		particles.amount = int(20 * (speed / 100.0)) + 10
 		particles.initial_velocity_max = speed * 0.8
