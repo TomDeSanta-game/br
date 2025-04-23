@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cynd07l5d60iy"
-path="res://.godot/imported/Shot_2.png-88f5b93fa48c41b82aa1403179a38034.ctex"
+uid="uid://dvdpkubvu5d2i"
+path="res://.godot/imported/car_right.png-41e940d2240719e64fc486cf2585e500.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Soldiers/Soldier_2/Shot_2.png"
-dest_files=["res://.godot/imported/Shot_2.png-88f5b93fa48c41b82aa1403179a38034.ctex"]
+source_file="res://assets/Cars/car_right.png"
+dest_files=["res://.godot/imported/car_right.png-41e940d2240719e64fc486cf2585e500.ctex"]
 
 [params]
 

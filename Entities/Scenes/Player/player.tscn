@@ -1,10 +1,9 @@
-[gd_scene load_steps=43 format=3 uid="uid://dextyluhrr7ge"]
+[gd_scene load_steps=42 format=3 uid="uid://dextyluhrr7ge"]
 
 [ext_resource type="Script" uid="uid://bj58wvm3q3f" path="res://Entities/Scripts/Player/player.gd" id="1_k2g5q"]
 [ext_resource type="Texture2D" uid="uid://dsvvit8k8agxd" path="res://assets/Prototype_Character/Prototype_Character.png" id="2_tryav"]
 [ext_resource type="PackedScene" uid="uid://cg3vb5b5a4x8v" path="res://Inventory/Scenes/InventoryUI.tscn" id="3_30fh8"]
 [ext_resource type="FontFile" uid="uid://bgx8gu7aobui5" path="res://assets/Fonts/pixel_font.ttf" id="4_bkltx"]
-[ext_resource type="FontFile" uid="uid://bdn13gpjbqwiw" path="res://assets/Fonts/JetBrainsMono-Bold.ttf" id="5_uasr4"]
 [ext_resource type="PackedScene" uid="uid://2n45pwc32vf8" path="res://UI/Scenes/HeatBar/heat_bar.tscn" id="6_0s0i4"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_2fnmh"]
@@ -588,7 +587,7 @@ _data = {
 }
 
 [sub_resource type="LabelSettings" id="LabelSettings_82va7"]
-font = ExtResource("5_uasr4")
+font = ExtResource("4_bkltx")
 font_size = 18
 
 [node name="Player" type="CharacterBody2D" groups=["player"]]
@@ -606,7 +605,7 @@ shape = SubResource("RectangleShape2D_miuxl")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 physics_interpolation_mode = 1
-zoom = Vector2(4, 4)
+zoom = Vector2(5, 5)
 position_smoothing_enabled = true
 position_smoothing_speed = 10.0
 
@@ -676,7 +675,6 @@ theme_override_colors/font_color = Color(0.0980392, 0.0980392, 0.0980392, 1)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.301961)
 theme_override_constants/shadow_offset_x = 1
 theme_override_constants/shadow_offset_y = 1
-theme_override_fonts/font = ExtResource("5_uasr4")
 theme_override_font_sizes/font_size = 32
 text = "!"
 horizontal_alignment = 1
@@ -695,7 +693,6 @@ theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.603922)
 theme_override_constants/shadow_offset_x = 1
 theme_override_constants/shadow_offset_y = 1
 theme_override_constants/shadow_outline_size = 2
-theme_override_fonts/font = ExtResource("5_uasr4")
 theme_override_font_sizes/font_size = 16
 text = "OBJECTIVE TO COMPLETE"
 vertical_alignment = 1
@@ -767,6 +764,7 @@ offset_left = 20.0
 offset_top = 125.0
 offset_right = 60.0
 offset_bottom = 165.0
+theme_override_fonts/font = ExtResource("4_bkltx")
 label_settings = SubResource("LabelSettings_82va7")
 vertical_alignment = 1
 

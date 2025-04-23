@@ -85,14 +85,11 @@ func get_input_vector() -> Vector2:
 
 func handle_running(_input_vector: Vector2) -> void:
 	is_running = true
-	SoundManager.set_music_volume(0.05)
-	SoundManager.play_music(load("res://assets/SFX/Run/run.wav"))
 	heat_bar.fill_anisprotic(5.0)
 	state_machine.update(get_process_delta_time())
 
 func handle_idle() -> void:
 	is_running = false
-	SoundManager.stop_music()
 	heat_bar.stop_fill_anisprotic()
 	state_machine.update(get_process_delta_time())
 

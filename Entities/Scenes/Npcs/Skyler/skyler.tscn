@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=3 uid="uid://dpqsryt6e4dw6"]
 
 [ext_resource type="PackedScene" uid="uid://dlabqmjvwx40q" path="res://Entities/Scenes/Npcs/NpcBase/npc_base.tscn" id="1_t313i"]
-[ext_resource type="Texture2D" uid="uid://hafff0jhwm6u" path="res://assets/Characters/Characters_V3_Colour.png" id="2_8xscy"]
+[ext_resource type="Texture2D" uid="uid://7clsxt66fnv4" path="res://assets/Characters/Low-Poly-Characters/Characters_V3_Colour.png" id="2_8xscy"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_v0r7n"]
 atlas = ExtResource("2_8xscy")

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b01ox40ss3ugi"
-path="res://.godot/imported/Idle.png-19fbf9b050e63eb2fb9042ff9030dc91.ctex"
+uid="uid://crhbxx331jcma"
+path="res://.godot/imported/Walter.png-8bb0bd5093c9d0563ffd18ddd47bd597.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Soldiers/Soldier_1/Idle.png"
-dest_files=["res://.godot/imported/Idle.png-19fbf9b050e63eb2fb9042ff9030dc91.ctex"]
+source_file="res://assets/Characters/Portraits/Walter.png"
+dest_files=["res://.godot/imported/Walter.png-8bb0bd5093c9d0563ffd18ddd47bd597.ctex"]
 
 [params]
 

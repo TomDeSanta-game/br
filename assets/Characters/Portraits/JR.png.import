@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ftahtgdl1h1n"
-path="res://.godot/imported/Recharge.png-58d029b416fd6ac464521d9f82c8c960.ctex"
+uid="uid://bwi6gg42jmp8"
+path="res://.godot/imported/JR.png-0f29d759c20c0cce30683afe405c5316.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Soldiers/Soldier_3/Recharge.png"
-dest_files=["res://.godot/imported/Recharge.png-58d029b416fd6ac464521d9f82c8c960.ctex"]
+source_file="res://assets/Characters/Portraits/JR.png"
+dest_files=["res://.godot/imported/JR.png-0f29d759c20c0cce30683afe405c5316.ctex"]
 
 [params]
 

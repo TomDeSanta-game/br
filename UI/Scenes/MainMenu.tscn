@@ -1,11 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://cnx4ney8jniti"]
+[gd_scene load_steps=4 format=3 uid="uid://cnx4ney8jniti"]
 
 [ext_resource type="Script" uid="uid://hkmrdh8fp1t2" path="res://UI/Scripts/MainMenu.gd" id="1_05a1h"]
 [ext_resource type="FontFile" uid="uid://bgx8gu7aobui5" path="res://assets/Fonts/pixel_font.ttf" id="2_yxndq"]
-[ext_resource type="FontFile" uid="uid://bw75xcxjn2qfo" path="res://assets/Fonts/Helvetica.ttf" id="3_y4ex5"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_y4ex5"]
-font = ExtResource("3_y4ex5")
 font_size = 128
 
 [node name="MainMenu" type="Control"]
@@ -19,15 +17,11 @@ script = ExtResource("1_05a1h")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -100.0
-offset_top = -100.0
-offset_right = 100.0
-offset_bottom = 100.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -192.0
+offset_right = 192.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -60,6 +54,10 @@ texture_filter = 6
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "Quit"
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(576, 248)
+zoom = Vector2(0.7, 0.7)
 
 [connection signal="pressed" from="VBoxContainer/StartButton" to="." method="_on_start_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/OptionsButton" to="." method="_on_options_button_pressed"]

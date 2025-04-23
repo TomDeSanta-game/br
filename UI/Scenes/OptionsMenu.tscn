@@ -1,11 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://dc83dv8wv48p4"]
+[gd_scene load_steps=4 format=3 uid="uid://dc83dv8wv48p4"]
 
 [ext_resource type="Script" path="res://UI/Scripts/OptionsMenu.gd" id="1_xlvs2"]
 [ext_resource type="FontFile" uid="uid://bgx8gu7aobui5" path="res://assets/Fonts/pixel_font.ttf" id="2_kplr1"]
-[ext_resource type="FontFile" uid="uid://bw75xcxjn2qfo" path="res://assets/Fonts/Helvetica.ttf" id="3_atrp8"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_y4ex5"]
-font = ExtResource("3_atrp8")
+font = ExtResource("2_kplr1")
 font_size = 128
 
 [node name="OptionsMenu" type="Control"]

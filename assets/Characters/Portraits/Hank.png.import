@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b06s26f8lopal"
-path="res://.godot/imported/Explosion.png-bd0be113e741f20d59ceccb27d3d9324.ctex"
+uid="uid://d2nj0clbxfc0v"
+path="res://.godot/imported/Hank.png-872b74e4277b4f3cdd7f64c4ccb3c4d9.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Soldiers/Soldier_1/Explosion.png"
-dest_files=["res://.godot/imported/Explosion.png-bd0be113e741f20d59ceccb27d3d9324.ctex"]
+source_file="res://assets/Characters/Portraits/Hank.png"
+dest_files=["res://.godot/imported/Hank.png-872b74e4277b4f3cdd7f64c4ccb3c4d9.ctex"]
 
 [params]
 

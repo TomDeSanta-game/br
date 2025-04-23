@@ -19,7 +19,7 @@
 &"portraits": {
 "JR": {
 "export_overrides": {
-"image": "\"res://assets/Characters/Boy.png\""
+"image": "\"res://assets/Characters/Portraits/JR.png\""
 },
 "mirror": false,
 "offset": Vector2(0, 0),

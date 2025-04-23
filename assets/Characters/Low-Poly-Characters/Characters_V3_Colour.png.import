@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c1w83ynb6gkxr"
-path="res://.godot/imported/Attack.png-754efe6d7ea0d4007a4083e866d29254.ctex"
+uid="uid://7clsxt66fnv4"
+path="res://.godot/imported/Characters_V3_Colour.png-40bac30955e5d9533c954e6af070e576.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Soldiers/Soldier_1/Attack.png"
-dest_files=["res://.godot/imported/Attack.png-754efe6d7ea0d4007a4083e866d29254.ctex"]
+source_file="res://assets/Characters/Low-Poly-Characters/Characters_V3_Colour.png"
+dest_files=["res://.godot/imported/Characters_V3_Colour.png-40bac30955e5d9533c954e6af070e576.ctex"]
 
 [params]
 

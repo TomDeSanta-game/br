@@ -10,6 +10,5 @@ func _ready() -> void:
 func _on_body_entered(body: Node2D) -> void:
     if body == player:
         Log.info(self.name, "Collected")
-        SoundManager.play_sound(load("res://assets/SFX/PickUp/pick_up.wav"), "SFX")
         IdManager.add_item("01", inventory)
         queue_free()
