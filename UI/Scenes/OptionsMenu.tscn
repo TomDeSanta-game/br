@@ -1,11 +1,82 @@
-[gd_scene load_steps=4 format=3 uid="uid://dc83dv8wv48p4"]
+[gd_scene load_steps=9 format=3 uid="uid://dc83dv8wv48p4"]
 
 [ext_resource type="Script" path="res://UI/Scripts/OptionsMenu.gd" id="1_xlvs2"]
 [ext_resource type="FontFile" uid="uid://bgx8gu7aobui5" path="res://assets/Fonts/pixel_font.ttf" id="2_kplr1"]
 
-[sub_resource type="LabelSettings" id="LabelSettings_y4ex5"]
-font = ExtResource("2_kplr1")
-font_size = 128
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bg"]
+bg_color = Color(0.0627451, 0.0823529, 0.0941176, 0.94)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.0980392, 0.305882, 0.203922, 0.6)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+shadow_color = Color(0, 0, 0, 0.25)
+shadow_size = 8
+shadow_offset = Vector2(0, 2)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_button_normal"]
+content_margin_left = 20
+content_margin_top = 8
+content_margin_right = 20
+content_margin_bottom = 8
+bg_color = Color(0.101961, 0.188235, 0.133333, 0.901961)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.133333, 0.490196, 0.298039, 0.4)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_button_hover"]
+content_margin_left = 20
+content_margin_top = 8
+content_margin_right = 20
+content_margin_bottom = 8
+bg_color = Color(0.129412, 0.282353, 0.2, 0.94902)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.141176, 0.556863, 0.333333, 0.8)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_button_pressed"]
+content_margin_left = 20
+content_margin_top = 8
+content_margin_right = 20
+content_margin_bottom = 8
+bg_color = Color(0.0941176, 0.145098, 0.105882, 0.94902)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.176471, 0.396078, 0.25098, 0.8)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="Gradient" id="Gradient_backgr"]
+offsets = PackedFloat32Array(0, 0.3, 0.7, 1)
+colors = PackedColorArray(0.0666667, 0.0862745, 0.0666667, 1, 0.0901961, 0.14902, 0.105882, 1, 0.0901961, 0.14902, 0.105882, 1, 0.0666667, 0.0862745, 0.0666667, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_j1rbk"]
+gradient = SubResource("Gradient_backgr")
+width = 1152
+height = 648
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 1)
 
 [node name="OptionsMenu" type="Control"]
 layout_mode = 3
@@ -16,56 +87,160 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_xlvs2")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="BackgroundTexture" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_j1rbk")
+
+[node name="MenuPanel" type="Panel" parent="."]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -100.0
-offset_top = -100.0
-offset_right = 100.0
-offset_bottom = 100.0
+offset_left = -250.0
+offset_top = -200.0
+offset_right = 250.0
+offset_bottom = 200.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_bg")
 
-[node name="Title" type="Label" parent="VBoxContainer"]
-layout_mode = 2
-theme_override_fonts/font = ExtResource("2_kplr1")
-theme_override_font_sizes/font_size = 48
-text = "Options"
-label_settings = SubResource("LabelSettings_y4ex5")
-horizontal_alignment = 1
+[node name="VBoxContainer" type="VBoxContainer" parent="MenuPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = -20.0
+offset_bottom = -20.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 16
 
-[node name="Spacer1" type="Control" parent="VBoxContainer"]
-custom_minimum_size = Vector2(0, 50)
-layout_mode = 2
-
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+[node name="TitleContainer" type="HBoxContainer" parent="MenuPanel/VBoxContainer"]
 layout_mode = 2
 alignment = 1
 
-[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer"]
+[node name="BeakerIcon" type="Label" parent="MenuPanel/VBoxContainer/TitleContainer"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 24
-text = "VSync:"
+theme_override_colors/font_color = Color(0.196078, 0.8, 0.196078, 1)
+theme_override_fonts/font = ExtResource("2_kplr1")
+theme_override_font_sizes/font_size = 32
+text = "⚗️"
+horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="VsyncButton" type="CheckButton" parent="VBoxContainer/HBoxContainer"]
-texture_filter = 6
+[node name="Title" type="Label" parent="MenuPanel/VBoxContainer/TitleContainer"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 24
-text = "Enabled"
+theme_override_colors/font_color = Color(0.196078, 0.8, 0.196078, 1)
+theme_override_colors/font_outline_color = Color(0.0980392, 0.305882, 0.203922, 1)
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = ExtResource("2_kplr1")
+theme_override_font_sizes/font_size = 40
+text = "OPTIONS"
+horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="Spacer2" type="Control" parent="VBoxContainer"]
+[node name="FlaskIcon" type="Label" parent="MenuPanel/VBoxContainer/TitleContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.196078, 0.8, 0.196078, 1)
+theme_override_fonts/font = ExtResource("2_kplr1")
+theme_override_font_sizes/font_size = 32
+text = "🧪"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Spacer1" type="Control" parent="MenuPanel/VBoxContainer"]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 
-[node name="BackButton" type="Button" parent="VBoxContainer"]
-texture_filter = 6
+[node name="SettingsContainer" type="VBoxContainer" parent="MenuPanel/VBoxContainer"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 24
-text = "Back"
+theme_override_constants/separation = 20
 
-[connection signal="toggled" from="VBoxContainer/HBoxContainer/VsyncButton" to="." method="_on_vsync_button_toggled"]
-[connection signal="pressed" from="VBoxContainer/BackButton" to="." method="_on_back_button_pressed"] 
+[node name="VsyncOption" type="HBoxContainer" parent="MenuPanel/VBoxContainer/SettingsContainer"]
+layout_mode = 2
+theme_override_constants/separation = 16
+alignment = 1
+
+[node name="OptionLabel" type="Label" parent="MenuPanel/VBoxContainer/SettingsContainer/VsyncOption"]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.866667, 0.866667, 0.866667, 1)
+theme_override_fonts/font = ExtResource("2_kplr1")
+theme_override_font_sizes/font_size = 24
+text = "VSync:"
+vertical_alignment = 1
+
+[node name="VsyncButton" type="CheckButton" parent="MenuPanel/VBoxContainer/SettingsContainer/VsyncOption"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.866667, 0.866667, 0.866667, 1)
+theme_override_colors/font_pressed_color = Color(0.196078, 0.8, 0.196078, 1)
+theme_override_colors/font_hover_color = Color(0.196078, 0.8, 0.196078, 0.8)
+theme_override_fonts/font = ExtResource("2_kplr1")
+theme_override_font_sizes/font_size = 24
+text = "Enabled"
+
+[node name="GraphicsOption" type="HBoxContainer" parent="MenuPanel/VBoxContainer/SettingsContainer"]
+layout_mode = 2
+theme_override_constants/separation = 16
+alignment = 1
+
+[node name="OptionLabel" type="Label" parent="MenuPanel/VBoxContainer/SettingsContainer/GraphicsOption"]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.866667, 0.866667, 0.866667, 1)
+theme_override_fonts/font = ExtResource("2_kplr1")
+theme_override_font_sizes/font_size = 24
+text = "Graphics:"
+vertical_alignment = 1
+
+[node name="GraphicsDropdown" type="OptionButton" parent="MenuPanel/VBoxContainer/SettingsContainer/GraphicsOption"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.866667, 0.866667, 0.866667, 1)
+theme_override_colors/font_pressed_color = Color(0.196078, 0.8, 0.196078, 1)
+theme_override_colors/font_hover_color = Color(0.196078, 0.8, 0.196078, 0.8)
+theme_override_fonts/font = ExtResource("2_kplr1")
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxFlat_button_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_button_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_button_pressed")
+item_count = 3
+selected = 1
+popup/item_0/text = "Low"
+popup/item_0/id = 0
+popup/item_1/text = "Medium"
+popup/item_1/id = 1
+popup/item_2/text = "High"
+popup/item_2/id = 2
+
+[node name="Spacer2" type="Control" parent="MenuPanel/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="BackButton" type="Button" parent="MenuPanel/VBoxContainer"]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0.866667, 0.866667, 0.866667, 1)
+theme_override_colors/font_hover_color = Color(0.196078, 0.8, 0.196078, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.301961)
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = ExtResource("2_kplr1")
+theme_override_font_sizes/font_size = 28
+theme_override_styles/normal = SubResource("StyleBoxFlat_button_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_button_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_button_pressed")
+text = "BACK"
+
+[connection signal="toggled" from="MenuPanel/VBoxContainer/SettingsContainer/VsyncOption/VsyncButton" to="." method="_on_vsync_button_toggled"]
+[connection signal="pressed" from="MenuPanel/VBoxContainer/BackButton" to="." method="_on_back_button_pressed"] 
