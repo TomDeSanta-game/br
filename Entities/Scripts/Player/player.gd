@@ -9,21 +9,42 @@ const ANIMATIONS: Dictionary = {
 	"UP_RUN": "Up_Run"
 }
 
+const ANIMATION_RUN: String = "run"
+const ANIMATION_IDLE: String = "idle"
+
 var speed: float = 100.0
-var max_speed: float = 120.0
-var acceleration: float = 20.0
-var deceleration: float = 30.0
+@export var max_speed: float = 120.0
+var current_max_speed: float = max_speed
+var sprint_speed_multiplier: float = 1.6
+var sprint_active: bool = false
+var can_sprint: bool = true
+var sprint_stamina: float = 100.0
+var max_sprint_stamina: float = 100.0
+var sprint_drain_rate: float = 25.0
+var sprint_recovery_rate: float = 15.0
+var sprint_recovery_delay: float = 1.0
+var sprint_recovery_timer: float = 0.0
+var min_sprint_stamina: float = 20.0
+
+@export var acceleration: float = 600.0
+@export var deceleration: float = 800.0
 var wall_slide_factor: float = 0.85
 var corner_correction_distance: float = 5.0
-var input_deadzone: float = 0.15
+var input_deadzone: float = 0.2
 var can_toggle_inventory: bool = true
 var inventory_toggled: bool = false
 var direction: Vector2 = Vector2.ZERO
 var last_direction: Vector2 = Vector2.ZERO
-var movement_epsilon: float = 0.1
+var movement_epsilon: float = 0.2
 var is_interact_mode = false
 var ui_hidden = false
-var is_running = false
+var is_running: bool = false
+
+var direction_change_delay: float = 0.08
+var direction_change_timer: float = 0.0
+var direction_hysteresis: float = 0.3
+var animation_stability_threshold: float = 0.4
+var min_velocity_for_run: float = 30.0
 
 var terrain_speed_modifier: float = 1.0
 var context_speed_multiplier: float = 1.0
@@ -57,9 +78,6 @@ var interact_buffer_timer: float = 0.0
 var last_interact_position: Vector2 = Vector2.ZERO
 var last_collision_normal: Vector2 = Vector2.ZERO
 var corner_ray_length: float = 16.0
-var interaction_indicator_active: bool = false
-var interaction_indicator_timer: float = 0.0
-var interaction_indicator_duration: float = 1.5
 
 var camera_offset = Vector2.ZERO
 var camera_target_zoom = Vector2(4, 4)
@@ -75,12 +93,18 @@ var can_zoom_out = true
 var current_animation: String = ""
 var animation_locked: bool = false
 var animation_lock_timer: float = 0.0
-var animation_lock_duration: float = 0.1
+var animation_lock_duration: float = 0.15
+var animation_transition_delay: float = 0.4
+var animation_transition_timer: float = 0.0
+var pending_animation: String = ""
+var animation_switching_hysteresis: float = 20.0
+var same_animation_cooldown: float = 0.6
+var last_animation_change_time: float = 0.0
 var smoothed_velocity: Vector2 = Vector2.ZERO
 var smoothed_direction: Vector2 = Vector2.ZERO
 var last_anim_direction: Vector2 = Vector2.DOWN
 var velocity_history: Array[Vector2] = []
-var velocity_history_size: int = 5
+var velocity_history_size: int = 8
 
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var camera: Camera2D = $Camera2D
@@ -95,7 +119,6 @@ var velocity_history_size: int = 5
 @onready var corner_ray_left: RayCast2D
 @onready var corner_ray_up: RayCast2D
 @onready var corner_ray_down: RayCast2D
-@onready var interaction_indicator: Node2D
 @onready var thought_bubble: Control
 @onready var thought_text: RichTextLabel
 @onready var footstep_audio: AudioStreamPlayer2D
@@ -110,7 +133,6 @@ func _ready() -> void:
 	setup_ui()
 	setup_camera()
 	setup_corner_rays()
-	setup_interaction_indicator()
 	setup_thought_bubble()
 	setup_audio()
 	setup_animation()
@@ -166,25 +188,6 @@ func setup_audio() -> void:
 	ambience_audio.bus = "Ambient"
 	add_child(ambience_audio)
 
-func setup_interaction_indicator() -> void:
-	interaction_indicator = Node2D.new()
-	interaction_indicator.visible = false
-	
-	var circle = Polygon2D.new()
-	var points = []
-	var segments = 12
-	var radius = 6
-	
-	for i in range(segments + 1):
-		var angle = i * 2 * PI / segments
-		points.append(Vector2(cos(angle) * radius, sin(angle) * radius))
-	
-	circle.polygon = points
-	circle.color = Color(1, 1, 1, 0.7)
-	interaction_indicator.add_child(circle)
-	
-	add_child(interaction_indicator)
-
 func setup_ui() -> void:
 	IdManager.add_item("01", inventory)
 	$CanvasLayer.visible = true
@@ -231,9 +234,14 @@ func _process(delta: float) -> void:
 	update_focus_state(delta)
 	update_thought_system(delta)
 	update_footsteps(delta)
-	update_interaction_indicator(delta)
 	update_animation_state(delta)
+	update_sprint(delta)
 	check_for_memories()
+	
+	if direction_change_timer > 0:
+		direction_change_timer -= delta
+	
+	last_animation_change_time += delta
 	
 	if debug_mode:
 		_setup_debug_label()
@@ -241,48 +249,27 @@ func _process(delta: float) -> void:
 
 func update_animation_state(delta: float) -> void:
 	if animation_locked:
-		animation_lock_timer -= delta
-		if animation_lock_timer <= 0:
-			animation_locked = false
-	else:
-		var anim_direction = smoothed_direction
-		var is_moving = smoothed_velocity.length() > 5.0
-		
-		if anim_direction.length() > 0.2:
-			if anim_direction.dot(last_anim_direction) < 0 and is_moving:
-				if anim_direction.length() > 0.5:
-					last_anim_direction = anim_direction
-			else:
-				last_anim_direction = anim_direction.normalized()
-		
-		var new_animation = ""
-		
-		if is_moving:
-			if abs(anim_direction.x) > abs(anim_direction.y) + 0.1:
-				new_animation = ANIMATIONS.RIGHT_RUN
-				animated_sprite.flip_h = anim_direction.x < 0
-			else:
-				if anim_direction.y > 0:
-					new_animation = ANIMATIONS.DOWN_RUN
-				else:
-					new_animation = ANIMATIONS.UP_RUN
-				animated_sprite.flip_h = false
+		return
+	
+	var moving = velocity.length() > 5.0
+	
+	if moving:
+		var animation_direction = "side"
+		if abs(direction.y) > abs(direction.x):
+			animation_direction = "up" if direction.y < 0 else "down"
 		else:
-			if abs(last_anim_direction.x) > abs(last_anim_direction.y) + 0.1:
-				new_animation = ANIMATIONS.RIGHT_IDLE
-				animated_sprite.flip_h = last_anim_direction.x < 0
-			else:
-				if last_anim_direction.y > 0:
-					new_animation = ANIMATIONS.DOWN_IDLE
-				else:
-					new_animation = ANIMATIONS.UP_IDLE
-				animated_sprite.flip_h = false
+			animation_direction = "side"
+			animated_sprite.flip_h = direction.x < 0
 		
-		if new_animation != current_animation and new_animation != "":
-			current_animation = new_animation
-			animated_sprite.play(current_animation)
-			animation_locked = true
-			animation_lock_timer = animation_lock_duration
+		current_animation = "walk_" + animation_direction
+		animated_sprite.play(current_animation)
+	else:
+		var idle_direction = "down"
+		if current_animation.begins_with("walk_"):
+			idle_direction = current_animation.substr(5)
+		
+		current_animation = "idle_" + idle_direction
+		animated_sprite.play(current_animation)
 
 func update_focus_state(delta: float) -> void:
 	if focused_walking:
@@ -443,36 +430,9 @@ func set_mood(mood: String, intensity: float = 1.0) -> void:
 	elif mood == "sneaking":
 		set_movement_context_multiplier(0.6, 10.0)
 
-func update_interaction_indicator(delta: float) -> void:
-	if interaction_indicator_timer > 0:
-		interaction_indicator_timer -= delta
-		interaction_indicator.visible = true
-		interaction_indicator.modulate.a = min(1.0, interaction_indicator_timer / 0.5)
-		
-		if interaction_indicator_timer <= 0:
-			interaction_indicator.visible = false
-	
-	var closest = find_closest_interactable()
-	if closest and global_position.distance_to(closest.global_position) < 50:
-		interaction_indicator.global_position = closest.global_position
-		if not interaction_indicator.visible:
-			show_interaction_indicator()
-
-func show_interaction_indicator() -> void:
-	interaction_indicator.visible = true
-	interaction_indicator.modulate.a = 0
-	var tween = create_tween()
-	tween.tween_property(interaction_indicator, "modulate:a", 1.0, 0.3)
-	interaction_indicator_timer = interaction_indicator_duration
-
 func update_input_buffers(delta: float) -> void:
 	if interact_buffer_timer > 0:
 		interact_buffer_timer -= delta
-		
-		if interact_buffer_timer <= 0 and last_interact_position.distance_to(global_position) < 50:
-			var closest_interactable = find_closest_interactable()
-			if closest_interactable:
-				trigger_interaction(closest_interactable)
 
 func update_camera_timers(delta: float) -> void:
 	if is_running:
@@ -515,74 +475,45 @@ func update_smoothed_values(delta: float) -> void:
 	if total_weight > 0:
 		smoothed_velocity /= total_weight
 	
-	var smoothing_factor = 8.0 if velocity.length() > 10.0 else 12.0
+	var speed = velocity.length()
+	var smoothing_factor = 10.0
+	
+	if speed > 10.0:
+		smoothing_factor = 12.0
+	
+	if speed < 5.0:
+		smoothing_factor = 8.0
+		
 	smoothed_direction = smoothed_direction.lerp(direction, delta * smoothing_factor)
 	
-	if direction.length() > 0.3 and last_anim_direction.dot(direction) < 0:
+	if direction.length() > 0.3 and last_anim_direction.dot(direction) < -0.5:
 		animation_locked = true
-		animation_lock_timer = animation_lock_duration * 1.5
+		animation_lock_timer = animation_lock_duration
 
 func handle_movement(delta: float) -> void:
-	var input_vector = get_input_vector()
+	var input_vector: Vector2 = get_input_vector()
 	
-	if input_vector.length() > input_deadzone:
-		if input_vector.length() > 1.0:
-			input_vector = input_vector.normalized()
+	if input_vector.length() > 0:
+		direction = input_vector.normalized()
 		
-		last_direction = direction
+		var target_speed = current_max_speed
+		if sprint_active:
+			target_speed *= sprint_speed_multiplier
+			heat_bar.fill_anisprotic(7.0)
 		
-		if focused_walking and focus_strength > 0.1:
-			var to_target = (focus_target - global_position).normalized()
-			var blend = focus_strength
-			input_vector = input_vector.lerp(to_target, blend)
-		
-		var dot_product = direction.dot(input_vector)
-		var direction_blend_factor = lerp(5.0, 8.0, clamp(dot_product, 0.0, 1.0))
-		direction = direction.lerp(input_vector, delta * direction_blend_factor)
-		
-		var current_max_speed = max_speed * terrain_speed_modifier * context_speed_multiplier
-		
-		if focused_walking:
-			current_max_speed *= focus_speed_factor
-		
-		var current_acceleration = acceleration
-		
-		if velocity.length() < 10.0:
-			current_acceleration *= 1.3
-		elif last_direction.length() > 0.1 and last_direction.dot(direction) < 0:
-			current_acceleration *= 1.5
-		
-		var target_velocity = direction * current_max_speed
-		
-		velocity = velocity.lerp(target_velocity, delta * current_acceleration)
-		
-		handle_running(direction)
+		var acceleration_factor = 7.0
+		velocity = velocity.lerp(direction * target_speed, delta * acceleration_factor)
+		is_running = true
 	else:
-		var stop_factor = 4.0
-		if velocity.length() < 20.0:  
-			stop_factor = 6.0
-		
-		direction = direction.lerp(Vector2.ZERO, delta * stop_factor)
-		
-		if velocity.length() > movement_epsilon:
-			velocity = velocity.lerp(Vector2.ZERO, delta * deceleration)
-		else:
-			velocity = Vector2.ZERO
-			handle_idle()
+		direction = Vector2.ZERO
+		var deceleration_factor = 9.0
+		velocity = velocity.lerp(Vector2.ZERO, delta * deceleration_factor)
+		is_running = velocity.length() > min_velocity_for_run
 	
-	if direction.length() < movement_epsilon and velocity.length() < movement_epsilon:
-		if last_direction.length() > 0:
-			last_direction = Vector2.ZERO
-	
-	if context_speed_multiplier != 1.0:
-		context_speed_multiplier = lerp(context_speed_multiplier, 1.0, delta * speed_decay_rate)
-	
-	if not is_interact_mode:
-		var previous_position = global_position
-		
-		var was_collision = move_and_slide()
-		if was_collision:
-			handle_collision(previous_position)
+	move_and_slide()
+	var collision = get_last_slide_collision()
+	if collision:
+		handle_collision(collision.get_position())
 
 func handle_collision(previous_position: Vector2) -> void:
 	for i in get_slide_collision_count():
@@ -590,13 +521,26 @@ func handle_collision(previous_position: Vector2) -> void:
 		last_collision_normal = collision.get_normal()
 		
 		if velocity.length() > 20:
-			var slide_velocity = velocity.slide(last_collision_normal) * wall_slide_factor
-			velocity = slide_velocity
+			var slide_velocity = velocity.slide(last_collision_normal)
+			velocity = slide_velocity * wall_slide_factor
 			
-			if not try_corner_correction() and velocity.length() < 5.0:
+			if not try_corner_correction() and velocity.length() < 8.0:
 				var recovery_direction = last_collision_normal.normalized()
 				global_position += recovery_direction * 2.0
 				velocity = velocity.bounce(last_collision_normal) * 0.3
+
+func get_input_vector() -> Vector2:
+	var input_vector = Vector2.ZERO
+	input_vector.x = Input.get_action_strength("RIGHT") - Input.get_action_strength("LEFT")
+	input_vector.y = Input.get_action_strength("DOWN") - Input.get_action_strength("UP")
+	
+	if input_vector.length() < input_deadzone:
+		return Vector2.ZERO
+	
+	if input_vector.length() < 0.5:
+		input_vector = input_vector.normalized() * (0.3 + input_vector.length()) * 0.8
+	
+	return input_vector
 
 func try_corner_correction() -> bool:
 	var motion_dir = velocity.normalized()
@@ -605,8 +549,9 @@ func try_corner_correction() -> bool:
 		return false
 	
 	var correction = Vector2.ZERO
+	var primary_axis = abs(motion_dir.x) > abs(motion_dir.y)
 	
-	if abs(motion_dir.x) > abs(motion_dir.y):
+	if primary_axis:
 		if motion_dir.x > 0 and corner_ray_right.is_colliding():
 			if !corner_ray_up.is_colliding():
 				correction = Vector2(0, -corner_correction_distance)
@@ -641,26 +586,13 @@ func try_corner_correction() -> bool:
 	
 	return false
 
-func get_input_vector() -> Vector2:
-	var input_vector = Vector2.ZERO
-	input_vector.x = Input.get_action_strength("RIGHT") - Input.get_action_strength("LEFT")
-	input_vector.y = Input.get_action_strength("DOWN") - Input.get_action_strength("UP")
-	
-	if input_vector.length() < input_deadzone:
-		input_vector = Vector2.ZERO
-	elif input_vector.length() < input_deadzone * 2.0:
-		var scale_factor = (input_vector.length() - input_deadzone) / input_deadzone
-		input_vector = input_vector.normalized() * scale_factor
-		
-	return input_vector
-
-func handle_running(_direction: Vector2) -> void:
-	if velocity.length() > max_speed * 0.4:
+func handle_running(direction: Vector2) -> void:
+	if velocity.length() > min_velocity_for_run * 0.7:
 		is_running = true
 		heat_bar.fill_anisprotic(5.0)
 		state_machine.update(get_process_delta_time())
 		
-		var effective_direction = velocity.normalized() * min(1.0, velocity.length() / (max_speed * 0.7))
+		var effective_direction = velocity.normalized() * min(1.0, velocity.length() / (max_speed * 0.5))
 		apply_camera_forward_focus(0.3, effective_direction)
 	else:
 		handle_idle()
@@ -741,6 +673,7 @@ func _setup_debug_label() -> void:
 	var mood_text = "Mood: " + current_mood + " (" + str(mood_intensity).pad_decimals(1) + ")"
 	var focus_text = "Focus: " + str(focused_walking) + " (" + str(focus_strength).pad_decimals(1) + ")"
 	var memories_text = "Memories: " + str(memories_discovered.size())
+	var sprint_text = "Sprint: " + str(sprint_active) + " (" + str(int(sprint_stamina)) + "/" + str(int(max_sprint_stamina)) + ")"
 	
 	debug_label.text = (
 		"FPS: " + str(Engine.get_frames_per_second()) + "\n" +
@@ -756,40 +689,14 @@ func _setup_debug_label() -> void:
 		collision_text + "\n" +
 		mood_text + "\n" +
 		focus_text + "\n" +
-		memories_text
+		memories_text + "\n" +
+		sprint_text
 	)
-
-func find_closest_interactable() -> Node2D:
-	var interactables = get_tree().get_nodes_in_group("Interactable")
-	var closest = null
-	var closest_distance = 100.0
-	
-	for interactable in interactables:
-		var distance = global_position.distance_to(interactable.global_position)
-		if distance < closest_distance:
-			closest = interactable
-			closest_distance = distance
-	
-	return closest
-
-func trigger_interaction(interactable: Node2D) -> void:
-	if interactable.has_method("interact"):
-		interactable.interact(self)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("INTERACT"):
 		last_interact_position = global_position
 		interact_buffer_timer = input_buffer_time
-	
-	if (InputMap.has_action("FOCUS") and event.is_action_pressed("FOCUS")) or (event is InputEventKey and event.keycode == KEY_F and event.pressed and not event.echo):
-		if not focused_walking:
-			var closest = find_closest_interactable()
-			if closest:
-				focus_on_object(closest)
-	
-	if (InputMap.has_action("FOCUS") and event.is_action_released("FOCUS")) or (event is InputEventKey and event.keycode == KEY_F and not event.pressed):
-		if focused_walking:
-			clear_focus()
 		
 	if event.is_action_released("INTERACT") and can_toggle_inventory:
 		inventory_toggled = !inventory_toggled
@@ -891,3 +798,24 @@ func update_animation(input_vector: Vector2) -> void:
 func update_idle_animation() -> void:
 	direction = Vector2.ZERO
 	handle_idle()
+
+func update_sprint(delta: float) -> void:
+	if Input.is_action_pressed("SPRINT") and can_sprint and sprint_stamina > min_sprint_stamina:
+		sprint_active = true
+	else:
+		sprint_active = false
+	
+	if sprint_active:
+		sprint_stamina = max(0.0, sprint_stamina - sprint_drain_rate * delta)
+		sprint_recovery_timer = 0.0
+		
+		if sprint_stamina <= 0:
+			can_sprint = false
+	else:
+		sprint_recovery_timer += delta
+		
+		if sprint_recovery_timer > sprint_recovery_delay:
+			sprint_stamina = min(max_sprint_stamina, sprint_stamina + sprint_recovery_rate * delta)
+			
+			if sprint_stamina > min_sprint_stamina * 1.5:
+				can_sprint = true

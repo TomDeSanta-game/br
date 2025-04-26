@@ -240,6 +240,7 @@ theme_override_font_sizes/font_size = 28
 theme_override_styles/normal = SubResource("StyleBoxFlat_button_normal")
 theme_override_styles/hover = SubResource("StyleBoxFlat_button_hover")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_button_pressed")
+theme_override_styles/focus = SubResource("StyleBoxFlat_button_normal")
 text = "BACK"
 
 [connection signal="toggled" from="MenuPanel/VBoxContainer/SettingsContainer/VsyncOption/VsyncButton" to="." method="_on_vsync_button_toggled"]
