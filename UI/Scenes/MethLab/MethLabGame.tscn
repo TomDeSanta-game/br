@@ -1,0 +1,342 @@
+[gd_scene load_steps=9 format=3 uid="uid://casp82jswsxwm"]
+
+[ext_resource type="Script" path="res://UI/Scripts/MethLab/MethLabGame.gd" id="1_15g0g"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0vrax"]
+bg_color = Color(0.12549, 0.14902, 0.2, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6xm2l"]
+bg_color = Color(0.0980392, 0.109804, 0.156863, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lryp1"]
+bg_color = Color(0.0784314, 0.0901961, 0.129412, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_y0o5a"]
+bg_color = Color(0.0588235, 0.164706, 0.247059, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kprld"]
+bg_color = Color(0.152941, 0.435294, 0.662745, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w3ygb"]
+bg_color = Color(0.0352941, 0.0588235, 0.105882, 0.560784)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_48c5o"]
+bg_color = Color(0.0784314, 0.0901961, 0.129412, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[node name="MethLabGame" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_15g0g")
+
+[node name="BGPanel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_0vrax")
+
+[node name="MainContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 8
+
+[node name="HeaderPanel" type="Panel" parent="MainContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_6xm2l")
+
+[node name="MarginContainer" type="MarginContainer" parent="MainContainer/HeaderPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 8
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MainContainer/HeaderPanel/MarginContainer"]
+layout_mode = 2
+
+[node name="TitleLabel" type="Label" parent="MainContainer/HeaderPanel/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 18
+text = "Blue Sky Lab"
+vertical_alignment = 1
+
+[node name="QuitButton" type="Button" parent="MainContainer/HeaderPanel/MarginContainer/HBoxContainer"]
+layout_mode = 2
+text = "Exit"
+
+[node name="MainPanel" type="Panel" parent="MainContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_lryp1")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MainContainer/MainPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 8
+
+[node name="RecipePanel" type="Panel" parent="MainContainer/MainPanel/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.4
+theme_override_styles/panel = SubResource("StyleBoxFlat_y0o5a")
+
+[node name="MarginContainer" type="MarginContainer" parent="MainContainer/MainPanel/HBoxContainer/RecipePanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MainContainer/MainPanel/HBoxContainer/RecipePanel/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="MethodSection" type="VBoxContainer" parent="MainContainer/MainPanel/HBoxContainer/RecipePanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="SynthesisMethodLabel" type="Label" parent="MainContainer/MainPanel/HBoxContainer/RecipePanel/MarginContainer/VBoxContainer/MethodSection"]
+layout_mode = 2
+text = "Step 1: Select Synthesis Method"
+
+[node name="StructureOptions" type="VBoxContainer" parent="MainContainer/MainPanel/HBoxContainer/RecipePanel/MarginContainer/VBoxContainer/MethodSection"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="P2P" type="Button" parent="MainContainer/MainPanel/HBoxContainer/RecipePanel/MarginContainer/VBoxContainer/MethodSection/StructureOptions"]
+layout_mode = 2
+text = "P2P Method (Methylamine)"
+
+[node name="Nagai" type="Button" parent="MainContainer/MainPanel/HBoxContainer/RecipePanel/MarginContainer/VBoxContainer/MethodSection/StructureOptions"]
+layout_mode = 2
+text = "Nagai Method (Pseudoephedrine)"
+
+[node name="Birch" type="Button" parent="MainContainer/MainPanel/HBoxContainer/RecipePanel/MarginContainer/VBoxContainer/MethodSection/StructureOptions"]
+layout_mode = 2
+text = "Birch Reduction (Ammonia)"
+
+[node name="HSeparator" type="HSeparator" parent="MainContainer/MainPanel/HBoxContainer/RecipePanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="ChemicalSection" type="VBoxContainer" parent="MainContainer/MainPanel/HBoxContainer/RecipePanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="ChemicalSelectionLabel" type="Label" parent="MainContainer/MainPanel/HBoxContainer/RecipePanel/MarginContainer/VBoxContainer/ChemicalSection"]
+layout_mode = 2
+text = "Step 2: Add Chemicals"
+
+[node name="ChemicalOptions" type="HBoxContainer" parent="MainContainer/MainPanel/HBoxContainer/RecipePanel/MarginContainer/VBoxContainer/ChemicalSection"]
+layout_mode = 2
+
+[node name="OptionMenu" type="OptionButton" parent="MainContainer/MainPanel/HBoxContainer/RecipePanel/MarginContainer/VBoxContainer/ChemicalSection/ChemicalOptions"]
+layout_mode = 2
+size_flags_horizontal = 3
+item_count = 6
+selected = 0
+popup/item_0/text = "Methylamine"
+popup/item_0/id = 0
+popup/item_1/text = "Phenylacetic Acid"
+popup/item_1/id = 1
+popup/item_2/text = "Aluminum"
+popup/item_2/id = 2
+popup/item_3/text = "Pseudoephedrine"
+popup/item_3/id = 3
+popup/item_4/text = "Red Phosphorus"
+popup/item_4/id = 4
+popup/item_5/text = "Hydroiodic Acid"
+popup/item_5/id = 5
+
+[node name="AddChemical" type="Button" parent="MainContainer/MainPanel/HBoxContainer/RecipePanel/MarginContainer/VBoxContainer/ChemicalSection/ChemicalOptions"]
+layout_mode = 2
+text = "Add"
+
+[node name="SelectedChemicals" type="Label" parent="MainContainer/MainPanel/HBoxContainer/RecipePanel/MarginContainer/VBoxContainer/ChemicalSection"]
+layout_mode = 2
+text = "Selected: None"
+autowrap_mode = 3
+
+[node name="HSeparator2" type="HSeparator" parent="MainContainer/MainPanel/HBoxContainer/RecipePanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="TipsLabel" type="Label" parent="MainContainer/MainPanel/HBoxContainer/RecipePanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Recipe Tips:
+- Each method requires specific chemicals
+- Maximum 3 chemicals per batch
+- Temperature matters!"
+autowrap_mode = 3
+
+[node name="LabPanel" type="Panel" parent="MainContainer/MainPanel/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.6
+theme_override_styles/panel = SubResource("StyleBoxFlat_y0o5a")
+
+[node name="MarginContainer" type="MarginContainer" parent="MainContainer/MainPanel/HBoxContainer/LabPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MainContainer/MainPanel/HBoxContainer/LabPanel/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="StepLabel" type="Label" parent="MainContainer/MainPanel/HBoxContainer/LabPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Step 3: Set Temperature & Cook"
+
+[node name="HeatControls" type="VBoxContainer" parent="MainContainer/MainPanel/HBoxContainer/LabPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HeatLabel" type="Label" parent="MainContainer/MainPanel/HBoxContainer/LabPanel/MarginContainer/VBoxContainer/HeatControls"]
+layout_mode = 2
+text = "Heat Level: 100°C"
+
+[node name="HeatSlider" type="HSlider" parent="MainContainer/MainPanel/HBoxContainer/LabPanel/MarginContainer/VBoxContainer/HeatControls"]
+layout_mode = 2
+min_value = 50.0
+max_value = 200.0
+value = 100.0
+
+[node name="MixingBeaker" type="VBoxContainer" parent="MainContainer/MainPanel/HBoxContainer/LabPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 8
+
+[node name="ContentLabel" type="Label" parent="MainContainer/MainPanel/HBoxContainer/LabPanel/MarginContainer/VBoxContainer/MixingBeaker"]
+layout_mode = 2
+text = "Contents: Empty"
+
+[node name="LiquidDisplay" type="ColorRect" parent="MainContainer/MainPanel/HBoxContainer/LabPanel/MarginContainer/VBoxContainer/MixingBeaker"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color(1, 1, 1, 0)
+
+[node name="BeakerOutline" type="Panel" parent="MainContainer/MainPanel/HBoxContainer/LabPanel/MarginContainer/VBoxContainer/MixingBeaker/LiquidDisplay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_kprld")
+
+[node name="PurityContainer" type="VBoxContainer" parent="MainContainer/MainPanel/HBoxContainer/LabPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="PurityLabel" type="Label" parent="MainContainer/MainPanel/HBoxContainer/LabPanel/MarginContainer/VBoxContainer/PurityContainer"]
+layout_mode = 2
+text = "Purity: 0.0%"
+
+[node name="PurityProgressBar" type="ProgressBar" parent="MainContainer/MainPanel/HBoxContainer/LabPanel/MarginContainer/VBoxContainer/PurityContainer"]
+layout_mode = 2
+max_value = 99.1
+
+[node name="ActionButtons" type="HBoxContainer" parent="MainContainer/MainPanel/HBoxContainer/LabPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Mix" type="Button" parent="MainContainer/MainPanel/HBoxContainer/LabPanel/MarginContainer/VBoxContainer/ActionButtons"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Mix"
+
+[node name="Cook" type="Button" parent="MainContainer/MainPanel/HBoxContainer/LabPanel/MarginContainer/VBoxContainer/ActionButtons"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Cook"
+
+[node name="Clear" type="Button" parent="MainContainer/MainPanel/HBoxContainer/LabPanel/MarginContainer/VBoxContainer/ActionButtons"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Clear"
+
+[node name="ConsolePanel" type="Panel" parent="MainContainer"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_w3ygb")
+
+[node name="MarginContainer" type="MarginContainer" parent="MainContainer/ConsolePanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="ConsoleScroll" type="ScrollContainer" parent="MainContainer/ConsolePanel/MarginContainer"]
+layout_mode = 2
+horizontal_scroll_mode = 0
+
+[node name="ConsoleOutput" type="Label" parent="MainContainer/ConsolePanel/MarginContainer/ConsoleScroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 14
+text = "> Welcome to the Blue Sky Lab! Select a synthesis method to begin."
+autowrap_mode = 3 

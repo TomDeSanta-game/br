@@ -258,6 +258,20 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_button_pressed")
 theme_override_styles/normal = SubResource("StyleBoxFlat_button_normal")
 text = "START"
 
+[node name="MethLabButton" type="Button" parent="MenuPanel/VBoxContainer/ButtonsContainer"]
+layout_mode = 2
+theme_override_colors/font_hover_color = Color(0.196078, 0.8, 0.196078, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.301961)
+theme_override_colors/font_color = Color(0.866667, 0.866667, 0.866667, 1)
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = ExtResource("2_yxndq")
+theme_override_font_sizes/font_size = 28
+theme_override_styles/focus = SubResource("StyleBoxFlat_button_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_button_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_button_pressed")
+theme_override_styles/normal = SubResource("StyleBoxFlat_button_normal")
+text = "METH LAB"
+
 [node name="OptionsButton" type="Button" parent="MenuPanel/VBoxContainer/ButtonsContainer"]
 layout_mode = 2
 theme_override_colors/font_hover_color = Color(0.196078, 0.8, 0.196078, 1)
@@ -296,5 +310,6 @@ text = "v0.1.0"
 horizontal_alignment = 1
 
 [connection signal="pressed" from="MenuPanel/VBoxContainer/ButtonsContainer/StartButton" to="." method="_on_start_button_pressed"]
+[connection signal="pressed" from="MenuPanel/VBoxContainer/ButtonsContainer/MethLabButton" to="." method="_on_methlab_button_pressed"]
 [connection signal="pressed" from="MenuPanel/VBoxContainer/ButtonsContainer/OptionsButton" to="." method="_on_options_button_pressed"]
 [connection signal="pressed" from="MenuPanel/VBoxContainer/ButtonsContainer/QuitButton" to="." method="_on_quit_button_pressed"]
