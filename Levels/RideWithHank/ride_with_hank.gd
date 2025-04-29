@@ -36,6 +36,9 @@ var current_zoom = Vector2(5, 5)
 var zoom_speed = 0.5
 var dust_particles = []
 var dialogic_started = false
+var meth_lab_unlocked = false
+
+@onready var meth_lab_button = $MethLabButton
 
 func _ready() -> void:
 	$Jesse.speed = 30.0
@@ -71,6 +74,9 @@ func _ready() -> void:
 		$House/HouseRoof.color = Color(0.5, 0.3, 0.15, 1.0)
 	
 	create_desert_dust()
+	
+	if meth_lab_button:
+		meth_lab_button.hide_button()
 
 func create_desert_dust() -> void:
 	var desert_dust = CPUParticles2D.new()
@@ -92,6 +98,9 @@ func _physics_process(delta: float) -> void:
 	if Input.is_action_just_pressed("ui_accept"):
 		raiding = !raiding
 		toggle_dust_particles(raiding)
+	
+	if Input.is_action_just_pressed("DEBUG") and meth_lab_unlocked:
+		open_meth_lab()
 	
 	time_passed += delta
 	update_daylight_cycle(delta)
@@ -118,12 +127,24 @@ func update_car_focus(delta: float) -> void:
 	
 	if car_focus_timer >= 1.0 && !dialogic_started:
 		dialogic_started = true
+		meth_lab_unlocked = true
 		if Engine.has_singleton("Dialogic"):
 			var Dialogic = Engine.get_singleton("Dialogic")
 			Dialogic.start("ridewithhank")
+			Dialogic.timeline_ended.connect(_on_dialogic_timeline_ended)
 		elif has_node("/root/Dialogic"):
 			var Dialogic = get_node("/root/Dialogic")
 			Dialogic.start("ridewithhank")
+			Dialogic.timeline_ended.connect(_on_dialogic_timeline_ended)
+
+func open_meth_lab() -> void:
+	if meth_lab_unlocked:
+		get_tree().change_scene_to_file("res://UI/Scenes/MethLab/MethLabGame.tscn")
+
+func _on_dialogic_timeline_ended():
+	meth_lab_unlocked = true
+	if meth_lab_button:
+		meth_lab_button.show_button()
 
 func calculate_formation_center() -> Vector2:
 	var center = Vector2(0, 0)

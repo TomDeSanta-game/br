@@ -1,0 +1,222 @@
+# PROJECT OVERVIEW
+- This project is a breaking bad story game in pixel art that copies the main storyline and converts it into a game, This will be released on steam and made commercial.
+
+# PERSONALITY
+- Teach me like a senior developer would, Be mindful and explain everything in the chat.
+
+# ERROR FIXING PROCESS
+- Check for warnings and errors then check the godot gdscript documentation then fix the error and check if the error is gone in its entirety.
+
+# CURRENT FILE STRUCTURE
+.
+├── .cursorignore
+├── .cursorrules
+├── .editorconfig
+├── .gitattributes
+├── .gitignore
+├── Components
+│   ├── Scenes
+│   └── Scripts
+│       └── PlayerStateMachine
+│           ├── player_state_machine.gd
+│           └── player_state_machine.gd.uid
+├── Entities
+│   ├── Scenes
+│   │   ├── Doctor
+│   │   │   └── Doctor.tscn
+│   │   ├── Jesse
+│   │   │   └── jesse.tscn
+│   │   ├── Npcs
+│   │   │   ├── NpcBase
+│   │   │   ├── Skyler
+│   │   │   └── WaltJR
+│   │   └── Player
+│   │       └── player.tscn
+│   └── Scripts
+│       ├── Doctor
+│       │   ├── doctor.gd
+│       │   └── doctor.gd.uid
+│       ├── Guards
+│       │   └── Tuco_Guard
+│       ├── Jesse
+│       │   ├── jesse.gd
+│       │   └── jesse.gd.uid
+│       └── Player
+│           ├── player.gd
+│           └── player.gd.uid
+├── Inventory
+│   ├── Scenes
+│   │   ├── InventorySlot.tscn
+│   │   ├── InventoryUI.tscn
+│   │   └── ItemDetailsPanel.tscn
+│   └── Scripts
+│       ├── inventory_slot.gd
+│       ├── inventory_slot.gd.uid
+│       ├── inventory_ui.gd
+│       ├── inventory_ui.gd.uid
+│       ├── item_details_panel.gd
+│       └── item_details_panel.gd.uid
+├── LICENSE
+├── Levels
+│   ├── CarWash
+│   │   ├── CarWashLevel.tscn
+│   │   ├── car_wash.gd
+│   │   ├── car_wash.gd.uid
+│   │   ├── grid_visualizer.gd
+│   │   └── grid_visualizer.gd.uid
+│   ├── DoctorsOffice
+│   │   ├── DoctorsOffice.tscn
+│   │   ├── doctors_office.gd
+│   │   └── doctors_office.gd.uid
+│   ├── House
+│   │   ├── House.tscn
+│   │   ├── House.tscn.backup
+│   │   ├── house.gd
+│   │   └── house.gd.uid
+│   └── RideWithHank
+│       ├── ride_with_hank.gd
+│       ├── ride_with_hank.gd.uid
+│       └── ride_with_hank.tscn
+├── Objects
+│   ├── Scenes
+│   │   ├── Doors
+│   │   │   ├── Door.tscn
+│   │   │   └── PatchedDoors.tscn
+│   │   └── Early_Meth_Batch
+│   │       └── early_methaphetamine_batch.tscn
+│   └── Scripts
+│       ├── Doors
+│       │   ├── door.gd
+│       │   ├── door.gd.uid
+│       │   ├── patched_doors.gd
+│       │   └── patched_doors.gd.uid
+│       └── Early_Meth_Batch
+│           ├── early_methaphetamine_batch.gd
+│           └── early_methaphetamine_batch.gd.uid
+├── README.md
+├── Singletons
+│   ├── Scenes
+│   └── Scripts
+│       ├── Layers&Masks
+│       │   ├── llm.gd
+│       │   └── llm.gd.uid
+│       └── SignalBus
+│           ├── signal_bus.gd
+│           └── signal_bus.gd.uid
+├── Systems
+│   └── Scripts
+│       ├── id_manager.gd
+│       └── id_manager.gd.uid
+├── UI
+│   ├── Scenes
+│   │   ├── CarWashGame
+│   │   │   ├── CarModel.tscn
+│   │   │   ├── CarWashGame.tscn
+│   │   │   └── CarWashUI.tscn
+│   │   ├── HeatBar
+│   │   │   └── heat_bar.tscn
+│   │   ├── MainMenu.tscn
+│   │   └── OptionsMenu.tscn
+│   └── Scripts
+│       ├── CarWashGame
+│       │   ├── CarModel.gd
+│       │   ├── CarModel.gd.uid
+│       │   ├── CarWashGame.gd
+│       │   ├── CarWashGame.gd.uid
+│       │   ├── CarWashUI.gd
+│       │   └── CarWashUI.gd.uid
+│       ├── HeatBar
+│       │   ├── heat_bar.gd
+│       │   └── heat_bar.gd.uid
+│       ├── MainMenu.gd
+│       ├── MainMenu.gd.uid
+│       ├── OptionsMenu.gd
+│       └── OptionsMenu.gd.uid
+├── addons
+│   ├── SignalVisualizer
+│   ├── dialogic
+│   ├── limbo_console
+│   ├── limbo_console.cfg
+│   ├── limboai
+│   ├── logger
+│   ├── pandora
+│   ├── quest_system
+│   ├── scene_manager
+│   ├── script-ide
+│   └── sound_manager
+├── ai
+│   ├── tasks
+│   │   ├── find_target.gd
+│   │   ├── find_target.gd.uid
+│   │   ├── move_to_position.gd
+│   │   ├── move_to_position.gd.uid
+│   │   ├── random_move_position.gd
+│   │   └── random_move_position.gd.uid
+│   └── trees
+│       ├── hank.tres
+│       └── skinny_pete.tres
+├── assets
+│   ├── Cars
+│   ├── Characters
+│   ├── Extra
+│   ├── Fonts
+│   ├── Prototype_Character
+│   ├── Tileset
+│   ├── early_methaphetamine_batch.png
+│   └── early_methaphetamine_batch.png.import
+├── data.pandora
+├── default_bus_layout.tres
+├── dialogic
+│   ├── characters
+│   │   ├── JR.dch
+│   │   ├── JR.dch.uid
+│   │   ├── Skyler.dch
+│   │   ├── Skyler.dch.uid
+│   │   ├── Walter.dch
+│   │   ├── Walter.dch.uid
+│   │   ├── doctor.dch
+│   │   ├── doctor.dch.uid
+│   │   ├── hank.dch
+│   │   └── hank.dch.uid
+│   ├── styles
+│   │   └── style-o.tres
+│   └── timelines
+│       ├── diagnosis.dtl
+│       ├── diagnosis.dtl.uid
+│       ├── ridewithhank.dtl
+│       ├── ridewithhank.dtl.uid
+│       ├── walter-skyler-jr-1st-inter.dtl
+│       └── walter-skyler-jr-1st-inter.dtl.uid
+├── icon.svg
+├── icon.svg.import
+├── pandora
+│   ├── categories.gd
+│   └── categories.gd.uid
+├── project.godot
+└── quests
+    └── GetToCar.tres
+
+153 directories, 646 files
+
+# GITHUB PUSH PROCESS
+- Run these commands in the terminal: "
+    git add .
+    git commit -m "Random Chess Opening"
+    git push"
+
+# IMPORTANT
+- Include no comments in your code. Definetly not.
+- Check for warnings and errors then check the godot gdscript documentation then fix the error and check if the error is gone in its entirety.
+- Teach me like a senior developer would, Be mindful and explain everything in the chat.
+- This project is a breaking bad story game in pixel art that copies the main storyline and converts it into a game, This will be released on steam and made commercial.
+
+# MOST IMPORTANT
+- The fewer lines the better
+- Proceed like a senior developer // 10x Engineer
+- Do not stop working until you have fully implemented this
+- If error, Start by writing 3 reasoning paragraphs analyse what the error might be. DO NOT JUMP TO CONCLUSIONS. Quiet the ego. Constantly question your assumptions.
+- Answer in short.
+- Summary of current state.
+
+# COMMENTS
+- Include no comments in your code. Definetly not.

@@ -16,8 +16,7 @@ var tooltip_timer: Timer = null
 var is_mouse_over_tooltip: bool = false
 var is_mouse_over_slot: bool = false
 var current_tooltip_slot = null
-func _ready():
-	Grok.register_inventory(self)
+func _ready() -> void:
 	var stylebox = StyleBoxFlat.new()
 	stylebox.bg_color = BACKGROUND_COLOR
 	stylebox.corner_radius_top_left = 15

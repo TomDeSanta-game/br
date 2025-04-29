@@ -127,7 +127,6 @@ var velocity_history_size: int = 8
 @export var debug_mode: bool = false
 
 func _ready() -> void:
-	Grok.register_player(self)
 	setup_collision()
 	setup_state_machine()
 	setup_ui()
@@ -279,13 +278,13 @@ func update_focus_state(delta: float) -> void:
 		var to_target = focus_target - global_position
 		var distance = to_target.length()
 		
-		focus_strength = min(1.0, focus_strength + delta * focus_fade_speed)
+		focus_strength = 1.0
 		
 		if distance < 10:
 			focused_walking = false
 			focus_strength = 0.0
 	else:
-		focus_strength = max(0.0, focus_strength - delta * focus_fade_speed)
+		focus_strength = 0.0
 
 func update_footsteps(delta: float) -> void:
 	if velocity.length() > movement_epsilon:
@@ -465,26 +464,9 @@ func update_smoothed_values(delta: float) -> void:
 	if velocity_history.size() > velocity_history_size:
 		velocity_history.pop_front()
 	
-	smoothed_velocity = Vector2.ZERO
-	var total_weight = 0.0
-	for i in range(velocity_history.size()):
-		var weight = float(i + 1) / velocity_history.size()
-		smoothed_velocity += velocity_history[i] * weight
-		total_weight += weight
+	smoothed_velocity = velocity
 	
-	if total_weight > 0:
-		smoothed_velocity /= total_weight
-	
-	var speed = velocity.length()
-	var smoothing_factor = 10.0
-	
-	if speed > 10.0:
-		smoothing_factor = 12.0
-	
-	if speed < 5.0:
-		smoothing_factor = 8.0
-		
-	smoothed_direction = smoothed_direction.lerp(direction, delta * smoothing_factor)
+	smoothed_direction = direction
 	
 	if direction.length() > 0.3 and last_anim_direction.dot(direction) < -0.5:
 		animation_locked = true
@@ -501,14 +483,12 @@ func handle_movement(delta: float) -> void:
 			target_speed *= sprint_speed_multiplier
 			heat_bar.fill_anisprotic(7.0)
 		
-		var acceleration_factor = 7.0
-		velocity = velocity.lerp(direction * target_speed, delta * acceleration_factor)
+		velocity = direction * target_speed
 		is_running = true
 	else:
 		direction = Vector2.ZERO
-		var deceleration_factor = 9.0
-		velocity = velocity.lerp(Vector2.ZERO, delta * deceleration_factor)
-		is_running = velocity.length() > min_velocity_for_run
+		velocity = Vector2.ZERO
+		is_running = false
 	
 	move_and_slide()
 	var collision = get_last_slide_collision()
@@ -612,9 +592,9 @@ func update_camera(delta: float) -> void:
 			camera_noise.get_noise_2d(0, Time.get_ticks_msec() * 0.1) * intensity
 		)
 	else:
-		camera.offset = camera.offset.lerp(camera_offset, delta * 5.0)
+		camera.offset = camera_offset
 	
-	camera.zoom = camera.zoom.lerp(camera_target_zoom, delta * 3.0)
+	camera.zoom = camera_target_zoom
 
 func apply_camera_shake(intensity: float, time: float) -> void:
 	camera_shake_intensity = intensity
@@ -626,9 +606,8 @@ func apply_camera_forward_focus(strength: float, direction: Vector2) -> void:
 
 func set_camera_zoom(zoom_level: float, duration: float = 0.5) -> void:
 	camera_target_zoom = Vector2(zoom_level, zoom_level)
-	
-	if duration <= 0:
-		camera.zoom = camera_target_zoom
+	# Always apply zoom immediately regardless of duration
+	camera.zoom = camera_target_zoom
 
 func set_movement_context_multiplier(multiplier: float, duration: float = 2.0) -> void:
 	context_speed_multiplier = multiplier

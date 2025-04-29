@@ -1,0 +1,346 @@
+[gd_scene load_steps=7 format=3 uid="uid://bis38h5h7qbya"]
+
+[ext_resource type="Script" uid="uid://fl2gccaf2ntr" path="res://Levels/CarWash/car_wash.gd" id="1_s5vpu"]
+[ext_resource type="Script" uid="uid://dgs6c5hqte1l7" path="res://Levels/CarWash/grid_visualizer.gd" id="2_wq1fs"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_k0o20"]
+size = Vector2(32, 32)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pwyuv"]
+size = Vector2(32, 32)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_v0rlc"]
+size = Vector2(48, 24)
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_1n2p2"]
+viewport_path = NodePath("GameViewport")
+
+[node name="CarWashLevel" type="Node2D"]
+script = ExtResource("1_s5vpu")
+
+[node name="GameViewport" type="SubViewport" parent="."]
+size = Vector2i(1152, 648)
+size_2d_override = Vector2i(1152, 648)
+size_2d_override_stretch = true
+render_target_update_mode = 4
+
+[node name="BuildingLayout" type="Node2D" parent="GameViewport"]
+
+[node name="BuildingOutline" type="ColorRect" parent="GameViewport/BuildingLayout"]
+offset_left = 50.0
+offset_top = 50.0
+offset_right = 1102.0
+offset_bottom = 598.0
+color = Color(0.2, 0.2, 0.2, 1)
+
+[node name="Building" type="ColorRect" parent="GameViewport/BuildingLayout"]
+offset_left = 50.0
+offset_top = 50.0
+offset_right = 1102.0
+offset_bottom = 598.0
+color = Color(0, 0, 0, 1)
+
+[node name="Separator1" type="ColorRect" parent="GameViewport/BuildingLayout"]
+offset_left = 350.0
+offset_top = 100.0
+offset_right = 450.0
+offset_bottom = 450.0
+color = Color(0.2, 0.2, 0.2, 1)
+
+[node name="Separator2" type="ColorRect" parent="GameViewport/BuildingLayout"]
+offset_left = 700.0
+offset_top = 100.0
+offset_right = 800.0
+offset_bottom = 450.0
+color = Color(0.2, 0.2, 0.2, 1)
+
+[node name="HorizontalDivider" type="ColorRect" parent="GameViewport/BuildingLayout"]
+offset_left = 50.0
+offset_top = 450.0
+offset_right = 1102.0
+offset_bottom = 452.0
+color = Color(0.2, 0.2, 0.2, 1)
+
+[node name="WashTunnel1" type="ColorRect" parent="GameViewport/BuildingLayout"]
+offset_left = 100.0
+offset_top = 100.0
+offset_right = 350.0
+offset_bottom = 450.0
+color = Color(0, 0, 0, 1)
+
+[node name="BrushArm1" type="ColorRect" parent="GameViewport/BuildingLayout/WashTunnel1"]
+layout_mode = 0
+offset_left = 40.0
+offset_top = 50.0
+offset_right = 60.0
+offset_bottom = 250.0
+color = Color(0.2, 0.2, 0.2, 1)
+
+[node name="BrushRoller1" type="ColorRect" parent="GameViewport/BuildingLayout/WashTunnel1"]
+layout_mode = 0
+offset_left = 30.0
+offset_top = 100.0
+offset_right = 70.0
+offset_bottom = 200.0
+color = Color(0.2, 0.2, 0.2, 1)
+
+[node name="BrushArm2" type="ColorRect" parent="GameViewport/BuildingLayout/WashTunnel1"]
+layout_mode = 0
+offset_left = 190.0
+offset_top = 50.0
+offset_right = 210.0
+offset_bottom = 250.0
+color = Color(0.2, 0.2, 0.2, 1)
+
+[node name="BrushRoller2" type="ColorRect" parent="GameViewport/BuildingLayout/WashTunnel1"]
+layout_mode = 0
+offset_left = 180.0
+offset_top = 100.0
+offset_right = 220.0
+offset_bottom = 200.0
+color = Color(0.2, 0.2, 0.2, 1)
+
+[node name="Car1" type="ColorRect" parent="GameViewport/BuildingLayout/WashTunnel1"]
+layout_mode = 0
+offset_left = 75.0
+offset_top = 275.0
+offset_right = 175.0
+offset_bottom = 325.0
+color = Color(0.2, 0.2, 0.2, 1)
+
+[node name="WalterFigure" type="ColorRect" parent="GameViewport/BuildingLayout/WashTunnel1"]
+layout_mode = 0
+offset_left = 125.0
+offset_top = 150.0
+offset_right = 145.0
+offset_bottom = 190.0
+color = Color(0.2, 0.2, 0.2, 1)
+
+[node name="WashTunnel2" type="ColorRect" parent="GameViewport/BuildingLayout"]
+offset_left = 450.0
+offset_top = 100.0
+offset_right = 700.0
+offset_bottom = 450.0
+color = Color(0, 0, 0, 1)
+
+[node name="BrushArm1" type="ColorRect" parent="GameViewport/BuildingLayout/WashTunnel2"]
+layout_mode = 0
+offset_left = 40.0
+offset_top = 50.0
+offset_right = 60.0
+offset_bottom = 250.0
+color = Color(0.2, 0.2, 0.2, 1)
+
+[node name="BrushRoller1" type="ColorRect" parent="GameViewport/BuildingLayout/WashTunnel2"]
+layout_mode = 0
+offset_left = 30.0
+offset_top = 100.0
+offset_right = 70.0
+offset_bottom = 200.0
+color = Color(0.2, 0.2, 0.2, 1)
+
+[node name="BrushArm2" type="ColorRect" parent="GameViewport/BuildingLayout/WashTunnel2"]
+layout_mode = 0
+offset_left = 190.0
+offset_top = 50.0
+offset_right = 210.0
+offset_bottom = 250.0
+color = Color(0.2, 0.2, 0.2, 1)
+
+[node name="BrushRoller2" type="ColorRect" parent="GameViewport/BuildingLayout/WashTunnel2"]
+layout_mode = 0
+offset_left = 180.0
+offset_top = 100.0
+offset_right = 220.0
+offset_bottom = 200.0
+color = Color(0.2, 0.2, 0.2, 1)
+
+[node name="Car2" type="ColorRect" parent="GameViewport/BuildingLayout/WashTunnel2"]
+layout_mode = 0
+offset_left = 75.0
+offset_top = 275.0
+offset_right = 175.0
+offset_bottom = 325.0
+color = Color(0.2, 0.2, 0.2, 1)
+
+[node name="Office" type="ColorRect" parent="GameViewport/BuildingLayout"]
+offset_left = 800.0
+offset_top = 100.0
+offset_right = 1052.0
+offset_bottom = 450.0
+color = Color(0, 0, 0, 1)
+
+[node name="OfficeCounter" type="ColorRect" parent="GameViewport/BuildingLayout/Office"]
+layout_mode = 0
+offset_left = 50.0
+offset_top = 200.0
+offset_right = 200.0
+offset_bottom = 250.0
+color = Color(0.2, 0.2, 0.2, 1)
+
+[node name="Register" type="ColorRect" parent="GameViewport/BuildingLayout/Office/OfficeCounter"]
+layout_mode = 0
+offset_left = 70.0
+offset_top = -20.0
+offset_right = 110.0
+offset_bottom = 10.0
+color = Color(0.2, 0.2, 0.2, 1)
+
+[node name="OfficeDesk" type="ColorRect" parent="GameViewport/BuildingLayout/Office"]
+layout_mode = 0
+offset_left = 130.0
+offset_top = 50.0
+offset_right = 220.0
+offset_bottom = 90.0
+color = Color(0.2, 0.2, 0.2, 1)
+
+[node name="SkylerFigure" type="ColorRect" parent="GameViewport/BuildingLayout/Office"]
+layout_mode = 0
+offset_left = 120.0
+offset_top = 175.0
+offset_right = 140.0
+offset_bottom = 215.0
+color = Color(0.2, 0.2, 0.2, 1)
+
+[node name="SuppliesArea" type="ColorRect" parent="GameViewport/BuildingLayout"]
+offset_left = 100.0
+offset_top = 452.0
+offset_right = 350.0
+offset_bottom = 548.0
+color = Color(0, 0, 0, 1)
+
+[node name="SupplyShelves" type="ColorRect" parent="GameViewport/BuildingLayout/SuppliesArea"]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 230.0
+offset_bottom = 76.0
+color = Color(0.2, 0.2, 0.2, 1)
+
+[node name="MoneyLaunderingRoom" type="ColorRect" parent="GameViewport/BuildingLayout"]
+offset_left = 800.0
+offset_top = 452.0
+offset_right = 1052.0
+offset_bottom = 548.0
+color = Color(0, 0, 0, 1)
+
+[node name="FilingCabinet" type="ColorRect" parent="GameViewport/BuildingLayout/MoneyLaunderingRoom"]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 10.0
+offset_right = 60.0
+offset_bottom = 86.0
+color = Color(0.2, 0.2, 0.2, 1)
+
+[node name="Safe" type="ColorRect" parent="GameViewport/BuildingLayout/MoneyLaunderingRoom"]
+layout_mode = 0
+offset_left = 80.0
+offset_top = 20.0
+offset_right = 130.0
+offset_bottom = 76.0
+color = Color(0.2, 0.2, 0.2, 1)
+
+[node name="BreakRoom" type="ColorRect" parent="GameViewport/BuildingLayout"]
+offset_left = 450.0
+offset_top = 452.0
+offset_right = 700.0
+offset_bottom = 548.0
+color = Color(0, 0, 0, 1)
+
+[node name="Table" type="ColorRect" parent="GameViewport/BuildingLayout/BreakRoom"]
+layout_mode = 0
+offset_left = 40.0
+offset_top = 20.0
+offset_right = 110.0
+offset_bottom = 76.0
+color = Color(0.2, 0.2, 0.2, 1)
+
+[node name="BogdanFigure" type="ColorRect" parent="GameViewport/BuildingLayout/BreakRoom"]
+layout_mode = 0
+offset_left = 125.0
+offset_top = 30.0
+offset_right = 145.0
+offset_bottom = 70.0
+color = Color(0.2, 0.2, 0.2, 1)
+
+[node name="InteractionAreas" type="Node2D" parent="GameViewport"]
+
+[node name="OfficeArea" type="Area2D" parent="GameViewport/InteractionAreas"]
+position = Vector2(926, 275)
+collision_layer = 32
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GameViewport/InteractionAreas/OfficeArea"]
+scale = Vector2(5, 5)
+shape = SubResource("RectangleShape2D_k0o20")
+
+[node name="WashArea" type="Area2D" parent="GameViewport/InteractionAreas"]
+position = Vector2(225, 275)
+collision_layer = 32
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GameViewport/InteractionAreas/WashArea"]
+scale = Vector2(6, 6)
+shape = SubResource("RectangleShape2D_pwyuv")
+
+[node name="WashArea2" type="Area2D" parent="GameViewport/InteractionAreas"]
+position = Vector2(575, 275)
+collision_layer = 32
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GameViewport/InteractionAreas/WashArea2"]
+scale = Vector2(6, 6)
+shape = SubResource("RectangleShape2D_pwyuv")
+
+[node name="LobbyArea" type="Area2D" parent="GameViewport/InteractionAreas"]
+position = Vector2(575, 500)
+collision_layer = 32
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GameViewport/InteractionAreas/LobbyArea"]
+scale = Vector2(7, 2)
+shape = SubResource("RectangleShape2D_v0rlc")
+
+[node name="Walls" type="StaticBody2D" parent="GameViewport"]
+collision_mask = 0
+
+[node name="OuterWalls" type="CollisionPolygon2D" parent="GameViewport/Walls"]
+polygon = PackedVector2Array(50, 50, 1102, 50, 1102, 598, 50, 598, 50, 50)
+
+[node name="WashTunnel1Walls" type="CollisionPolygon2D" parent="GameViewport/Walls"]
+polygon = PackedVector2Array(350, 100, 450, 100, 450, 450, 350, 450)
+
+[node name="WashTunnel2Walls" type="CollisionPolygon2D" parent="GameViewport/Walls"]
+polygon = PackedVector2Array(700, 100, 800, 100, 800, 450, 700, 450)
+
+[node name="NPCPositions" type="Node2D" parent="GameViewport"]
+
+[node name="SkylerPosition" type="Marker2D" parent="GameViewport/NPCPositions"]
+position = Vector2(926, 275)
+
+[node name="WalterPosition" type="Marker2D" parent="GameViewport/NPCPositions"]
+position = Vector2(225, 275)
+
+[node name="BogdanPosition" type="Marker2D" parent="GameViewport/NPCPositions"]
+position = Vector2(575, 500)
+
+[node name="PlayerStartPosition" type="Marker2D" parent="GameViewport"]
+position = Vector2(576, 300)
+
+[node name="GridVisualizer" type="Node2D" parent="GameViewport"]
+visible = false
+script = ExtResource("2_wq1fs")
+
+[node name="ViewportDisplay" type="Sprite2D" parent="."]
+texture = SubResource("ViewportTexture_1n2p2")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[connection signal="body_entered" from="GameViewport/InteractionAreas/OfficeArea" to="." method="_on_office_area_body_entered"]
+[connection signal="body_exited" from="GameViewport/InteractionAreas/OfficeArea" to="." method="_on_office_area_body_exited"]
+[connection signal="body_entered" from="GameViewport/InteractionAreas/WashArea" to="." method="_on_wash_area_body_entered"]
+[connection signal="body_exited" from="GameViewport/InteractionAreas/WashArea" to="." method="_on_wash_area_body_exited"]
+[connection signal="body_entered" from="GameViewport/InteractionAreas/WashArea2" to="." method="_on_wash_area_body_entered"]
+[connection signal="body_exited" from="GameViewport/InteractionAreas/WashArea2" to="." method="_on_wash_area_body_exited"]
+[connection signal="body_entered" from="GameViewport/InteractionAreas/LobbyArea" to="." method="_on_lobby_area_body_entered"]
+[connection signal="body_exited" from="GameViewport/InteractionAreas/LobbyArea" to="." method="_on_lobby_area_body_exited"]

@@ -1,7 +1,7 @@
 extends Area2D
 
-@onready var player: Node2D = Grok.player
-@onready var inventory: Control = Grok.inventory
+@onready var player: Node2D = get_tree().get_first_node_in_group("Player")
+@onready var inventory: Control = get_tree().get_first_node_in_group("Inventory")
 
 func _ready() -> void:
     collision_layer = LLM.object_layer
