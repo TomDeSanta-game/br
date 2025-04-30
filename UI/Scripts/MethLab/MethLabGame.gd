@@ -64,7 +64,6 @@ func _ready():
 	log_text = $LabLayout/LogPanel/VBoxContainer/LogText
 	quality_label = $LabLayout/TitleBar/QualityLabel
 	profit_label = $LabLayout/TitleBar/ProfitLabel
-	chemical_list = $LabLayout/MainContent/RightPanel/RecipePanel/VBoxContainer/RecipeList
 	timer_label = $LabLayout/TitleBar/TimerLabel
 	score_label = $LabLayout/TitleBar/ScoreLabel
 	combo_label = $LabLayout/TitleBar/ComboLabel
@@ -142,12 +141,52 @@ func setup_chemical_buttons():
 		$LabLayout/MainContent/LeftPanel/ChemicalsPanel/VBoxContainer/ChemicalButtons/AluminumButton
 	]
 	
+	# Chemical icons and colors
+	var chemical_icons = {
+		"Pseudoephedrine": preload("res://assets/early_methaphetamine_batch.png"),
+		"Red Phosphorus": preload("res://assets/early_methaphetamine_batch.png"),
+		"Iodine": preload("res://assets/early_methaphetamine_batch.png"),
+		"Methylamine": preload("res://assets/early_methaphetamine_batch.png"),
+		"Aluminum": preload("res://assets/early_methaphetamine_batch.png")
+	}
+	
 	for button in chemical_buttons:
 		if button:
+			# Add icon to button
+			var chemical_name = button.text.replace("Add ", "")
+			var icon = TextureRect.new()
+			icon.texture = chemical_icons[chemical_name]
+			icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+			icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+			icon.custom_minimum_size = Vector2(30, 30)
+			
+			# Create horizontal container for icon and text
+			var hbox = HBoxContainer.new()
+			button.add_child(hbox)
+			
+			# Add icon
+			hbox.add_child(icon)
+			
+			# Add label for chemical name
+			var label = Label.new()
+			label.text = chemical_name
+			hbox.add_child(label)
+			
+			# Set button text to empty since we're using our custom layout
+			button.text = ""
+			
+			# Center the container
+			hbox.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+			hbox.alignment = BoxContainer.ALIGNMENT_CENTER
+			
+			# Connect signals
 			button.gui_input.connect(_on_chemical_gui_input.bind(button))
 			# Add hover effect
 			button.mouse_entered.connect(_on_button_mouse_entered.bind(button))
 			button.mouse_exited.connect(_on_button_mouse_exited.bind(button))
+			
+			# Apply color tint based on the chemical
+			icon.modulate = get_chemical_color(chemical_name)
 
 func _on_button_mouse_entered(button):
 	var tween = create_tween()
@@ -158,7 +197,17 @@ func _on_button_mouse_exited(button):
 	tween.tween_property(button, "modulate", Color(1, 1, 1), 0.2)
 
 func _on_chemical_gui_input(event, chemical_button):
-	var chemical_name = chemical_button.text.replace("Add ", "")
+	# Determine chemical name from button's child label
+	var chemical_name = ""
+	if chemical_button.get_child_count() > 0 and chemical_button.get_child(0) is HBoxContainer:
+		var hbox = chemical_button.get_child(0)
+		for child in hbox.get_children():
+			if child is Label:
+				chemical_name = child.text
+				break
+	
+	if chemical_name.empty():
+		return
 	
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT:
@@ -184,14 +233,49 @@ func create_drag_ghost(source_button):
 	drag_ghost.color = Color(0.2, 0.6, 0.9, 0.7)
 	drag_ghost.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	
-	var label = Label.new()
-	label.text = source_button.text.replace("Add ", "")
-	label.add_theme_color_override("font_color", COLOR_TEXT)
-	label.custom_minimum_size = drag_ghost.size
-	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	# Get chemical name from button
+	var chemical_name = ""
+	if source_button.get_child_count() > 0 and source_button.get_child(0) is HBoxContainer:
+		var hbox = source_button.get_child(0)
+		for child in hbox.get_children():
+			if child is Label:
+				chemical_name = child.text
+				break
 	
-	drag_ghost.add_child(label)
+	if chemical_name.empty():
+		return
+	
+	# Create container for icon and text
+	var hbox = HBoxContainer.new()
+	hbox.alignment = BoxContainer.ALIGNMENT_CENTER
+	hbox.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	drag_ghost.add_child(hbox)
+	
+	# Get icon texture
+	var icon_texture = null
+	if source_button.get_child_count() > 0 and source_button.get_child(0) is HBoxContainer:
+		var source_hbox = source_button.get_child(0)
+		for child in source_hbox.get_children():
+			if child is TextureRect:
+				icon_texture = child.texture
+				break
+	
+	# Add icon if we found one
+	if icon_texture:
+		var icon = TextureRect.new()
+		icon.texture = icon_texture
+		icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		icon.custom_minimum_size = Vector2(20, 20)
+		icon.modulate = get_chemical_color(chemical_name)
+		hbox.add_child(icon)
+	
+	# Add label
+	var label = Label.new()
+	label.text = chemical_name
+	label.add_theme_color_override("font_color", COLOR_TEXT)
+	hbox.add_child(label)
+	
 	add_child(drag_ghost)
 	
 	# Position at cursor
@@ -278,6 +362,7 @@ func update_recipe_display():
 		for i in range(correct_recipe.size()):
 			var chemical = correct_recipe[i]
 			var checked = ""
+			var color_hex = get_chemical_color(chemical).to_html(false)
 			
 			if i < chemicals_in_beaker.size():
 				if chemicals_in_beaker[i] == chemical:
@@ -285,7 +370,7 @@ func update_recipe_display():
 				else:
 					checked = " [color=#FF3B30]✗[/color]"
 			
-			text += "\n[color=#aaaaaa]" + str(i+1) + ". " + chemical + checked + "[/color]"
+			text += "\n[color=#" + color_hex + "]■[/color] [color=#aaaaaa]" + str(i+1) + ". " + chemical + checked + "[/color]"
 		
 		recipe_text.text = text
 
