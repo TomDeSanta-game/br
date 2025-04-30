@@ -113,6 +113,11 @@ theme_override_font_sizes/font_size = 28
 text = "METH LAB"
 horizontal_alignment = 1
 
+[node name="TimerLabel" type="Label" parent="LabLayout/TitleBar"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "1:30"
+
 [node name="QualityLabel" type="Label" parent="LabLayout/TitleBar"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
@@ -122,6 +127,17 @@ text = "Quality: 0%"
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
 text = "Profit: $0"
+
+[node name="ScoreLabel" type="Label" parent="LabLayout/TitleBar"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 0.6, 1, 1)
+theme_override_font_sizes/font_size = 20
+text = "Score: 0"
+
+[node name="ComboLabel" type="Label" parent="LabLayout/TitleBar"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Combo: x1.0"
 
 [node name="MainContent" type="HBoxContainer" parent="LabLayout"]
 layout_mode = 2
@@ -387,9 +403,9 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_r7j4g")
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="Label" type="Label" parent="LabLayout/LogPanel/VBoxContainer"]
+[node name="LogTitle" type="Label" parent="LabLayout/LogPanel/VBoxContainer"]
 layout_mode = 2
-text = "PROCESS LOG"
+text = "LAB LOG"
 horizontal_alignment = 1
 
 [node name="LogText" type="RichTextLabel" parent="LabLayout/LogPanel/VBoxContainer"]
@@ -399,10 +415,25 @@ bbcode_enabled = true
 text = "[color=#888888]> Meth lab initialized. Ready to begin cooking process.
 > Waiting for user input...[/color]"
 
-[node name="QuitButton" type="Button" parent="LabLayout"]
+[node name="ControlPanel" type="HBoxContainer" parent="LabLayout"]
 layout_mode = 2
-size_flags_horizontal = 4
-text = "EXIT METH LAB"
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="ResetButton" type="Button" parent="LabLayout/ControlPanel"]
+custom_minimum_size = Vector2(150, 40)
+layout_mode = 2
+text = "RESET"
+
+[node name="NextLevelButton" type="Button" parent="LabLayout/ControlPanel"]
+custom_minimum_size = Vector2(150, 40)
+layout_mode = 2
+text = "NEXT LEVEL"
+
+[node name="QuitButton" type="Button" parent="LabLayout/ControlPanel"]
+custom_minimum_size = Vector2(150, 40)
+layout_mode = 2
+text = "QUIT"
 
 [connection signal="pressed" from="LabLayout/MainContent/LeftPanel/ChemicalsPanel/VBoxContainer/ChemicalButtons/PseudoephedrineButton" to="." method="_on_pseudoephedrine_button_pressed"]
 [connection signal="pressed" from="LabLayout/MainContent/LeftPanel/ChemicalsPanel/VBoxContainer/ChemicalButtons/PhosphorusButton" to="." method="_on_phosphorus_button_pressed"]
@@ -416,4 +447,6 @@ text = "EXIT METH LAB"
 [connection signal="pressed" from="LabLayout/MainContent/MidPanel/ControlsPanel/VBoxContainer/Controls/StartButton" to="." method="_on_start_button_pressed"]
 [connection signal="pressed" from="LabLayout/MainContent/MidPanel/ControlsPanel/VBoxContainer/Controls/StopButton" to="." method="_on_stop_button_pressed"]
 [connection signal="pressed" from="LabLayout/MainContent/MidPanel/ControlsPanel/VBoxContainer/Controls/ResetButton" to="." method="_on_reset_button_pressed"]
-[connection signal="pressed" from="LabLayout/QuitButton" to="." method="_on_quit_button_pressed"]
+[connection signal="pressed" from="LabLayout/ControlPanel/ResetButton" to="." method="_on_reset_button_pressed"]
+[connection signal="pressed" from="LabLayout/ControlPanel/NextLevelButton" to="." method="_on_next_level_button_pressed"]
+[connection signal="pressed" from="LabLayout/ControlPanel/QuitButton" to="." method="_on_quit_button_pressed"]
