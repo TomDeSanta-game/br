@@ -1,53 +1,50 @@
 extends Node2D
 
-var rise_speed = 0
-var wobble_speed = 0
-var wobble_amount = 0
-var lifetime = 0
-var max_size = 0
-var current_size = 0
-var growth_speed = 0
-var start_pos = Vector2.ZERO
+var rise_speed = 20.0
+var lifetime = 0.0
+var max_lifetime = 3.0
+var wiggle_amount = 2.0
+var wiggle_speed = 3.0
+var start_scale = 1.0
+var fade_start = 0.7  # When to start fading (as fraction of lifetime)
 
 func _ready():
-	# Initialize random properties
-	rise_speed = randf_range(20, 50)
-	wobble_speed = randf_range(1, 3)
-	wobble_amount = randf_range(5, 20)
-	lifetime = randf_range(1.5, 3.0)
-	max_size = randf_range(5, 15)
-	current_size = 1
-	growth_speed = randf_range(10, 20)
-	start_pos = position
+	# Add to bubble group for easy management
+	add_to_group("bubble")
 	
-	# Start the death timer
-	var timer = get_tree().create_timer(lifetime)
-	timer.timeout.connect(queue_free)
+	# Randomize properties for variety
+	rise_speed = randf_range(15.0, 25.0)
+	max_lifetime = randf_range(2.0, 4.0)
+	wiggle_amount = randf_range(1.0, 3.0)
+	wiggle_speed = randf_range(2.0, 4.0)
 	
-	# Create the bubble visuals
+	# Create bubble visual
 	var bubble = ColorRect.new()
-	bubble.size = Vector2(current_size, current_size)
-	bubble.position = Vector2(-current_size/2, -current_size/2)
-	bubble.color = Color(randf_range(0.7, 1.0), randf_range(0.7, 1.0), randf_range(0.7, 1.0), randf_range(0.2, 0.7))
+	bubble.size = Vector2(4, 4)
+	bubble.color = Color(1, 1, 1, 0.7)
 	add_child(bubble)
+	
+	# Store original scale
+	start_scale = scale.x
 
 func _process(delta):
-	# Rise up
+	lifetime += delta
+	
+	# Rise upward
 	position.y -= rise_speed * delta
 	
-	# Wobble side to side
-	position.x = start_pos.x + sin(Time.get_ticks_msec() * 0.001 * wobble_speed) * wobble_amount
+	# Add wiggly motion
+	position.x += sin(lifetime * wiggle_speed) * wiggle_amount * delta
 	
-	# Grow the bubble until max size
-	if current_size < max_size:
-		current_size += growth_speed * delta
-		
-		# Update the child ColorRect size
-		if get_child_count() > 0:
-			var bubble = get_child(0)
-			bubble.size = Vector2(current_size, current_size)
-			bubble.position = Vector2(-current_size/2, -current_size/2)
+	# Fade out as it rises
+	if lifetime > max_lifetime * fade_start:
+		var fade_progress = (lifetime - max_lifetime * fade_start) / (max_lifetime * (1.0 - fade_start))
+		modulate.a = 1.0 - fade_progress
 	
-	# Fade out near the end of lifetime
-	if lifetime < 0.5:
-		modulate.a = lifetime / 0.5 
+	# Grow slightly as it rises
+	var size_factor = 1.0 + lifetime * 0.1
+	scale = Vector2(start_scale, start_scale) * size_factor
+	
+	# Remove when lifetime is over
+	if lifetime >= max_lifetime:
+		queue_free() 

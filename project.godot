@@ -44,6 +44,7 @@ directories/dch_directory={
 }
 directories/dtl_directory={
 "diagnosis": "res://dialogic/timelines/diagnosis.dtl",
+"meth_lab": "res://dialogic/timelines/meth_lab.dtl",
 "ridewithhank": "res://dialogic/timelines/ridewithhank.dtl",
 "walter-skyler-jr-1st-inter": "res://dialogic/timelines/walter-skyler-jr-1st-inter.dtl"
 }

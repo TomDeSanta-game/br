@@ -39,6 +39,13 @@ var dialogic_started = false
 var meth_lab_unlocked = false
 
 @onready var meth_lab_button = $MethLabButton
+@onready var player = $Player
+@onready var hank = $Hank
+@onready var dialog_area = $DialogTrigger
+@onready var meth_lab_entrance = $MethLabEntrance
+
+var dialog_started = false
+var entering_lab = false
 
 func _ready() -> void:
 	$Jesse.speed = 30.0
@@ -77,6 +84,12 @@ func _ready() -> void:
 	
 	if meth_lab_button:
 		meth_lab_button.hide_button()
+
+	if dialog_area:
+		dialog_area.body_entered.connect(_on_dialog_trigger_entered)
+		
+	if meth_lab_entrance:
+		meth_lab_entrance.body_entered.connect(_on_meth_lab_entrance_entered)
 
 func create_desert_dust() -> void:
 	var desert_dust = CPUParticles2D.new()
@@ -291,3 +304,14 @@ func update_daylight_cycle(delta: float) -> void:
 		
 	if has_node("DynamicDaylight"):
 		$DynamicDaylight.color.a = daylight_intensity
+
+func _on_dialog_trigger_entered(body):
+	if body.is_in_group("Player") and not dialog_started:
+		dialog_started = true
+		Dialogic.start_timeline("ridewithhank")
+
+func _on_meth_lab_entrance_entered(body):
+	if body.is_in_group("Player") and not entering_lab:
+		entering_lab = true
+		get_tree().change_scene_to_file("res://UI/Scenes/MethLab/MethLabGame.tscn")
+		SignalBus.player_entered_meth_lab.emit()

@@ -1,143 +1,79 @@
-[gd_scene load_steps=14 format=3 uid="uid://de3rlyhm5uqv0"]
+[gd_scene load_steps=9 format=3 uid="uid://de3rlyhm5uqv0"]
 
-[ext_resource type="Script" path="res://UI/Scripts/MethLab/MethLabGame.gd" id="1_lun7o"]
+[ext_resource type="Script" uid="uid://lgw258n0t506" path="res://UI/Scripts/MethLab/MethLabGame.gd" id="1_b1uks"]
+[ext_resource type="Texture2D" uid="uid://bfx8anmqwqy21" path="res://assets/early_methaphetamine_batch.png" id="2_yx5kj"]
 
-[ext_resource type="FontFile" uid="uid://bgx8gu7aobui5" path="res://assets/Fonts/pixel_font.ttf" id="3_fcsm0"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uyxm5"]
-bg_color = Color(0.0784314, 0.0784314, 0.0784314, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7rq2g"]
-bg_color = Color(0.101961, 0.101961, 0.101961, 1)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0.254902, 0.254902, 0.254902, 1)
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
-corner_radius_bottom_left = 4
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dqdyl"]
-bg_color = Color(0.0627451, 0.0627451, 0.0627451, 1)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0.254902, 0.254902, 0.254902, 1)
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
-corner_radius_bottom_left = 4
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tpugy"]
-bg_color = Color(0.0627451, 0.0627451, 0.0627451, 1)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ivhrl"]
+bg_color = Color(0.133333, 0.133333, 0.133333, 1)
 border_width_left = 2
 border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
-border_color = Color(0.223529, 0.223529, 0.223529, 1)
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
-corner_radius_bottom_left = 4
+border_color = Color(0.301961, 0.301961, 0.301961, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hpd2h"]
-bg_color = Color(0.0392157, 0.0392157, 0.0392157, 1)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0.254902, 0.254902, 0.254902, 1)
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
-corner_radius_bottom_left = 4
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dkxs5"]
-bg_color = Color(0.0627451, 0.0627451, 0.0627451, 1)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0.254902, 0.254902, 0.254902, 1)
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
-corner_radius_bottom_left = 4
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wnrcj"]
-bg_color = Color(0.0627451, 0.0627451, 0.0627451, 1)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1s5wj"]
+bg_color = Color(0.0588235, 0.513726, 0.133333, 1)
 border_width_left = 2
 border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
-border_color = Color(0.345098, 0.431373, 0.458824, 1)
-corner_radius_top_left = 6
-corner_radius_top_right = 6
-corner_radius_bottom_right = 6
-corner_radius_bottom_left = 6
+border_color = Color(0.0980392, 0.631373, 0.156863, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_43p4i"]
-bg_color = Color(0.286275, 0.286275, 0.286275, 1)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0.223529, 0.223529, 0.223529, 1)
-corner_radius_top_left = 6
-corner_radius_top_right = 6
-corner_radius_bottom_right = 6
-corner_radius_bottom_left = 6
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_35brn"]
-bg_color = Color(0.027451, 0.027451, 0.027451, 1)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fq4p6"]
+bg_color = Color(0.564706, 0.0745098, 0.0745098, 1)
 border_width_left = 2
 border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
-border_color = Color(0.286275, 0.286275, 0.286275, 1)
+border_color = Color(0.756863, 0.211765, 0.211765, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1ihg3"]
+bg_color = Color(0.133333, 0.133333, 0.133333, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.564706, 0.0745098, 0.0745098, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yodl2"]
+bg_color = Color(0.247059, 0.247059, 0.247059, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.392157, 0.392157, 0.392157, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_r7j4g"]
+bg_color = Color(0.188235, 0.188235, 0.188235, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.301961, 0.301961, 0.301961, 1)
 corner_radius_top_left = 10
 corner_radius_top_right = 10
 corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qsduc"]
-bg_color = Color(0.0862745, 0.0862745, 0.0862745, 1)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0.223529, 0.223529, 0.223529, 1)
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
-corner_radius_bottom_left = 4
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uxlav"]
-bg_color = Color(0.54902, 0.54902, 0.54902, 0.188235)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0.223529, 0.223529, 0.223529, 1)
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
-corner_radius_bottom_left = 4
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nvmyb"]
-bg_color = Color(0.027451, 0.027451, 0.027451, 1)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0.223529, 0.223529, 0.223529, 1)
-corner_radius_top_left = 6
-corner_radius_top_right = 6
-corner_radius_bottom_right = 6
-corner_radius_bottom_left = 6
 
 [node name="MethLabGame" type="Control"]
 layout_mode = 3
@@ -146,366 +82,338 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_lun7o")
+script = ExtResource("1_b1uks")
 
-[node name="BGPanel" type="Panel" parent="."]
+[node name="Background" type="ColorRect" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_uyxm5")
+color = Color(0.0705882, 0.0705882, 0.0705882, 1)
 
-[node name="TitleLabel" type="Label" parent="."]
+[node name="LabLayout" type="VBoxContainer" parent="."]
 layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -279.0
-offset_top = 16.0
-offset_right = 279.0
-offset_bottom = 55.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
-theme_override_colors/font_color = Color(0.670588, 0.831373, 0.87451, 1)
-theme_override_colors/font_outline_color = Color(0, 0.611765, 0.827451, 1)
-theme_override_constants/outline_size = 2
+grow_vertical = 2
+theme_override_constants/separation = 20
+
+[node name="TitleBar" type="HBoxContainer" parent="LabLayout"]
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="Title" type="Label" parent="LabLayout/TitleBar"]
+layout_mode = 2
 theme_override_font_sizes/font_size = 28
-text = "CLANDESTINE CHEMISTRY LAB"
+text = "METH LAB"
 horizontal_alignment = 1
 
-[node name="MainContainer" type="HBoxContainer" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 20.0
-offset_top = 60.0
-offset_right = -20.0
-offset_bottom = -20.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="QualityLabel" type="Label" parent="LabLayout/TitleBar"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Quality: 0%"
+
+[node name="ProfitLabel" type="Label" parent="LabLayout/TitleBar"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Profit: $0"
+
+[node name="MainContent" type="HBoxContainer" parent="LabLayout"]
+layout_mode = 2
+size_flags_vertical = 3
 theme_override_constants/separation = 20
 
-[node name="LeftPanel" type="VBoxContainer" parent="MainContainer"]
+[node name="LeftPanel" type="VBoxContainer" parent="LabLayout/MainContent"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_constants/separation = 15
 
-[node name="MethodSelection" type="VBoxContainer" parent="MainContainer/LeftPanel"]
+[node name="ChemicalsPanel" type="PanelContainer" parent="LabLayout/MainContent/LeftPanel"]
 layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_ivhrl")
 
-[node name="MethodLabel" type="Label" parent="MainContainer/LeftPanel/MethodSelection"]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.701961, 0.701961, 0.701961, 1)
-theme_override_font_sizes/font_size = 18
-text = "SYNTHESIS METHOD"
-horizontal_alignment = 1
-
-[node name="MethodContainer" type="HBoxContainer" parent="MainContainer/LeftPanel/MethodSelection"]
+[node name="VBoxContainer" type="VBoxContainer" parent="LabLayout/MainContent/LeftPanel/ChemicalsPanel"]
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="P2PButton" type="Button" parent="MainContainer/LeftPanel/MethodSelection"]
+[node name="Label" type="Label" parent="LabLayout/MainContent/LeftPanel/ChemicalsPanel/VBoxContainer"]
 layout_mode = 2
-focus_mode = 0
-theme_override_font_sizes/font_size = 16
-theme_override_styles/normal = SubResource("StyleBoxFlat_7rq2g")
-theme_override_styles/hover = SubResource("StyleBoxFlat_dqdyl")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_tpugy")
-text = "P2P METHOD"
-
-[node name="NagaiButton" type="Button" parent="MainContainer/LeftPanel/MethodSelection"]
-layout_mode = 2
-focus_mode = 0
-theme_override_font_sizes/font_size = 16
-theme_override_styles/normal = SubResource("StyleBoxFlat_7rq2g")
-theme_override_styles/hover = SubResource("StyleBoxFlat_hpd2h")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_dkxs5")
-text = "RED PHOSPHORUS METHOD"
-
-[node name="BirchButton" type="Button" parent="MainContainer/LeftPanel/MethodSelection"]
-layout_mode = 2
-focus_mode = 0
-theme_override_font_sizes/font_size = 16
-theme_override_styles/normal = SubResource("StyleBoxFlat_7rq2g")
-theme_override_styles/hover = SubResource("StyleBoxFlat_dqdyl")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_dkxs5")
-text = "BIRCH REDUCTION"
-
-[node name="HSeparator" type="HSeparator" parent="MainContainer/LeftPanel"]
-layout_mode = 2
-theme_override_constants/separation = 20
-
-[node name="ChemicalListLabel" type="Label" parent="MainContainer/LeftPanel"]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.701961, 0.701961, 0.701961, 1)
-theme_override_font_sizes/font_size = 18
-text = "CURRENT CONTENTS"
+text = "CHEMICALS"
 horizontal_alignment = 1
 
-[node name="ChemicalList" type="Label" parent="MainContainer/LeftPanel"]
+[node name="ChemicalButtons" type="VBoxContainer" parent="LabLayout/MainContent/LeftPanel/ChemicalsPanel/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_colors/font_color = Color(0.862745, 0.862745, 0.862745, 1)
-theme_override_font_sizes/font_size = 16
-theme_override_styles/normal = SubResource("StyleBoxFlat_wnrcj")
-text = "No chemicals added."
-horizontal_alignment = 1
-vertical_alignment = 1
-autowrap_mode = 3
+theme_override_constants/separation = 10
 
-[node name="HSeparator2" type="HSeparator" parent="MainContainer/LeftPanel"]
+[node name="PseudoephedrineButton" type="Button" parent="LabLayout/MainContent/LeftPanel/ChemicalsPanel/VBoxContainer/ChemicalButtons"]
 layout_mode = 2
-theme_override_constants/separation = 20
+text = "Add Pseudoephedrine"
 
-[node name="ChemicalsLabel" type="Label" parent="MainContainer/LeftPanel"]
+[node name="PhosphorusButton" type="Button" parent="LabLayout/MainContent/LeftPanel/ChemicalsPanel/VBoxContainer/ChemicalButtons"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.701961, 0.701961, 0.701961, 1)
-theme_override_font_sizes/font_size = 18
-text = "AVAILABLE CHEMICALS"
-horizontal_alignment = 1
+text = "Add Red Phosphorus"
 
-[node name="ChemicalsContainer" type="GridContainer" parent="MainContainer/LeftPanel"]
+[node name="IodineButton" type="Button" parent="LabLayout/MainContent/LeftPanel/ChemicalsPanel/VBoxContainer/ChemicalButtons"]
+layout_mode = 2
+text = "Add Iodine"
+
+[node name="MethylamineButton" type="Button" parent="LabLayout/MainContent/LeftPanel/ChemicalsPanel/VBoxContainer/ChemicalButtons"]
+layout_mode = 2
+text = "Add Methylamine"
+
+[node name="AluminumButton" type="Button" parent="LabLayout/MainContent/LeftPanel/ChemicalsPanel/VBoxContainer/ChemicalButtons"]
+layout_mode = 2
+text = "Add Aluminum"
+
+[node name="EquipmentPanel" type="PanelContainer" parent="LabLayout/MainContent/LeftPanel"]
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_constants/h_separation = 10
-theme_override_constants/v_separation = 10
-columns = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ivhrl")
 
-[node name="MethylamineButton" type="Button" parent="MainContainer/LeftPanel/ChemicalsContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-focus_mode = 0
-theme_override_font_sizes/font_size = 16
-theme_override_styles/normal = SubResource("StyleBoxFlat_43p4i")
-text = "Methylamine"
-
-[node name="PhenylaceticAcidButton" type="Button" parent="MainContainer/LeftPanel/ChemicalsContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-focus_mode = 0
-theme_override_font_sizes/font_size = 16
-theme_override_styles/normal = SubResource("StyleBoxFlat_43p4i")
-text = "Phenylacetic Acid"
-
-[node name="PseudoephedrineButton" type="Button" parent="MainContainer/LeftPanel/ChemicalsContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-focus_mode = 0
-theme_override_font_sizes/font_size = 16
-theme_override_styles/normal = SubResource("StyleBoxFlat_43p4i")
-text = "Pseudoephedrine"
-
-[node name="RedPhosphorusButton" type="Button" parent="MainContainer/LeftPanel/ChemicalsContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-focus_mode = 0
-theme_override_font_sizes/font_size = 16
-theme_override_styles/normal = SubResource("StyleBoxFlat_43p4i")
-text = "Red Phosphorus"
-
-[node name="IodineButton" type="Button" parent="MainContainer/LeftPanel/ChemicalsContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-focus_mode = 0
-theme_override_font_sizes/font_size = 16
-theme_override_styles/normal = SubResource("StyleBoxFlat_43p4i")
-text = "Iodine"
-
-[node name="LithiumButton" type="Button" parent="MainContainer/LeftPanel/ChemicalsContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-focus_mode = 0
-theme_override_font_sizes/font_size = 16
-theme_override_styles/normal = SubResource("StyleBoxFlat_43p4i")
-text = "Lithium"
-
-[node name="SodiumButton" type="Button" parent="MainContainer/LeftPanel/ChemicalsContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-focus_mode = 0
-theme_override_font_sizes/font_size = 16
-theme_override_styles/normal = SubResource("StyleBoxFlat_43p4i")
-text = "Sodium"
-
-[node name="AluminumButton" type="Button" parent="MainContainer/LeftPanel/ChemicalsContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-focus_mode = 0
-theme_override_font_sizes/font_size = 16
-theme_override_styles/normal = SubResource("StyleBoxFlat_43p4i")
-text = "Aluminum"
-
-[node name="ThoriumNitrateButton" type="Button" parent="MainContainer/LeftPanel/ChemicalsContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-focus_mode = 0
-theme_override_font_sizes/font_size = 16
-theme_override_styles/normal = SubResource("StyleBoxFlat_43p4i")
-text = "Thorium Nitrate"
-
-[node name="HydriodicAcidButton" type="Button" parent="MainContainer/LeftPanel/ChemicalsContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-focus_mode = 0
-theme_override_font_sizes/font_size = 16
-theme_override_styles/normal = SubResource("StyleBoxFlat_43p4i")
-text = "Hydriodic Acid"
-
-[node name="AnhydrousAmmoniaButton" type="Button" parent="MainContainer/LeftPanel/ChemicalsContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-focus_mode = 0
-theme_override_font_sizes/font_size = 16
-theme_override_styles/normal = SubResource("StyleBoxFlat_43p4i")
-text = "Anhydrous Ammonia"
-
-[node name="RightPanel" type="VBoxContainer" parent="MainContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="HeatControl" type="VBoxContainer" parent="MainContainer/RightPanel"]
-layout_mode = 2
-
-[node name="HeatLabel" type="Label" parent="MainContainer/RightPanel/HeatControl"]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.701961, 0.701961, 0.701961, 1)
-theme_override_font_sizes/font_size = 18
-text = "TEMPERATURE CONTROL"
-horizontal_alignment = 1
-
-[node name="HeatSlider" type="HSlider" parent="MainContainer/RightPanel/HeatControl"]
-layout_mode = 2
-focus_mode = 0
-min_value = 50.0
-max_value = 250.0
-value = 100.0
-rounded = true
-
-[node name="HeatValue" type="Label" parent="MainContainer/RightPanel/HeatControl"]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.862745, 0.862745, 0.862745, 1)
-theme_override_font_sizes/font_size = 16
-text = "100°C"
-horizontal_alignment = 1
-
-[node name="HSeparator" type="HSeparator" parent="MainContainer/RightPanel"]
-layout_mode = 2
-theme_override_constants/separation = 20
-
-[node name="BeakerLabel" type="Label" parent="MainContainer/RightPanel"]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.701961, 0.701961, 0.701961, 1)
-theme_override_font_sizes/font_size = 18
-text = "REACTION VESSEL"
-horizontal_alignment = 1
-
-[node name="MixingBeaker" type="Panel" parent="MainContainer/RightPanel"]
-custom_minimum_size = Vector2(0, 180)
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_35brn")
-
-[node name="PurityLabel" type="Label" parent="MainContainer/RightPanel"]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.862745, 0.862745, 0.862745, 1)
-theme_override_font_sizes/font_size = 18
-text = "Purity: --"
-horizontal_alignment = 1
-
-[node name="HSeparator2" type="HSeparator" parent="MainContainer/RightPanel"]
-layout_mode = 2
-theme_override_constants/separation = 20
-
-[node name="ActionButtons" type="HBoxContainer" parent="MainContainer/RightPanel"]
+[node name="VBoxContainer" type="VBoxContainer" parent="LabLayout/MainContent/LeftPanel/EquipmentPanel"]
 layout_mode = 2
 theme_override_constants/separation = 10
+
+[node name="Label" type="Label" parent="LabLayout/MainContent/LeftPanel/EquipmentPanel/VBoxContainer"]
+layout_mode = 2
+text = "EQUIPMENT"
+horizontal_alignment = 1
+
+[node name="EquipmentButtons" type="VBoxContainer" parent="LabLayout/MainContent/LeftPanel/EquipmentPanel/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 10
+
+[node name="BeakerButton" type="Button" parent="LabLayout/MainContent/LeftPanel/EquipmentPanel/VBoxContainer/EquipmentButtons"]
+layout_mode = 2
+text = "Use Beaker"
+
+[node name="HotPlateButton" type="Button" parent="LabLayout/MainContent/LeftPanel/EquipmentPanel/VBoxContainer/EquipmentButtons"]
+layout_mode = 2
+text = "Adjust Hot Plate"
+
+[node name="FilterButton" type="Button" parent="LabLayout/MainContent/LeftPanel/EquipmentPanel/VBoxContainer/EquipmentButtons"]
+layout_mode = 2
+text = "Use Filter"
+
+[node name="CentrifugeButton" type="Button" parent="LabLayout/MainContent/LeftPanel/EquipmentPanel/VBoxContainer/EquipmentButtons"]
+layout_mode = 2
+text = "Use Centrifuge"
+
+[node name="MidPanel" type="VBoxContainer" parent="LabLayout/MainContent"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 1.5
+theme_override_constants/separation = 15
+
+[node name="ReactionPanel" type="PanelContainer" parent="LabLayout/MainContent/MidPanel"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 2.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_ivhrl")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="LabLayout/MainContent/MidPanel/ReactionPanel"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Label" type="Label" parent="LabLayout/MainContent/MidPanel/ReactionPanel/VBoxContainer"]
+layout_mode = 2
+text = "REACTION"
+horizontal_alignment = 1
+
+[node name="ReactionContainer" type="CenterContainer" parent="LabLayout/MainContent/MidPanel/ReactionPanel/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ReactionDisplay" type="TextureRect" parent="LabLayout/MainContent/MidPanel/ReactionPanel/VBoxContainer/ReactionContainer"]
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 2
+texture = ExtResource("2_yx5kj")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="ControlsPanel" type="PanelContainer" parent="LabLayout/MainContent/MidPanel"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_ivhrl")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="LabLayout/MainContent/MidPanel/ControlsPanel"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Label" type="Label" parent="LabLayout/MainContent/MidPanel/ControlsPanel/VBoxContainer"]
+layout_mode = 2
+text = "CONTROLS"
+horizontal_alignment = 1
+
+[node name="Controls" type="HBoxContainer" parent="LabLayout/MainContent/MidPanel/ControlsPanel/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 20
 alignment = 1
 
-[node name="MixButton" type="Button" parent="MainContainer/RightPanel/ActionButtons"]
+[node name="StartButton" type="Button" parent="LabLayout/MainContent/MidPanel/ControlsPanel/VBoxContainer/Controls"]
 layout_mode = 2
 size_flags_horizontal = 3
-focus_mode = 0
-theme_override_font_sizes/font_size = 16
-theme_override_styles/normal = SubResource("StyleBoxFlat_qsduc")
-text = "COMBINE"
+theme_override_styles/normal = SubResource("StyleBoxFlat_1s5wj")
+text = "START"
 
-[node name="CookButton" type="Button" parent="MainContainer/RightPanel/ActionButtons"]
+[node name="StopButton" type="Button" parent="LabLayout/MainContent/MidPanel/ControlsPanel/VBoxContainer/Controls"]
 layout_mode = 2
 size_flags_horizontal = 3
-focus_mode = 0
-theme_override_font_sizes/font_size = 16
-theme_override_styles/normal = SubResource("StyleBoxFlat_qsduc")
-text = "SYNTHESIZE"
+theme_override_styles/hover = SubResource("StyleBoxFlat_fq4p6")
+theme_override_styles/normal = SubResource("StyleBoxFlat_1ihg3")
+text = "STOP"
 
-[node name="ClearButton" type="Button" parent="MainContainer/RightPanel/ActionButtons"]
+[node name="ResetButton" type="Button" parent="LabLayout/MainContent/MidPanel/ControlsPanel/VBoxContainer/Controls"]
 layout_mode = 2
 size_flags_horizontal = 3
-focus_mode = 0
-theme_override_font_sizes/font_size = 16
-theme_override_styles/normal = SubResource("StyleBoxFlat_qsduc")
-text = "CLEAR"
+theme_override_styles/normal = SubResource("StyleBoxFlat_yodl2")
+text = "RESET"
 
-[node name="ConsolePanel" type="VBoxContainer" parent="MainContainer/RightPanel"]
+[node name="RightPanel" type="VBoxContainer" parent="LabLayout/MainContent"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 15
+
+[node name="MetricsPanel" type="PanelContainer" parent="LabLayout/MainContent/RightPanel"]
 layout_mode = 2
 size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_ivhrl")
 
-[node name="ConsoleLabel" type="Label" parent="MainContainer/RightPanel/ConsolePanel"]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.701961, 0.701961, 0.701961, 1)
-theme_override_font_sizes/font_size = 18
-text = "CONSOLE OUTPUT"
-horizontal_alignment = 1
-
-[node name="ConsoleText" type="RichTextLabel" parent="MainContainer/RightPanel/ConsolePanel"]
-layout_mode = 2
-size_flags_vertical = 3
-theme_override_colors/default_color = Color(0.780392, 0.780392, 0.780392, 1)
-theme_override_font_sizes/normal_font_size = 14
-theme_override_styles/normal = SubResource("StyleBoxFlat_uxlav")
-text = "[11:42:35] Welcome to the chemistry lab. Select a synthesis method and add chemicals.
-"
-scroll_following = true
-
-[node name="HSeparator3" type="HSeparator" parent="MainContainer/RightPanel"]
+[node name="VBoxContainer" type="VBoxContainer" parent="LabLayout/MainContent/RightPanel/MetricsPanel"]
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="QuitButton" type="Button" parent="MainContainer/RightPanel"]
+[node name="Label" type="Label" parent="LabLayout/MainContent/RightPanel/MetricsPanel/VBoxContainer"]
 layout_mode = 2
-focus_mode = 0
-theme_override_colors/font_color = Color(0.992157, 0.470588, 0.470588, 1)
-theme_override_font_sizes/font_size = 14
-theme_override_styles/normal = SubResource("StyleBoxFlat_nvmyb")
-text = "EXIT LAB"
+text = "METRICS"
+horizontal_alignment = 1
 
-[node name="NavigationButtons" type="HBoxContainer" parent="."]
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -141.5
-offset_top = -50.0
-offset_right = 141.5
-offset_bottom = -10.0
-grow_horizontal = 2
-grow_vertical = 0
-theme_override_constants/separation = 30
-alignment = 1
-
-[node name="LeftViewButton" type="Button" parent="NavigationButtons"]
+[node name="TemperatureContainer" type="VBoxContainer" parent="LabLayout/MainContent/RightPanel/MetricsPanel/VBoxContainer"]
 layout_mode = 2
-size_flags_horizontal = 3
-focus_mode = 0
-theme_override_font_sizes/font_size = 16
-theme_override_styles/normal = SubResource("StyleBoxFlat_qsduc")
-text = "◀ CHEMICALS"
+theme_override_constants/separation = 5
 
-[node name="RightViewButton" type="Button" parent="NavigationButtons"]
+[node name="Label" type="Label" parent="LabLayout/MainContent/RightPanel/MetricsPanel/VBoxContainer/TemperatureContainer"]
 layout_mode = 2
-size_flags_horizontal = 3
-focus_mode = 0
-theme_override_font_sizes/font_size = 16
-theme_override_styles/normal = SubResource("StyleBoxFlat_qsduc")
-text = "SYNTHESIS ▶"
+text = "Temperature:"
+
+[node name="TemperatureBar" type="ProgressBar" parent="LabLayout/MainContent/RightPanel/MetricsPanel/VBoxContainer/TemperatureContainer"]
+layout_mode = 2
+max_value = 1.0
+value = 0.5
+show_percentage = false
+
+[node name="PurityContainer" type="VBoxContainer" parent="LabLayout/MainContent/RightPanel/MetricsPanel/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="Label" type="Label" parent="LabLayout/MainContent/RightPanel/MetricsPanel/VBoxContainer/PurityContainer"]
+layout_mode = 2
+text = "Purity:"
+
+[node name="PurityBar" type="ProgressBar" parent="LabLayout/MainContent/RightPanel/MetricsPanel/VBoxContainer/PurityContainer"]
+layout_mode = 2
+max_value = 1.0
+value = 0.2
+show_percentage = false
+
+[node name="YieldContainer" type="VBoxContainer" parent="LabLayout/MainContent/RightPanel/MetricsPanel/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="Label" type="Label" parent="LabLayout/MainContent/RightPanel/MetricsPanel/VBoxContainer/YieldContainer"]
+layout_mode = 2
+text = "Yield:"
+
+[node name="YieldBar" type="ProgressBar" parent="LabLayout/MainContent/RightPanel/MetricsPanel/VBoxContainer/YieldContainer"]
+layout_mode = 2
+max_value = 1.0
+value = 0.3
+show_percentage = false
+
+[node name="StabilityContainer" type="VBoxContainer" parent="LabLayout/MainContent/RightPanel/MetricsPanel/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="Label" type="Label" parent="LabLayout/MainContent/RightPanel/MetricsPanel/VBoxContainer/StabilityContainer"]
+layout_mode = 2
+text = "Stability:"
+
+[node name="StabilityBar" type="ProgressBar" parent="LabLayout/MainContent/RightPanel/MetricsPanel/VBoxContainer/StabilityContainer"]
+layout_mode = 2
+max_value = 1.0
+value = 0.8
+show_percentage = false
+
+[node name="RecipePanel" type="PanelContainer" parent="LabLayout/MainContent/RightPanel"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_ivhrl")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="LabLayout/MainContent/RightPanel/RecipePanel"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Label" type="Label" parent="LabLayout/MainContent/RightPanel/RecipePanel/VBoxContainer"]
+layout_mode = 2
+text = "RECIPE NOTES"
+horizontal_alignment = 1
+
+[node name="RecipeText" type="RichTextLabel" parent="LabLayout/MainContent/RightPanel/RecipePanel/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+bbcode_enabled = true
+text = "[color=#aaaaaa]• Keep temperature between 75-85°C
+• Add chemicals in correct order
+• Methylamine is highly reactive
+• Filter solution after heating
+• Stabilize with aluminum when yield > 70%[/color]"
+
+[node name="LogPanel" type="PanelContainer" parent="LabLayout"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.5
+theme_override_styles/panel = SubResource("StyleBoxFlat_r7j4g")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="LabLayout/LogPanel"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Label" type="Label" parent="LabLayout/LogPanel/VBoxContainer"]
+layout_mode = 2
+text = "PROCESS LOG"
+horizontal_alignment = 1
+
+[node name="LogText" type="RichTextLabel" parent="LabLayout/LogPanel/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+bbcode_enabled = true
+text = "[color=#888888]> Meth lab initialized. Ready to begin cooking process.
+> Waiting for user input...[/color]"
+
+[node name="QuitButton" type="Button" parent="LabLayout"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "EXIT METH LAB"
+
+[connection signal="pressed" from="LabLayout/MainContent/LeftPanel/ChemicalsPanel/VBoxContainer/ChemicalButtons/PseudoephedrineButton" to="." method="_on_pseudoephedrine_button_pressed"]
+[connection signal="pressed" from="LabLayout/MainContent/LeftPanel/ChemicalsPanel/VBoxContainer/ChemicalButtons/PhosphorusButton" to="." method="_on_phosphorus_button_pressed"]
+[connection signal="pressed" from="LabLayout/MainContent/LeftPanel/ChemicalsPanel/VBoxContainer/ChemicalButtons/IodineButton" to="." method="_on_iodine_button_pressed"]
+[connection signal="pressed" from="LabLayout/MainContent/LeftPanel/ChemicalsPanel/VBoxContainer/ChemicalButtons/MethylamineButton" to="." method="_on_methylamine_button_pressed"]
+[connection signal="pressed" from="LabLayout/MainContent/LeftPanel/ChemicalsPanel/VBoxContainer/ChemicalButtons/AluminumButton" to="." method="_on_aluminum_button_pressed"]
+[connection signal="pressed" from="LabLayout/MainContent/LeftPanel/EquipmentPanel/VBoxContainer/EquipmentButtons/BeakerButton" to="." method="_on_beaker_button_pressed"]
+[connection signal="pressed" from="LabLayout/MainContent/LeftPanel/EquipmentPanel/VBoxContainer/EquipmentButtons/HotPlateButton" to="." method="_on_hot_plate_button_pressed"]
+[connection signal="pressed" from="LabLayout/MainContent/LeftPanel/EquipmentPanel/VBoxContainer/EquipmentButtons/FilterButton" to="." method="_on_filter_button_pressed"]
+[connection signal="pressed" from="LabLayout/MainContent/LeftPanel/EquipmentPanel/VBoxContainer/EquipmentButtons/CentrifugeButton" to="." method="_on_centrifuge_button_pressed"]
+[connection signal="pressed" from="LabLayout/MainContent/MidPanel/ControlsPanel/VBoxContainer/Controls/StartButton" to="." method="_on_start_button_pressed"]
+[connection signal="pressed" from="LabLayout/MainContent/MidPanel/ControlsPanel/VBoxContainer/Controls/StopButton" to="." method="_on_stop_button_pressed"]
+[connection signal="pressed" from="LabLayout/MainContent/MidPanel/ControlsPanel/VBoxContainer/Controls/ResetButton" to="." method="_on_reset_button_pressed"]
+[connection signal="pressed" from="LabLayout/QuitButton" to="." method="_on_quit_button_pressed"]

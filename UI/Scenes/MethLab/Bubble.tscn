@@ -1,6 +1,8 @@
-[gd_scene format=3]
+[gd_scene load_steps=3 format=3 uid="uid://clhw3a8a8mmvn"]
 
-[node name="root" type="Node2D"]
+[ext_resource type="Script" path="res://UI/Scripts/MethLab/Bubble.gd" id="1_xp4xk"]
 
-[node name="Bubble" type="Node2D" parent="."]
-script = "res://UI/Scripts/MethLab/Bubble.gd"
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_yuu1w"]
+
+[node name="Bubble" type="Node2D" groups=["bubble"]]
+script = ExtResource("1_xp4xk")

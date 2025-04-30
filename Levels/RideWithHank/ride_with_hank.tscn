@@ -803,3 +803,58 @@ flat = true
 icon_alignment = 1
 expand_icon = true
 script = ExtResource("4_b28yg")
+
+[node name="MethLabEntrance" type="Area2D" parent="."]
+position = Vector2(300, -70)
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MethLabEntrance"]
+shape = SubResource("RectangleShape2D_o3bhq")
+
+[node name="InteractPrompt" type="Panel" parent="MethLabEntrance"]
+offset_left = -65.0
+offset_top = -60.0
+offset_right = 65.0
+offset_bottom = -30.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_ghhcw")
+
+[node name="Label" type="Label" parent="MethLabEntrance/InteractPrompt"]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 5.0
+offset_right = 120.0
+offset_bottom = 25.0
+text = "Press E to enter"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="DynamicDaylight" type="ColorRect" parent="."]
+offset_left = -576.0
+offset_top = -324.0
+offset_right = 576.0
+offset_bottom = 324.0
+mouse_filter = 2
+color = Color(0.984314, 0.921569, 0.807843, 0.101961)
+
+[node name="MethBatchPickup" type="Area2D" parent="."]
+position = Vector2(400, -100)
+collision_layer = 0
+collision_mask = 2
+
+[node name="ColorRect" type="ColorRect" parent="MethBatchPickup"]
+offset_left = -30.0
+offset_top = -30.0
+offset_right = 30.0
+offset_bottom = 30.0
+color = Color(0.121569, 0.560784, 0.917647, 0.211765)
+
+[node name="ItemSprite" type="ColorRect" parent="MethBatchPickup"]
+offset_left = -10.0
+offset_top = -10.0
+offset_right = 10.0
+offset_bottom = 10.0
+color = Color(0.4, 0.847059, 0.964706, 0.752941)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MethBatchPickup"]
+shape = SubResource("RectangleShape2D_q25bq")
