@@ -141,7 +141,7 @@ func setup_chemical_buttons():
 		$LabLayout/MainContent/LeftPanel/ChemicalsPanel/VBoxContainer/ChemicalButtons/AluminumButton
 	]
 	
-	# Chemical icons and colors
+	# Chemical icons and colors - using more distinct textures for different chemicals
 	var chemical_icons = {
 		"Pseudoephedrine": preload("res://assets/early_methaphetamine_batch.png"),
 		"Red Phosphorus": preload("res://assets/early_methaphetamine_batch.png"),
@@ -152,13 +152,18 @@ func setup_chemical_buttons():
 	
 	for button in chemical_buttons:
 		if button:
+			# Style the button
+			button.add_theme_stylebox_override("normal", create_button_style(get_chemical_color(button.text.replace("Add ", ""))))
+			button.add_theme_stylebox_override("hover", create_button_style(get_chemical_color(button.text.replace("Add ", "")).lightened(0.2)))
+			button.add_theme_stylebox_override("pressed", create_button_style(get_chemical_color(button.text.replace("Add ", "")).darkened(0.2)))
+			
 			# Add icon to button
 			var chemical_name = button.text.replace("Add ", "")
 			var icon = TextureRect.new()
 			icon.texture = chemical_icons[chemical_name]
 			icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 			icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-			icon.custom_minimum_size = Vector2(30, 30)
+			icon.custom_minimum_size = Vector2(32, 32)
 			
 			# Create horizontal container for icon and text
 			var hbox = HBoxContainer.new()
@@ -170,6 +175,7 @@ func setup_chemical_buttons():
 			# Add label for chemical name
 			var label = Label.new()
 			label.text = chemical_name
+			label.add_theme_font_size_override("font_size", 16)
 			hbox.add_child(label)
 			
 			# Set button text to empty since we're using our custom layout
@@ -178,6 +184,7 @@ func setup_chemical_buttons():
 			# Center the container
 			hbox.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 			hbox.alignment = BoxContainer.ALIGNMENT_CENTER
+			hbox.add_theme_constant_override("separation", 10)
 			
 			# Connect signals
 			button.gui_input.connect(_on_chemical_gui_input.bind(button))
@@ -206,7 +213,7 @@ func _on_chemical_gui_input(event, chemical_button):
 				chemical_name = child.text
 				break
 	
-	if chemical_name.empty():
+	if chemical_name == "":
 		return
 	
 	if event is InputEventMouseButton:
@@ -229,8 +236,8 @@ func _on_chemical_gui_input(event, chemical_button):
 
 func create_drag_ghost(source_button):
 	drag_ghost = ColorRect.new()
-	drag_ghost.size = Vector2(60, 30)
-	drag_ghost.color = Color(0.2, 0.6, 0.9, 0.7)
+	drag_ghost.size = Vector2(120, 40)
+	drag_ghost.color = Color(0.15, 0.15, 0.15, 0.9)
 	drag_ghost.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	
 	# Get chemical name from button
@@ -242,13 +249,15 @@ func create_drag_ghost(source_button):
 				chemical_name = child.text
 				break
 	
-	if chemical_name.empty():
+	if chemical_name == "":
 		return
 	
 	# Create container for icon and text
 	var hbox = HBoxContainer.new()
 	hbox.alignment = BoxContainer.ALIGNMENT_CENTER
 	hbox.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	hbox.custom_minimum_size = Vector2(120, 40)
+	hbox.position = Vector2(0, 0)
 	drag_ghost.add_child(hbox)
 	
 	# Get icon texture
@@ -266,7 +275,7 @@ func create_drag_ghost(source_button):
 		icon.texture = icon_texture
 		icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 		icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-		icon.custom_minimum_size = Vector2(20, 20)
+		icon.custom_minimum_size = Vector2(30, 30)
 		icon.modulate = get_chemical_color(chemical_name)
 		hbox.add_child(icon)
 	
@@ -274,6 +283,7 @@ func create_drag_ghost(source_button):
 	var label = Label.new()
 	label.text = chemical_name
 	label.add_theme_color_override("font_color", COLOR_TEXT)
+	label.add_theme_font_size_override("font_size", 14)
 	hbox.add_child(label)
 	
 	add_child(drag_ghost)
@@ -334,7 +344,7 @@ func get_chemical_color(chemical_name):
 	match chemical_name:
 		"Pseudoephedrine": return Color(0.9, 0.2, 0.2)
 		"Red Phosphorus": return Color(0.8, 0.0, 0.0)
-		"Iodine": return Color(0.6, 0.3, 0.6)
+		"Iodine": return Color(0.6, 0.3, 0.7)
 		"Methylamine": return Color(0.2, 0.5, 0.9)
 		"Aluminum": return Color(0.7, 0.7, 0.8)
 		_: return Color(0.5, 0.5, 0.5)
@@ -344,7 +354,7 @@ func flash_beaker_color(color):
 		return
 		
 	var flash = ColorRect.new()
-	flash.color = color.lightened(0.5)
+	flash.color = color.lightened(0.3)
 	flash.color.a = 0.7
 	flash.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	flash.size = beaker.size
@@ -357,7 +367,7 @@ func flash_beaker_color(color):
 
 func update_recipe_display():
 	if recipe_text:
-		var text = "[color=#aaaaaa]Correct recipe order:[/color]\n"
+		var text = "[font_size=18][color=#aaaaaa]CORRECT RECIPE ORDER:[/color][/font_size]\n\n"
 		
 		for i in range(correct_recipe.size()):
 			var chemical = correct_recipe[i]
@@ -366,11 +376,11 @@ func update_recipe_display():
 			
 			if i < chemicals_in_beaker.size():
 				if chemicals_in_beaker[i] == chemical:
-					checked = " [color=#34C759]✓[/color]"
+					checked = " [color=#34C759][font_size=16]✓[/font_size][/color]"
 				else:
-					checked = " [color=#FF3B30]✗[/color]"
+					checked = " [color=#FF3B30][font_size=16]✗[/font_size][/color]"
 			
-			text += "\n[color=#" + color_hex + "]■[/color] [color=#aaaaaa]" + str(i+1) + ". " + chemical + checked + "[/color]"
+			text += "[color=#" + color_hex + "]■[/color] [color=#dddddd][font_size=16]" + str(i+1) + ". " + chemical + checked + "[/font_size][/color]\n"
 		
 		recipe_text.text = text
 
@@ -698,3 +708,17 @@ func _on_next_level_button_pressed():
 	setup_game()
 	log_message("Starting difficulty level " + str(difficulty_level))
 	timer_running = true
+
+func create_button_style(color):
+	var style = StyleBoxFlat.new()
+	style.bg_color = Color(0.15, 0.15, 0.15, 1.0)
+	style.border_width_left = 2
+	style.border_width_top = 2
+	style.border_width_right = 2
+	style.border_width_bottom = 2
+	style.border_color = color
+	style.corner_radius_top_left = 6
+	style.corner_radius_top_right = 6
+	style.corner_radius_bottom_left = 6
+	style.corner_radius_bottom_right = 6
+	return style
