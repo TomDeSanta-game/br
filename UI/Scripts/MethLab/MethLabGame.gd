@@ -215,7 +215,7 @@ func _on_chemical_gui_input(event, chemical_button):
 	
 	if chemical_name == "":
 		return
-	
+		
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT:
 			if event.pressed:
@@ -294,7 +294,7 @@ func create_drag_ghost(source_button):
 func update_drag_position(position):
 	if not drag_ghost:
 		return
-		
+	
 	drag_ghost.global_position = position - drag_ghost.size / 2
 	
 	# Check if we're over the beaker
@@ -352,7 +352,7 @@ func get_chemical_color(chemical_name):
 func flash_beaker_color(color):
 	if not beaker:
 		return
-		
+	
 	var flash = ColorRect.new()
 	flash.color = color.lightened(0.3)
 	flash.color.a = 0.7
@@ -447,7 +447,7 @@ func check_recipe():
 		log_message("Mixed results. The product is mediocre quality.")
 		log_message("Score: " + str(score) + " (Profit: $" + str(profit) + " + Time Bonus: " + str(time_bonus) + " x" + str(combo_multiplier) + " Combo)")
 		show_partial_success_animation()
-	else:
+		else:
 		log_message("FAILURE! The chemicals were mixed incorrectly.")
 		show_failure_animation()
 	
@@ -577,7 +577,7 @@ func spawn_crystals(count):
 		
 		if beaker:
 			crystal.position = beaker.global_position + Vector2(randf_range(0, beaker.size.x), beaker.size.y / 2)
-		else:
+	else:
 			crystal.position = Vector2(size.x / 2, size.y / 2)
 			
 		add_child(crystal)
@@ -637,7 +637,7 @@ func update_timer_display():
 			timer_label.add_theme_color_override("font_color", COLOR_ERROR)
 		elif time_remaining <= 30:
 			timer_label.add_theme_color_override("font_color", COLOR_WARNING)
-		else:
+			else:
 			timer_label.add_theme_color_override("font_color", COLOR_TEXT)
 
 func update_combo_display():
