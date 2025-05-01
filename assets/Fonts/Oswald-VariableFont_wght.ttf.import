@@ -2,13 +2,13 @@
 
 importer="font_data_dynamic"
 type="FontFile"
-uid="uid://d4i63hmnuy55s"
-path="res://.godot/imported/Oswald-Regular.ttf-c92523d55ee0e0cc857157e49dd5161a.fontdata"
+uid="uid://cghuom2cv6qdm"
+path="res://.godot/imported/Oswald-VariableFont_wght.ttf-bc1a5c5234eef1eb8948069403f9fbeb.fontdata"
 
 [deps]
 
-source_file="res://assets/Fonts/Oswald-Regular.ttf"
-dest_files=["res://.godot/imported/Oswald-Regular.ttf-c92523d55ee0e0cc857157e49dd5161a.fontdata"]
+source_file="res://assets/Fonts/Oswald-VariableFont_wght.ttf"
+dest_files=["res://.godot/imported/Oswald-VariableFont_wght.ttf-bc1a5c5234eef1eb8948069403f9fbeb.fontdata"]
 
 [params]
 

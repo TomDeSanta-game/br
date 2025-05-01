@@ -1,0 +1,564 @@
+[gd_scene load_steps=14 format=3 uid="uid://de3rlyhm5uqv0"]
+
+[ext_resource type="Script" uid="uid://lgw258n0t506" path="res://UI/Scripts/MethLab/MethLabGame.gd" id="1_b1uks"]
+[ext_resource type="Texture2D" uid="uid://bfx8anmqwqy21" path="res://assets/early_methaphetamine_batch.png" id="2_yx5kj"]
+[ext_resource type="FontFile" uid="uid://d4i63hmnuy55s" path="res://assets/Fonts/Oswald-Regular.ttf" id="3_e1sqx"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ivhrl"]
+bg_color = Color(0.0705882, 0.0705882, 0.0705882, 0.94902)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.444, 0.444, 0.444, 0.6)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+shadow_color = Color(0, 0, 0, 0.25098)
+shadow_size = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1s5wj"]
+bg_color = Color(0.222, 0.222, 0.222, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.444, 0.444, 0.444, 0.6)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q87iu"]
+bg_color = Color(0.0901961, 0.0901961, 0.0901961, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.444, 0.444, 0.444, 0.6)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1ihg3"]
+bg_color = Color(0.222, 0.222, 0.222, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.444, 0.444, 0.444, 0.6)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fq4p6"]
+bg_color = Color(0.121569, 0.121569, 0.121569, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.444, 0.444, 0.444, 0.6)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i31xs"]
+bg_color = Color(0.222, 0.222, 0.222, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.4, 0.4, 0.4, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yodl2"]
+bg_color = Color(0.117647, 0.117647, 0.117647, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.4, 0.4, 0.4, 0.6)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dyt8x"]
+bg_color = Color(0.444, 0.444, 0.444, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5bjrg"]
+bg_color = Color(0.444, 0.444, 0.444, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_r7j4g"]
+bg_color = Color(0.0705882, 0.0705882, 0.0705882, 0.94902)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.444, 0.444, 0.444, 0.6)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+shadow_color = Color(0, 0, 0, 0.25098)
+shadow_size = 2
+
+[node name="MethLabGame" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_b1uks")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.0392157, 0.0431373, 0.0509804, 1)
+
+[node name="MainContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MainContainer"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="HeaderBar" type="HBoxContainer" parent="MainContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="MainContainer/VBoxContainer/HeaderBar"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = ExtResource("3_e1sqx")
+theme_override_font_sizes/font_size = 32
+text = "HEISENBERG'S LAB"
+vertical_alignment = 1
+
+[node name="QualityLabel" type="Label" parent="MainContainer/VBoxContainer/HeaderBar"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = ExtResource("3_e1sqx")
+theme_override_font_sizes/font_size = 18
+text = "Quality: 0%"
+vertical_alignment = 1
+
+[node name="ProfitLabel" type="Label" parent="MainContainer/VBoxContainer/HeaderBar"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = ExtResource("3_e1sqx")
+theme_override_font_sizes/font_size = 18
+text = "Profit: $0"
+vertical_alignment = 1
+
+[node name="ScoreLabel" type="Label" parent="MainContainer/VBoxContainer/HeaderBar"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = ExtResource("3_e1sqx")
+theme_override_font_sizes/font_size = 18
+text = "Score: 0"
+vertical_alignment = 1
+
+[node name="ComboLabel" type="Label" parent="MainContainer/VBoxContainer/HeaderBar"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = ExtResource("3_e1sqx")
+theme_override_font_sizes/font_size = 18
+text = "Combo: x1.0"
+vertical_alignment = 1
+
+[node name="TimerLabel" type="Label" parent="MainContainer/VBoxContainer/HeaderBar"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = ExtResource("3_e1sqx")
+theme_override_font_sizes/font_size = 18
+text = "Time: 1:30"
+vertical_alignment = 1
+
+[node name="ContentContainer" type="HBoxContainer" parent="MainContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 16
+
+[node name="LeftColumn" type="VBoxContainer" parent="MainContainer/VBoxContainer/ContentContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 12
+
+[node name="ChemicalsPanel" type="PanelContainer" parent="MainContainer/VBoxContainer/ContentContainer/LeftColumn"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_ivhrl")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MainContainer/VBoxContainer/ContentContainer/LeftColumn/ChemicalsPanel"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="PanelTitle" type="Label" parent="MainContainer/VBoxContainer/ContentContainer/LeftColumn/ChemicalsPanel/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
+theme_override_font_sizes/font_size = 18
+text = "CHEMICALS"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="MainContainer/VBoxContainer/ContentContainer/LeftColumn/ChemicalsPanel/VBoxContainer"]
+layout_mode = 2
+
+[node name="ChemicalButtons" type="VBoxContainer" parent="MainContainer/VBoxContainer/ContentContainer/LeftColumn/ChemicalsPanel/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 8
+
+[node name="Pseudoephedrine" type="Button" parent="MainContainer/VBoxContainer/ContentContainer/LeftColumn/ChemicalsPanel/VBoxContainer/ChemicalButtons"]
+layout_mode = 2
+theme_override_styles/hover = SubResource("StyleBoxFlat_1s5wj")
+theme_override_styles/normal = SubResource("StyleBoxFlat_q87iu")
+text = "Pseudoephedrine"
+alignment = 0
+
+[node name="RedPhosphorus" type="Button" parent="MainContainer/VBoxContainer/ContentContainer/LeftColumn/ChemicalsPanel/VBoxContainer/ChemicalButtons"]
+layout_mode = 2
+theme_override_styles/hover = SubResource("StyleBoxFlat_1s5wj")
+theme_override_styles/normal = SubResource("StyleBoxFlat_q87iu")
+text = "Red Phosphorus"
+alignment = 0
+
+[node name="Iodine" type="Button" parent="MainContainer/VBoxContainer/ContentContainer/LeftColumn/ChemicalsPanel/VBoxContainer/ChemicalButtons"]
+layout_mode = 2
+theme_override_styles/hover = SubResource("StyleBoxFlat_1s5wj")
+theme_override_styles/normal = SubResource("StyleBoxFlat_q87iu")
+text = "Iodine"
+alignment = 0
+
+[node name="Methylamine" type="Button" parent="MainContainer/VBoxContainer/ContentContainer/LeftColumn/ChemicalsPanel/VBoxContainer/ChemicalButtons"]
+layout_mode = 2
+theme_override_styles/hover = SubResource("StyleBoxFlat_1s5wj")
+theme_override_styles/normal = SubResource("StyleBoxFlat_q87iu")
+text = "Methylamine"
+alignment = 0
+
+[node name="Aluminum" type="Button" parent="MainContainer/VBoxContainer/ContentContainer/LeftColumn/ChemicalsPanel/VBoxContainer/ChemicalButtons"]
+layout_mode = 2
+theme_override_styles/hover = SubResource("StyleBoxFlat_1s5wj")
+theme_override_styles/normal = SubResource("StyleBoxFlat_q87iu")
+text = "Aluminum"
+alignment = 0
+
+[node name="EquipmentPanel" type="PanelContainer" parent="MainContainer/VBoxContainer/ContentContainer/LeftColumn"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ivhrl")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MainContainer/VBoxContainer/ContentContainer/LeftColumn/EquipmentPanel"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="PanelTitle" type="Label" parent="MainContainer/VBoxContainer/ContentContainer/LeftColumn/EquipmentPanel/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
+theme_override_font_sizes/font_size = 18
+text = "EQUIPMENT"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="MainContainer/VBoxContainer/ContentContainer/LeftColumn/EquipmentPanel/VBoxContainer"]
+layout_mode = 2
+
+[node name="EquipmentButtons" type="VBoxContainer" parent="MainContainer/VBoxContainer/ContentContainer/LeftColumn/EquipmentPanel/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="HeatButton" type="Button" parent="MainContainer/VBoxContainer/ContentContainer/LeftColumn/EquipmentPanel/VBoxContainer/EquipmentButtons"]
+layout_mode = 2
+theme_override_styles/hover = SubResource("StyleBoxFlat_1ihg3")
+theme_override_styles/normal = SubResource("StyleBoxFlat_fq4p6")
+text = "Control Heat"
+
+[node name="StirButton" type="Button" parent="MainContainer/VBoxContainer/ContentContainer/LeftColumn/EquipmentPanel/VBoxContainer/EquipmentButtons"]
+layout_mode = 2
+theme_override_styles/hover = SubResource("StyleBoxFlat_i31xs")
+theme_override_styles/normal = SubResource("StyleBoxFlat_yodl2")
+text = "Stir Mixture"
+
+[node name="CenterColumn" type="VBoxContainer" parent="MainContainer/VBoxContainer/ContentContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 1.5
+theme_override_constants/separation = 12
+
+[node name="ReactionPanel" type="PanelContainer" parent="MainContainer/VBoxContainer/ContentContainer/CenterColumn"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 3.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_ivhrl")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MainContainer/VBoxContainer/ContentContainer/CenterColumn/ReactionPanel"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="PanelTitle" type="Label" parent="MainContainer/VBoxContainer/ContentContainer/CenterColumn/ReactionPanel/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
+theme_override_font_sizes/font_size = 18
+text = "REACTION"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="MainContainer/VBoxContainer/ContentContainer/CenterColumn/ReactionPanel/VBoxContainer"]
+layout_mode = 2
+
+[node name="ReactionContainer" type="CenterContainer" parent="MainContainer/VBoxContainer/ContentContainer/CenterColumn/ReactionPanel/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ReactionDisplay" type="TextureRect" parent="MainContainer/VBoxContainer/ContentContainer/CenterColumn/ReactionPanel/VBoxContainer/ReactionContainer"]
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 2
+texture = ExtResource("2_yx5kj")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="StatusPanel" type="PanelContainer" parent="MainContainer/VBoxContainer/ContentContainer/CenterColumn"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ivhrl")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MainContainer/VBoxContainer/ContentContainer/CenterColumn/StatusPanel"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="PanelTitle" type="Label" parent="MainContainer/VBoxContainer/ContentContainer/CenterColumn/StatusPanel/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
+theme_override_font_sizes/font_size = 18
+text = "STATUS"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="MainContainer/VBoxContainer/ContentContainer/CenterColumn/StatusPanel/VBoxContainer"]
+layout_mode = 2
+
+[node name="StatusGrid" type="GridContainer" parent="MainContainer/VBoxContainer/ContentContainer/CenterColumn/StatusPanel/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/h_separation = 12
+theme_override_constants/v_separation = 8
+columns = 2
+
+[node name="QualityLabel" type="Label" parent="MainContainer/VBoxContainer/ContentContainer/CenterColumn/StatusPanel/VBoxContainer/StatusGrid"]
+layout_mode = 2
+text = "Quality:"
+
+[node name="QualityValue" type="Label" parent="MainContainer/VBoxContainer/ContentContainer/CenterColumn/StatusPanel/VBoxContainer/StatusGrid"]
+layout_mode = 2
+text = "0%"
+
+[node name="ProfitLabel" type="Label" parent="MainContainer/VBoxContainer/ContentContainer/CenterColumn/StatusPanel/VBoxContainer/StatusGrid"]
+layout_mode = 2
+text = "Profit:"
+
+[node name="ProfitValue" type="Label" parent="MainContainer/VBoxContainer/ContentContainer/CenterColumn/StatusPanel/VBoxContainer/StatusGrid"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
+text = "$0"
+
+[node name="ScoreLabel" type="Label" parent="MainContainer/VBoxContainer/ContentContainer/CenterColumn/StatusPanel/VBoxContainer/StatusGrid"]
+layout_mode = 2
+text = "Score:"
+
+[node name="ScoreValue" type="Label" parent="MainContainer/VBoxContainer/ContentContainer/CenterColumn/StatusPanel/VBoxContainer/StatusGrid"]
+layout_mode = 2
+text = "0"
+
+[node name="ComboLabel" type="Label" parent="MainContainer/VBoxContainer/ContentContainer/CenterColumn/StatusPanel/VBoxContainer/StatusGrid"]
+layout_mode = 2
+text = "Combo:"
+
+[node name="ComboValue" type="Label" parent="MainContainer/VBoxContainer/ContentContainer/CenterColumn/StatusPanel/VBoxContainer/StatusGrid"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
+text = "x1.0"
+
+[node name="RightColumn" type="VBoxContainer" parent="MainContainer/VBoxContainer/ContentContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 12
+
+[node name="MetricsPanel" type="PanelContainer" parent="MainContainer/VBoxContainer/ContentContainer/RightColumn"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_ivhrl")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MainContainer/VBoxContainer/ContentContainer/RightColumn/MetricsPanel"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="PanelTitle" type="Label" parent="MainContainer/VBoxContainer/ContentContainer/RightColumn/MetricsPanel/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
+theme_override_font_sizes/font_size = 18
+text = "PARAMETERS"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="MainContainer/VBoxContainer/ContentContainer/RightColumn/MetricsPanel/VBoxContainer"]
+layout_mode = 2
+
+[node name="TemperatureContainer" type="VBoxContainer" parent="MainContainer/VBoxContainer/ContentContainer/RightColumn/MetricsPanel/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="Label" type="Label" parent="MainContainer/VBoxContainer/ContentContainer/RightColumn/MetricsPanel/VBoxContainer/TemperatureContainer"]
+layout_mode = 2
+text = "Temperature"
+
+[node name="TemperatureBar" type="ProgressBar" parent="MainContainer/VBoxContainer/ContentContainer/RightColumn/MetricsPanel/VBoxContainer/TemperatureContainer"]
+layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_q87iu")
+theme_override_styles/fill = SubResource("StyleBoxFlat_dyt8x")
+step = 1.0
+value = 40.0
+
+[node name="PurityContainer" type="VBoxContainer" parent="MainContainer/VBoxContainer/ContentContainer/RightColumn/MetricsPanel/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="Label" type="Label" parent="MainContainer/VBoxContainer/ContentContainer/RightColumn/MetricsPanel/VBoxContainer/PurityContainer"]
+layout_mode = 2
+text = "Purity"
+
+[node name="PurityBar" type="ProgressBar" parent="MainContainer/VBoxContainer/ContentContainer/RightColumn/MetricsPanel/VBoxContainer/PurityContainer"]
+layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_q87iu")
+theme_override_styles/fill = SubResource("StyleBoxFlat_5bjrg")
+value = 60.0
+
+[node name="YieldContainer" type="VBoxContainer" parent="MainContainer/VBoxContainer/ContentContainer/RightColumn/MetricsPanel/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="Label" type="Label" parent="MainContainer/VBoxContainer/ContentContainer/RightColumn/MetricsPanel/VBoxContainer/YieldContainer"]
+layout_mode = 2
+text = "Yield"
+
+[node name="YieldBar" type="ProgressBar" parent="MainContainer/VBoxContainer/ContentContainer/RightColumn/MetricsPanel/VBoxContainer/YieldContainer"]
+layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_q87iu")
+theme_override_styles/fill = SubResource("StyleBoxFlat_5bjrg")
+value = 75.0
+
+[node name="RecipePanel" type="PanelContainer" parent="MainContainer/VBoxContainer/ContentContainer/RightColumn"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_r7j4g")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MainContainer/VBoxContainer/ContentContainer/RightColumn/RecipePanel"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="PanelTitle" type="Label" parent="MainContainer/VBoxContainer/ContentContainer/RightColumn/RecipePanel/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
+theme_override_font_sizes/font_size = 18
+text = "RECIPE"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="MainContainer/VBoxContainer/ContentContainer/RightColumn/RecipePanel/VBoxContainer"]
+layout_mode = 2
+
+[node name="RecipeText" type="RichTextLabel" parent="MainContainer/VBoxContainer/ContentContainer/RightColumn/RecipePanel/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+bbcode_enabled = true
+text = "1. Add [color=#666666]Pseudoephedrine[/color]
+2. Add [color=#666666]Red Phosphorus[/color]
+3. Add [color=#666666]Iodine[/color]
+4. Add [color=#666666]Methylamine[/color] 
+5. Add [color=#666666]Aluminum[/color]"
+
+[node name="LogPanel" type="PanelContainer" parent="MainContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ivhrl")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MainContainer/VBoxContainer/LogPanel"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="PanelTitle" type="Label" parent="MainContainer/VBoxContainer/LogPanel/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
+theme_override_font_sizes/font_size = 18
+text = "LAB LOG"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="MainContainer/VBoxContainer/LogPanel/VBoxContainer"]
+layout_mode = 2
+
+[node name="LogText" type="RichTextLabel" parent="MainContainer/VBoxContainer/LogPanel/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+bbcode_enabled = true
+text = "Welcome to the lab. Add chemicals in the correct order by dragging them to the beaker."
+
+[node name="ControlPanel" type="PanelContainer" parent="MainContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ivhrl")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MainContainer/VBoxContainer/ControlPanel"]
+layout_mode = 2
+theme_override_constants/separation = 16
+alignment = 1
+
+[node name="CompleteButton" type="Button" parent="MainContainer/VBoxContainer/ControlPanel/HBoxContainer"]
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_1s5wj")
+text = "COMPLETE BATCH"
+
+[node name="ResetButton" type="Button" parent="MainContainer/VBoxContainer/ControlPanel/HBoxContainer"]
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_fq4p6")
+text = "RESET"
+
+[node name="QuitButton" type="Button" parent="MainContainer/VBoxContainer/ControlPanel/HBoxContainer"]
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_yodl2")
+text = "QUIT"
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(586, 436)
+zoom = Vector2(0.7, 0.7)

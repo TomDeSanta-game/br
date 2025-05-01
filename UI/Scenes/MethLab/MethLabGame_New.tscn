@@ -1,0 +1,184 @@
+[gd_scene load_steps=6 format=3 uid="uid://dfyaecnnl0s1o"]
+
+[ext_resource type="Script" path="res://UI/Scripts/MethLab/MethLabGameNew.gd" id="1_ueyks"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_l48k2"]
+bg_color = Color(0.176471, 0.180392, 0.203922, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.290196, 0.301961, 0.34902, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+shadow_color = Color(0, 0, 0, 0.12549)
+shadow_size = 4
+shadow_offset = Vector2(0, 2)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cjo1e"]
+bg_color = Color(0.0941176, 0.298039, 0.34902, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.12549, 0.392157, 0.458824, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uqer3"]
+bg_color = Color(0.0627451, 0.14902, 0.196078, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.164706, 0.372549, 0.501961, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yk78o"]
+bg_color = Color(0.0941176, 0.219608, 0.309804, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.145098, 0.321569, 0.45098, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[node name="root" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ueyks")
+
+[node name="BackgroundColor" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.0862745, 0.0901961, 0.105882, 1)
+
+[node name="MainContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MainContainer"]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="HeaderPanel" type="PanelContainer" parent="MainContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_l48k2")
+
+[node name="Label" type="Label" parent="MainContainer/VBoxContainer/HeaderPanel"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.521569, 0.858824, 0.937255, 1)
+theme_override_font_sizes/font_size = 32
+text = "BREAKING BAD: BLUE CRYSTAL LAB"
+horizontal_alignment = 1
+
+[node name="ContentArea" type="HBoxContainer" parent="MainContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 15
+
+[node name="LeftPanel" type="PanelContainer" parent="MainContainer/VBoxContainer/ContentArea"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_cjo1e")
+
+[node name="Equipment" type="VBoxContainer" parent="MainContainer/VBoxContainer/ContentArea/LeftPanel"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Label" type="Label" parent="MainContainer/VBoxContainer/ContentArea/LeftPanel/Equipment"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.847059, 0.945098, 0.964706, 1)
+theme_override_font_sizes/font_size = 20
+text = "LAB EQUIPMENT"
+horizontal_alignment = 1
+
+[node name="CenterPanel" type="PanelContainer" parent="MainContainer/VBoxContainer/ContentArea"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 1.5
+theme_override_styles/panel = SubResource("StyleBoxFlat_uqer3")
+
+[node name="Beaker" type="VBoxContainer" parent="MainContainer/VBoxContainer/ContentArea/CenterPanel"]
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="MainContainer/VBoxContainer/ContentArea/CenterPanel/Beaker"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.847059, 0.945098, 0.964706, 1)
+theme_override_font_sizes/font_size = 20
+text = "REACTION VESSEL"
+horizontal_alignment = 1
+
+[node name="RightPanel" type="PanelContainer" parent="MainContainer/VBoxContainer/ContentArea"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_yk78o")
+
+[node name="Stats" type="VBoxContainer" parent="MainContainer/VBoxContainer/ContentArea/RightPanel"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MainContainer/VBoxContainer/ContentArea/RightPanel/Stats"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.847059, 0.945098, 0.964706, 1)
+theme_override_font_sizes/font_size = 20
+text = "STATISTICS"
+horizontal_alignment = 1
+
+[node name="ControlPanel" type="PanelContainer" parent="MainContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_l48k2")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MainContainer/VBoxContainer/ControlPanel"]
+layout_mode = 2
+alignment = 1
+
+[node name="CompleteButton" type="Button" parent="MainContainer/VBoxContainer/ControlPanel/HBoxContainer"]
+custom_minimum_size = Vector2(180, 40)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.847059, 0.945098, 0.964706, 1)
+theme_override_colors/font_hover_color = Color(0.521569, 0.858824, 0.937255, 1)
+theme_override_font_sizes/font_size = 16
+text = "COMPLETE BATCH"
+
+[node name="ResetButton" type="Button" parent="MainContainer/VBoxContainer/ControlPanel/HBoxContainer"]
+custom_minimum_size = Vector2(100, 40)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.847059, 0.945098, 0.964706, 1)
+theme_override_colors/font_hover_color = Color(0.521569, 0.858824, 0.937255, 1)
+theme_override_font_sizes/font_size = 16
+text = "RESET"
+
+[node name="QuitButton" type="Button" parent="MainContainer/VBoxContainer/ControlPanel/HBoxContainer"]
+custom_minimum_size = Vector2(100, 40)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.847059, 0.945098, 0.964706, 1)
+theme_override_colors/font_hover_color = Color(0.521569, 0.858824, 0.937255, 1)
+theme_override_font_sizes/font_size = 16
+text = "QUIT"

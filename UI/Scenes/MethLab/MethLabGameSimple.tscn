@@ -1,0 +1,167 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://UI/Scripts/MethLab/MethLabGameSimple.gd" id="1_abcde"]
+
+[node name="root" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_abcde")
+
+[node name="BackgroundTexture" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.12549, 0.129412, 0.14902, 1)
+
+[node name="MainContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MainContainer"]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="HeaderPanel" type="PanelContainer" parent="MainContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="MainContainer/VBoxContainer/HeaderPanel"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+text = "BREAKING BAD: BLUE CRYSTAL LAB"
+horizontal_alignment = 1
+
+[node name="ContentContainer" type="HBoxContainer" parent="MainContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 15
+
+[node name="LeftColumn" type="VBoxContainer" parent="MainContainer/VBoxContainer/ContentContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 12
+
+[node name="EquipmentPanel" type="PanelContainer" parent="MainContainer/VBoxContainer/ContentContainer/LeftColumn"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MainContainer/VBoxContainer/ContentContainer/LeftColumn/EquipmentPanel"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Title" type="Label" parent="MainContainer/VBoxContainer/ContentContainer/LeftColumn/EquipmentPanel/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+text = "LAB EQUIPMENT"
+horizontal_alignment = 1
+
+[node name="CenterColumn" type="VBoxContainer" parent="MainContainer/VBoxContainer/ContentContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 1.5
+theme_override_constants/separation = 12
+
+[node name="BeakerPanel" type="PanelContainer" parent="MainContainer/VBoxContainer/ContentContainer/CenterColumn"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="BeakerContainer" type="VBoxContainer" parent="MainContainer/VBoxContainer/ContentContainer/CenterColumn/BeakerPanel"]
+layout_mode = 2
+alignment = 1
+
+[node name="BeakerLabel" type="Label" parent="MainContainer/VBoxContainer/ContentContainer/CenterColumn/BeakerPanel/BeakerContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+text = "REACTION VESSEL"
+horizontal_alignment = 1
+
+[node name="PhaseValue" type="Label" parent="MainContainer/VBoxContainer/ContentContainer/CenterColumn/BeakerPanel/BeakerContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+text = "Phase 1: Mix initial chemicals"
+horizontal_alignment = 1
+
+[node name="Beaker" type="Control" parent="MainContainer/VBoxContainer/ContentContainer/CenterColumn/BeakerPanel/BeakerContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="BeakerOutline" type="Panel" parent="MainContainer/VBoxContainer/ContentContainer/CenterColumn/BeakerPanel/BeakerContainer/Beaker"]
+custom_minimum_size = Vector2(120, 180)
+layout_mode = 2
+offset_left = -60.0
+offset_top = -90.0
+offset_right = 60.0
+offset_bottom = 90.0
+
+[node name="BeakerLiquid" type="Panel" parent="MainContainer/VBoxContainer/ContentContainer/CenterColumn/BeakerPanel/BeakerContainer/Beaker"]
+modulate = Color(0.2, 0.5, 0, 0.8)
+custom_minimum_size = Vector2(110, 170)
+layout_mode = 2
+offset_left = -55.0
+offset_top = -85.0
+offset_right = 55.0
+scale = Vector2(1, 0.2)
+pivot_offset = Vector2(55, 0)
+
+[node name="ChemicalPanel" type="PanelContainer" parent="MainContainer/VBoxContainer/ContentContainer/CenterColumn"]
+layout_mode = 2
+
+[node name="ChemContainer" type="VBoxContainer" parent="MainContainer/VBoxContainer/ContentContainer/CenterColumn/ChemicalPanel"]
+layout_mode = 2
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="ChemTitle" type="Label" parent="MainContainer/VBoxContainer/ContentContainer/CenterColumn/ChemicalPanel/ChemContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+text = "CHEMICALS"
+horizontal_alignment = 1
+
+[node name="ChemButtons" type="GridContainer" parent="MainContainer/VBoxContainer/ContentContainer/CenterColumn/ChemicalPanel/ChemContainer"]
+layout_mode = 2
+theme_override_constants/h_separation = 8
+theme_override_constants/v_separation = 8
+columns = 2
+
+[node name="PseudoButton" type="Button" parent="MainContainer/VBoxContainer/ContentContainer/CenterColumn/ChemicalPanel/ChemContainer/ChemButtons"]
+custom_minimum_size = Vector2(120, 40)
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "PSEUDOEPHEDRINE"
+
+[node name="PhosphorusButton" type="Button" parent="MainContainer/VBoxContainer/ContentContainer/CenterColumn/ChemicalPanel/ChemContainer/ChemButtons"]
+custom_minimum_size = Vector2(120, 40)
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "RED PHOSPHORUS"
+
+[node name="RightColumn" type="VBoxContainer" parent="MainContainer/VBoxContainer/ContentContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 12

@@ -1,0 +1,472 @@
+@tool
+extends Control
+
+# Game variables
+var chemicals_in_beaker = []
+var max_chemicals = 5
+var dragging_chemical = false
+var dragged_chemical_name = ""
+var drag_start_position = Vector2()
+var drag_ghost = null
+var can_drop = false
+var recipe_complete = false
+var time_elapsed = 0.0
+var timer_running = false
+var time_remaining = 90.0
+var score = 0
+var combo_multiplier = 1.0
+var streak = 0
+var quality = 0
+var profit = 0
+var difficulty_level = 1
+var achievements = {
+	"first_attempt": false,
+	"perfect_batch": false,
+	"speed_cook": false
+}
+var visual_effects = []
+var shake_amount = 0.0
+
+# The correct recipe order - will change with difficulty
+var correct_recipe = ["Pseudoephedrine", "Red Phosphorus", "Iodine", "Methylamine", "Aluminum"]
+
+# Node references
+var beaker
+var reaction_display
+var temperature_bar
+var recipe_text
+var log_text
+var purity_bar
+var yield_bar
+var timer_label
+var score_label
+var combo_label
+var sound_effects = {}
+
+# Recipe data
+var required_chemicals = ["Pseudoephedrine", "Red Phosphorus", "Iodine"]
+var required_temperature_ranges = {
+	"heating": [100, 130], # min and max for optimal heating
+	"cooling": [70, 90]    # min and max for optimal cooling
+}
+
+func _ready():
+	if Engine.is_editor_hint():
+		return
+		
+	# Initialize node references
+	reaction_display = $MainContainer/VBoxContainer/ContentContainer/CenterColumn/ReactionPanel/VBoxContainer/ReactionDisplay
+	beaker = reaction_display.get_node_or_null("BeakerContainer/Liquid") 
+	temperature_bar = $MainContainer/VBoxContainer/ContentContainer/RightColumn/MetricsPanel/VBoxContainer/TemperatureBar
+	recipe_text = $MainContainer/VBoxContainer/ContentContainer/RightColumn/RecipePanel/VBoxContainer/RecipeText
+	log_text = $MainContainer/VBoxContainer/LogPanel/VBoxContainer/LogText
+	purity_bar = $MainContainer/VBoxContainer/ContentContainer/RightColumn/MetricsPanel/VBoxContainer/PurityContainer/PurityBar
+	yield_bar = $MainContainer/VBoxContainer/ContentContainer/RightColumn/MetricsPanel/VBoxContainer/YieldContainer/YieldBar
+	timer_label = $MainContainer/VBoxContainer/HeaderBar/TimerLabel
+	score_label = $MainContainer/VBoxContainer/HeaderBar/ScoreLabel
+	combo_label = $MainContainer/VBoxContainer/HeaderBar/ComboLabel
+	
+	# Make sure nodes exist
+	ensure_ui_components_exist()
+	
+	# Set up chemical buttons
+	setup_chemical_buttons()
+	
+	# Update the recipe text
+	update_recipe_display()
+	
+	# Initial setup
+	setup_game()
+	
+	# Initial log message
+	log_message("Welcome to the lab. Add chemicals in the correct order.")
+	log_message("Drag chemicals to the beaker in the middle.")
+	
+	# Start game timer
+	timer_running = true
+	
+	# Randomize for gameplay variation
+	randomize()
+
+func setup_game():
+	chemicals_in_beaker = []
+	recipe_complete = false
+	time_remaining = 90.0 - (difficulty_level * 10)
+	score = 0
+	combo_multiplier = 1.0
+	streak = 0
+	shake_amount = 0.0
+	quality = 0
+	profit = 0
+	
+	# Reset UI elements
+	update_status_display()
+	update_recipe_display()
+	temperature_bar.value = 40
+	purity_bar.value = 60
+	yield_bar.value = 75
+	
+	# Clear log
+	log_text.clear()
+	log_message("Lab initialized. Ready to begin.")
+
+func _process(delta):
+	if Engine.is_editor_hint():
+		return
+	
+	if timer_running:
+		time_remaining -= delta
+		if time_remaining <= 0:
+			time_remaining = 0
+			timer_running = false
+			_on_time_expired()
+		update_timer_display()
+	
+	if dragging_chemical:
+		update_drag_ghost()
+
+func update_timer_display():
+	var minutes = floor(time_remaining / 60)
+	var seconds = int(time_remaining) % 60
+	timer_label.text = "Time: %d:%02d" % [minutes, seconds]
+
+func update_status_display():
+	quality_label.text = "Quality: %d%%" % quality
+	profit_label.text = "Profit: $%d" % profit
+	score_label.text = "Score: %d" % score
+	combo_label.text = "Combo: x%.1f" % combo_multiplier
+
+func update_recipe_display():
+	var recipe_steps = ""
+	for i in range(correct_recipe.size()):
+		var step = str(i + 1) + ". Add "
+		var chemical = correct_recipe[i]
+		
+		if i < chemicals_in_beaker.size():
+			if chemicals_in_beaker[i] == chemical:
+				step += "[color=#00CC66]" + chemical + "[/color]"
+			else:
+				step += "[color=#FF3333]" + chemicals_in_beaker[i] + "[/color]"
+		else:
+			step += "[color=#00CC66]" + chemical + "[/color]"
+		
+		recipe_steps += step + "\n"
+	
+	# Format and display recipe
+	if recipe_text:
+		recipe_text.clear()
+		recipe_text.append_text(recipe_steps)
+
+func log_message(message):
+	var current_time = Time.get_time_dict_from_system()
+	var timestamp = "%02d:%02d" % [current_time.hour, current_time.minute]
+	
+	if log_text:
+		log_text.append_text("\n[color=#888888][" + timestamp + "][/color] " + message)
+		
+		# Force the log to scroll to the latest message
+		log_text.scroll_to_line(log_text.get_line_count() - 1)
+
+func add_chemical(chemical_name):
+	if chemicals_in_beaker.size() >= max_chemicals:
+		log_message("[color=#FF3333]Beaker is full. Cannot add more chemicals.[/color]")
+		return false
+	
+	chemicals_in_beaker.append(chemical_name)
+	log_message("Added " + chemical_name + " to beaker.")
+	
+	# Update the current step in the recipe
+	update_recipe_display()
+	
+	# Check if the chemical was added in the correct order
+	var correct_position = chemicals_in_beaker.size() - 1
+	if correct_position < correct_recipe.size() and chemical_name == correct_recipe[correct_position]:
+		streak += 1
+		combo_multiplier = min(2.0, 1.0 + (streak * 0.1))
+		score += 100 * combo_multiplier
+		quality += 20
+		
+		# Adjust parameters based on correct chemical
+		if chemical_name == "Pseudoephedrine":
+			temperature_bar.value += 10
+			purity_bar.value += 5
+		elif chemical_name == "Red Phosphorus":
+			temperature_bar.value += 15
+			yield_bar.value += 10
+		elif chemical_name == "Iodine":
+			temperature_bar.value -= 5
+			purity_bar.value += 15
+		elif chemical_name == "Methylamine":
+			temperature_bar.value += 5
+			yield_bar.value += 15
+		elif chemical_name == "Aluminum":
+			temperature_bar.value -= 10
+			purity_bar.value += 10
+		
+		profit = calculate_profit()
+		update_status_display()
+		
+		log_message("[color=#00CC66]Correct chemical added![/color]")
+		
+		# Check if recipe is complete
+		if chemicals_in_beaker.size() == correct_recipe.size():
+			var all_correct = true
+			for i in range(correct_recipe.size()):
+				if chemicals_in_beaker[i] != correct_recipe[i]:
+					all_correct = false
+					break
+			
+			if all_correct:
+				recipe_complete = true
+				log_message("[color=#00CC66]Recipe complete! Blue sky achieved.[/color]")
+				timer_running = false
+	else:
+		streak = 0
+		combo_multiplier = 1.0
+		quality = max(0, quality - 10)
+		temperature_bar.value += 20
+		log_message("[color=#FF3333]Incorrect chemical order![/color]")
+		
+		# Apply negative effects for wrong chemicals
+		purity_bar.value -= 15
+		yield_bar.value -= 10
+		
+		profit = calculate_profit()
+		update_status_display()
+	
+	return true
+
+func calculate_profit():
+	var base_profit = 5000
+	var quality_factor = quality / 100.0
+	var purity_factor = purity_bar.value / 100.0
+	var yield_factor = yield_bar.value / 100.0
+	
+	var time_bonus = max(0, time_remaining / 90.0 * 1000)
+	
+	return int(base_profit * quality_factor * purity_factor * yield_factor + time_bonus)
+
+func create_drag_ghost(chemical_name):
+	if drag_ghost:
+		drag_ghost.queue_free()
+	
+	drag_ghost = ColorRect.new()
+	drag_ghost.size = Vector2(100, 30)
+	drag_ghost.color = Color(0, 0.8, 0.4, 0.5)
+	drag_ghost.position = get_global_mouse_position() - Vector2(50, 15)
+	
+	var label = Label.new()
+	label.text = chemical_name
+	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	label.custom_minimum_size = Vector2(100, 30)
+	drag_ghost.add_child(label)
+	
+	add_child(drag_ghost)
+	
+func update_drag_ghost():
+	if drag_ghost:
+		drag_ghost.position = get_global_mouse_position() - Vector2(50, 15)
+
+func _input(event):
+	if Engine.is_editor_hint():
+		return
+
+	if event is InputEventMouseButton:
+		if event.button_index == MOUSE_BUTTON_LEFT:
+			if !event.pressed and dragging_chemical:
+				dragging_chemical = false
+				
+				if drag_ghost:
+					drag_ghost.queue_free()
+					drag_ghost = null
+				
+				# Check if mouse is over beaker
+				var beaker_rect = Rect2(beaker.global_position, beaker.size)
+				if beaker and beaker_rect.has_point(get_global_mouse_position()):
+					add_chemical(dragged_chemical_name)
+
+func _on_chemical_button_mouse_entered(button):
+	button.modulate = Color(1.2, 1.2, 1.2)
+
+func _on_chemical_button_mouse_exited(button):
+	button.modulate = Color(1, 1, 1)
+
+func _on_chemical_button_gui_input(event, button):
+	if event is InputEventMouseButton:
+		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+			dragging_chemical = true
+			dragged_chemical_name = button.text
+			drag_start_position = get_global_mouse_position()
+			create_drag_ghost(dragged_chemical_name)
+
+func _on_heat_button_pressed():
+	temperature_bar.value = min(100, temperature_bar.value + 10)
+	log_message("Increased heat level.")
+	
+	if temperature_bar.value > 80:
+		log_message("[color=#FF3333]Warning: Temperature too high![/color]")
+		quality = max(0, quality - 5)
+		update_status_display()
+
+func _on_stir_button_pressed():
+	log_message("Stirring the mixture...")
+	purity_bar.value = min(100, purity_bar.value + 5)
+	yield_bar.value = min(100, yield_bar.value + 5)
+	update_status_display()
+
+func _on_complete_button_pressed():
+	if chemicals_in_beaker.size() == 0:
+		log_message("[color=#FF3333]Cannot complete - no chemicals added yet![/color]")
+		return
+	
+	timer_running = false
+	
+	if recipe_complete:
+		log_message("[color=#00CC66]Batch successfully completed![/color]")
+		log_message("Quality: " + str(quality) + "%")
+		log_message("Final profit: $" + str(profit))
+	else:
+		log_message("[color=#FF3333]Batch completion attempted with incorrect recipe.[/color]")
+		quality = max(0, quality - 20)
+		profit = max(0, profit - 1000)
+		update_status_display()
+	
+	# Disable interaction
+	var complete_button = $MainContainer/VBoxContainer/ControlPanel/HBoxContainer/CompleteButton
+	if complete_button:
+		complete_button.disabled = true
+
+func _on_reset_button_pressed():
+	setup_game()
+	log_message("Lab reset. Ready to begin again.")
+	var complete_button = $MainContainer/VBoxContainer/ControlPanel/HBoxContainer/CompleteButton
+	if complete_button:
+		complete_button.disabled = false
+	timer_running = true
+
+func _on_quit_button_pressed():
+	# Return to previous scene
+	if has_node("/root/SceneManager"):
+		get_node("/root/SceneManager").change_scene("res://UI/Scenes/MethLab/MethLabEntry.tscn")
+	else:
+		get_tree().change_scene_to_file("res://UI/Scenes/MethLab/MethLabEntry.tscn")
+
+func _on_time_expired():
+	log_message("[color=#FF3333]Time expired![/color]")
+	profit = max(0, profit - 2000)
+	update_status_display()
+	var complete_button = $MainContainer/VBoxContainer/ControlPanel/HBoxContainer/CompleteButton
+	if complete_button:
+		complete_button.disabled = true
+
+func setup_chemical_buttons():
+	var chemical_buttons_container = $MainContainer/VBoxContainer/ContentContainer/LeftColumn/ChemicalsPanel/VBoxContainer/ChemicalButtons
+	if chemical_buttons_container:
+		var chemical_buttons = chemical_buttons_container.get_children()
+		for button in chemical_buttons:
+			if button:
+				button.mouse_entered.connect(_on_chemical_button_mouse_entered.bind(button))
+				button.mouse_exited.connect(_on_chemical_button_mouse_exited.bind(button))
+				button.gui_input.connect(_on_chemical_button_gui_input.bind(button))
+
+func _on_progress_bar_value_changed(value, bar, label):
+	label.text = str(int(value)) + "%"
+
+# Ensure all UI components exist and create them if missing
+func ensure_ui_components_exist():
+	# Check if beaker display exists, create if missing
+	if not beaker:
+		beaker = $MainContainer/VBoxContainer/ContentContainer/CenterColumn/ReactionPanel/VBoxContainer/ReactionContainer/ReactionDisplay
+		if not beaker:
+			var reaction_container = $MainContainer/VBoxContainer/ContentContainer/CenterColumn/ReactionPanel/VBoxContainer/ReactionContainer
+			if reaction_container:
+				beaker = Control.new()
+				beaker.name = "ReactionDisplay"
+				beaker.custom_minimum_size = Vector2(180, 180)
+				reaction_container.add_child(beaker)
+	
+	# Check log text, create if missing
+	if not log_text:
+		var log_panel = $MainContainer/VBoxContainer/LogPanel
+		if log_panel:
+			var vbox = log_panel.get_node("VBoxContainer")
+			if vbox:
+				if not vbox.has_node("LogText"):
+					log_text = RichTextLabel.new()
+					log_text.name = "LogText"
+					log_text.bbcode_enabled = true
+					log_text.fit_content = true
+					log_text.scroll_following = true
+					log_text.custom_minimum_size = Vector2(0, 80)
+					log_text.size_flags_vertical = Control.SIZE_EXPAND_FILL
+					vbox.add_child(log_text)
+				else:
+					log_text = vbox.get_node("LogText")
+	
+	# Check for progress bars, create if missing
+	var metrics_panel = $MainContainer/VBoxContainer/ContentContainer/RightColumn/MetricsPanel
+	if metrics_panel:
+		var vbox = metrics_panel.get_node("VBoxContainer")
+		if vbox:
+			# Check temperature bar
+			if not temperature_bar:
+				var temp_container = vbox.get_node("TemperatureContainer")
+				if temp_container and not temp_container.has_node("TemperatureBar"):
+					temperature_bar = create_progress_bar("TemperatureBar")
+					temp_container.add_child(temperature_bar)
+			
+			# Check purity bar
+			if not purity_bar:
+				var purity_container = vbox.get_node("PurityContainer")
+				if purity_container and not purity_container.has_node("PurityBar"):
+					purity_bar = create_progress_bar("PurityBar")
+					purity_container.add_child(purity_bar)
+			
+			# Check yield bar
+			if not yield_bar:
+				var yield_container = vbox.get_node("YieldContainer")
+				if yield_container and not yield_container.has_node("YieldBar"):
+					yield_bar = create_progress_bar("YieldBar")
+					yield_container.add_child(yield_bar)
+
+# Create a progress bar with default settings
+func create_progress_bar(bar_name):
+	var bar = ProgressBar.new()
+	bar.name = bar_name
+	bar.min_value = 0
+	bar.max_value = 100
+	bar.value = 50
+	bar.show_percentage = false
+	bar.custom_minimum_size = Vector2(0, 24)
+	bar.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	return bar
+
+func update_labels():
+	if timer_label:
+		timer_label.text = "Time: " + format_time(time_remaining)
+	
+	if score_label:
+		score_label.text = "Score: " + str(score)
+	
+	if combo_label:
+		combo_label.text = "Combo: x" + str(snappedf(combo_multiplier, 0.1))
+	
+	var quality_label = get_node_or_null("MainContainer/VBoxContainer/HeaderBar/QualityLabel")
+	if quality_label:
+		quality_label.text = "Quality: " + str(quality) + "%"
+	
+	var profit_label = get_node_or_null("MainContainer/VBoxContainer/HeaderBar/ProfitLabel")
+	if profit_label:
+		profit_label.text = "Profit: $" + str(profit)
+	
+	if purity_bar:
+		purity_bar.value = quality
+	
+	if yield_bar:
+		yield_bar.value = min(chemicals_in_beaker.size() * 25, 100)
+
+func format_time(seconds):
+	var mins = floor(seconds / 60)
+	var secs = int(seconds) % 60
+	return "%d:%02d" % [mins, secs]
