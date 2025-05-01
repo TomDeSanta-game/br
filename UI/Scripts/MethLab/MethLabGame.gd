@@ -68,6 +68,9 @@ func _ready():
 	score_label = $LabLayout/TitleBar/ScoreLabel
 	combo_label = $LabLayout/TitleBar/ComboLabel
 	
+	# Improve UI spacing to prevent overlapping
+	adjust_ui_layout()
+	
 	# Set up chemical buttons
 	setup_chemical_buttons()
 	
@@ -83,6 +86,51 @@ func _ready():
 	
 	# Start game timer
 	timer_running = true
+
+func adjust_ui_layout():
+	# Make sure title bar has proper spacing
+	var title_bar = $LabLayout/TitleBar
+	if title_bar:
+		title_bar.add_theme_constant_override("separation", 30)
+		title_bar.alignment = BoxContainer.ALIGNMENT_CENTER
+		
+		# Organize title bar elements
+		var labels = []
+		for child in title_bar.get_children():
+			if child is Label:
+				labels.append(child)
+				
+		# Set consistent sizes for labels
+		for label in labels:
+			label.custom_minimum_size.x = 140
+	
+	# Make chemical buttons more uniform and visually pleasing
+	var chemical_buttons_container = $LabLayout/MainContent/LeftPanel/ChemicalsPanel/VBoxContainer/ChemicalButtons
+	if chemical_buttons_container:
+		chemical_buttons_container.add_theme_constant_override("separation", 10)
+		
+		for child in chemical_buttons_container.get_children():
+			if child is Button:
+				child.custom_minimum_size.y = 50
+	
+	# Improve beaker display area
+	var reaction_display = $LabLayout/MainContent/MidPanel/ReactionPanel/VBoxContainer/ReactionContainer/ReactionDisplay
+	if reaction_display:
+		reaction_display.custom_minimum_size = Vector2(250, 250)
+		
+	# Make the recipe panel more readable
+	var recipe_panel = $LabLayout/MainContent/RightPanel/RecipePanel
+	if recipe_panel:
+		recipe_panel.size_flags_vertical = Control.SIZE_EXPAND_FILL
+		var recipe_text = $LabLayout/MainContent/RightPanel/RecipePanel/VBoxContainer/RecipeText
+		if recipe_text:
+			recipe_text.add_theme_constant_override("line_separation", 10)
+	
+	# Create better bottom controls layout
+	var control_panel = $LabLayout/ControlPanel
+	if control_panel:
+		control_panel.add_theme_constant_override("separation", 30)
+		control_panel.alignment = BoxContainer.ALIGNMENT_CENTER
 
 func setup_game():
 	# Reset game state
@@ -447,7 +495,7 @@ func check_recipe():
 		log_message("Mixed results. The product is mediocre quality.")
 		log_message("Score: " + str(score) + " (Profit: $" + str(profit) + " + Time Bonus: " + str(time_bonus) + " x" + str(combo_multiplier) + " Combo)")
 		show_partial_success_animation()
-		else:
+	else:
 		log_message("FAILURE! The chemicals were mixed incorrectly.")
 		show_failure_animation()
 	
@@ -577,7 +625,7 @@ func spawn_crystals(count):
 		
 		if beaker:
 			crystal.position = beaker.global_position + Vector2(randf_range(0, beaker.size.x), beaker.size.y / 2)
-	else:
+		else:
 			crystal.position = Vector2(size.x / 2, size.y / 2)
 			
 		add_child(crystal)
@@ -637,7 +685,7 @@ func update_timer_display():
 			timer_label.add_theme_color_override("font_color", COLOR_ERROR)
 		elif time_remaining <= 30:
 			timer_label.add_theme_color_override("font_color", COLOR_WARNING)
-			else:
+		else:
 			timer_label.add_theme_color_override("font_color", COLOR_TEXT)
 
 func update_combo_display():
