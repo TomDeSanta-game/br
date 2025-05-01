@@ -68,6 +68,9 @@ func _ready():
 	score_label = $LabLayout/TitleBar/ScoreLabel
 	combo_label = $LabLayout/TitleBar/ComboLabel
 	
+	# Create beautiful UI styling
+	apply_beautiful_ui_theme()
+	
 	# Improve UI spacing to prevent overlapping
 	adjust_ui_layout()
 	
@@ -86,6 +89,195 @@ func _ready():
 	
 	# Start game timer
 	timer_running = true
+	
+	# Add intro animation
+	animate_intro()
+
+func animate_intro():
+	# Fade in main sections one by one
+	var sections = [
+		$LabLayout/TitleBar,
+		$LabLayout/MainContent/LeftPanel,
+		$LabLayout/MainContent/MidPanel,
+		$LabLayout/MainContent/RightPanel,
+		$LabLayout/LogPanel,
+		$LabLayout/ControlPanel
+	]
+	
+	for section in sections:
+		if section:
+			section.modulate = Color(1, 1, 1, 0)
+	
+	var delay = 0.0
+	for section in sections:
+		if section:
+			var tween = create_tween()
+			tween.tween_property(section, "modulate", Color(1, 1, 1, 1), 0.5).set_delay(delay)
+			delay += 0.2
+			
+	# Pulse title
+	var title = $LabLayout/TitleBar/Title
+	if title:
+		var tween = create_tween()
+		tween.tween_property(title, "modulate", Color(1.2, 1.2, 1.2), 0.5).set_delay(1.5)
+		tween.tween_property(title, "modulate", Color(1, 1, 1), 0.5)
+
+func apply_beautiful_ui_theme():
+	# Apply themed background with Breaking Bad green tint
+	var background = $Background
+	if background:
+		# Create gradient background
+		background.color = Color(0.05, 0.05, 0.05, 1)
+		
+		# Add texture overlay for lab aesthetic
+		var texture_rect = TextureRect.new()
+		texture_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		texture_rect.stretch_mode = TextureRect.STRETCH_TILE
+		texture_rect.modulate = Color(0.2, 0.5, 0.3, 0.1)  # Subtle green tint
+		background.add_child(texture_rect)
+		
+		# Add vignette effect
+		var vignette = ColorRect.new()
+		vignette.color = Color(0, 0, 0, 0)
+		vignette.material = create_vignette_material()
+		vignette.anchor_right = 1.0
+		vignette.anchor_bottom = 1.0
+		vignette.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		background.add_child(vignette)
+	
+	# Style title bar with "Breaking Bad" theme
+	var title = $LabLayout/TitleBar/Title
+	if title:
+		title.text = "BREAKING BAD: THE LAB"
+		title.add_theme_font_size_override("font_size", 32)
+		title.add_theme_color_override("font_color", Color(0.0, 0.7, 0.3))
+		title.add_theme_color_override("font_shadow_color", Color(0, 0, 0, 0.5))
+		title.add_theme_constant_override("shadow_offset_x", 2)
+		title.add_theme_constant_override("shadow_offset_y", 2)
+	
+	# Style all panels
+	style_panels()
+	
+	# Style buttons
+	style_control_buttons()
+
+func style_panels():
+	var panels = [
+		$LabLayout/MainContent/LeftPanel/ChemicalsPanel,
+		$LabLayout/MainContent/LeftPanel/EquipmentPanel,
+		$LabLayout/MainContent/MidPanel/ReactionPanel,
+		$LabLayout/MainContent/MidPanel/ControlsPanel,
+		$LabLayout/MainContent/RightPanel/MetricsPanel,
+		$LabLayout/MainContent/RightPanel/RecipePanel,
+		$LabLayout/LogPanel
+	]
+	
+	for panel in panels:
+		if panel:
+			var style = StyleBoxFlat.new()
+			style.bg_color = Color(0.12, 0.12, 0.12, 0.95)
+			style.border_width_left = 2
+			style.border_width_top = 2
+			style.border_width_right = 2
+			style.border_width_bottom = 2
+			style.border_color = Color(0.0, 0.6, 0.3, 0.6)
+			style.corner_radius_top_left = 8
+			style.corner_radius_top_right = 8
+			style.corner_radius_bottom_right = 8
+			style.corner_radius_bottom_left = 8
+			style.shadow_color = Color(0, 0, 0, 0.3)
+			style.shadow_size = 4
+			style.shadow_offset = Vector2(2, 2)
+			panel.add_theme_stylebox_override("panel", style)
+			
+			# Style panel titles
+			for child in panel.get_children():
+				if child is VBoxContainer:
+					var label = child.get_node_or_null("Label") if child else null
+					if label and label is Label:
+						label.add_theme_font_size_override("font_size", 18)
+						label.add_theme_color_override("font_color", Color(0.0, 0.8, 0.4))
+
+func style_control_buttons():
+	var control_panel = $LabLayout/ControlPanel
+	if control_panel:
+		for child in control_panel.get_children():
+			if child is Button:
+				# Create button style
+				var normal_style = StyleBoxFlat.new()
+				normal_style.bg_color = Color(0.15, 0.15, 0.15, 1)
+				normal_style.border_width_left = 2
+				normal_style.border_width_top = 2
+				normal_style.border_width_right = 2
+				normal_style.border_width_bottom = 2
+				normal_style.border_color = Color(0.0, 0.6, 0.3, 0.8)
+				normal_style.corner_radius_top_left = 6
+				normal_style.corner_radius_top_right = 6
+				normal_style.corner_radius_bottom_right = 6
+				normal_style.corner_radius_bottom_left = 6
+				child.add_theme_stylebox_override("normal", normal_style)
+				
+				# Hover style
+				var hover_style = normal_style.duplicate()
+				hover_style.bg_color = Color(0.2, 0.2, 0.2, 1)
+				hover_style.border_color = Color(0.0, 0.8, 0.4, 1.0)
+				child.add_theme_stylebox_override("hover", hover_style)
+				
+				# Pressed style
+				var pressed_style = normal_style.duplicate()
+				pressed_style.bg_color = Color(0.1, 0.1, 0.1, 1)
+				pressed_style.border_color = Color(0.0, 0.5, 0.25, 1.0)
+				child.add_theme_stylebox_override("pressed", pressed_style)
+				
+				# Text color
+				child.add_theme_color_override("font_color", Color(0.0, 0.8, 0.4))
+				child.add_theme_color_override("font_hover_color", Color(0.0, 1.0, 0.5))
+				child.add_theme_font_size_override("font_size", 18)
+				
+				# Add hover effect
+				child.mouse_entered.connect(_on_control_button_mouse_entered.bind(child))
+				child.mouse_exited.connect(_on_control_button_mouse_exited.bind(child))
+
+func _on_control_button_mouse_entered(button):
+	var tween = create_tween()
+	tween.tween_property(button, "custom_minimum_size:y", 44, 0.2)
+	
+	if button.has_node("ButtonGlow"):
+		var glow = button.get_node("ButtonGlow")
+		tween.parallel().tween_property(glow, "modulate:a", 0.8, 0.3)
+
+func _on_control_button_mouse_exited(button):
+	var tween = create_tween()
+	tween.tween_property(button, "custom_minimum_size:y", 40, 0.2)
+	
+	if button.has_node("ButtonGlow"):
+		var glow = button.get_node("ButtonGlow")
+		tween.parallel().tween_property(glow, "modulate:a", 0.0, 0.3)
+
+func create_vignette_material():
+	var shader_material = ShaderMaterial.new()
+	var shader = Shader.new()
+	shader.code = """
+	shader_type canvas_item;
+	
+	uniform float vignette_intensity = 0.4;
+	uniform float vignette_opacity = 0.5;
+	uniform vec4 vignette_rgb : source_color = vec4(0.0, 0.0, 0.0, 1.0);
+	
+	float vignette(vec2 uv){
+		uv *= 1.0 - uv.xy;
+		float vig = uv.x * uv.y * 15.0;
+		return pow(vig, vignette_intensity);
+	}
+	
+	void fragment() {
+		vec4 color = vignette_rgb;
+		color.a = 1.0 - vignette(UV);
+		COLOR = vec4(color.rgb, color.a * vignette_opacity);
+	}
+	"""
+	shader_material.shader = shader
+	return shader_material
 
 func adjust_ui_layout():
 	# Make sure title bar has proper spacing
@@ -451,9 +643,20 @@ func create_bubble():
 		var y_pos = randf_range(beaker.size.y - 20, beaker.size.y - 5)
 		bubble.position = Vector2(x_pos, y_pos)
 		
-		# Random size
+		# Random size and color variation for more realistic effect
 		var bubble_size = randf_range(3, 7)
 		bubble.scale = Vector2(bubble_size, bubble_size)
+		
+		# Vary bubble color based on chemicals
+		var blue_intensity = min(1.0, float(chemicals_in_beaker.size()) / correct_recipe.size())
+		var color_variation = randf_range(-0.1, 0.1)
+		var bubble_color = Color(
+			0.1 + color_variation,
+			0.3 + blue_intensity * 0.5 + color_variation,
+			0.8 + color_variation,
+			0.7
+		)
+		bubble.modulate = bubble_color
 
 func check_recipe():
 	var correct_count = 0
@@ -680,13 +883,30 @@ func update_timer_display():
 		var seconds = int(time_remaining) % 60
 		timer_label.text = "%d:%02d" % [minutes, seconds]
 		
+		# Breaking Bad style timer with animated color change
+		var color = Color.WHITE
+		
 		# Change color when time is running low
 		if time_remaining <= 10:
-			timer_label.add_theme_color_override("font_color", COLOR_ERROR)
+			color = Color(1.0, 0.1, 0.1)  # Red
+			# Make timer pulse when low
+			if fmod(time_elapsed, 1.0) < 0.5:
+				color = color.lightened(0.3)
 		elif time_remaining <= 30:
-			timer_label.add_theme_color_override("font_color", COLOR_WARNING)
+			# Gradually shift from yellow to red
+			var t = 1.0 - (time_remaining - 10) / 20.0
+			color = Color(1.0, 1.0 - t, 0.0)
 		else:
-			timer_label.add_theme_color_override("font_color", COLOR_TEXT)
+			# Gradual color based on time
+			var t = min(1.0, time_remaining / 90.0)
+			color = Color(1.0 - t, 0.7 + (0.3 * t), 0.3 * t)
+			
+		timer_label.add_theme_color_override("font_color", color)
+		
+		# Add shadow for better visibility
+		timer_label.add_theme_color_override("font_shadow_color", Color(0, 0, 0, 0.5))
+		timer_label.add_theme_constant_override("shadow_offset_x", 1)
+		timer_label.add_theme_constant_override("shadow_offset_y", 1)
 
 func update_combo_display():
 	if combo_label:
@@ -702,40 +922,87 @@ func update_combo_display():
 func show_achievement(title, description):
 	var achievement_popup = PanelContainer.new()
 	achievement_popup.add_theme_stylebox_override("panel", get_stylebox_from_theme("panel"))
-	achievement_popup.size = Vector2(300, 80)
-	achievement_popup.position = Vector2(size.x - 320, 20)
+	achievement_popup.size = Vector2(320, 90)
+	achievement_popup.position = Vector2(size.x, 20)
 	achievement_popup.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	
 	var vbox = VBoxContainer.new()
 	achievement_popup.add_child(vbox)
 	
+	# Add achievement icon
+	var hbox = HBoxContainer.new()
+	vbox.add_child(hbox)
+	
+	var icon = TextureRect.new()
+	icon.texture = preload("res://assets/early_methaphetamine_batch.png")
+	icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	icon.custom_minimum_size = Vector2(40, 40)
+	icon.modulate = COLOR_BLUE_SKY
+	hbox.add_child(icon)
+	
+	# Title and description in vertical layout
+	var text_vbox = VBoxContainer.new()
+	hbox.add_child(text_vbox)
+	
 	var title_label = Label.new()
-	title_label.text = "Achievement: " + title
+	title_label.text = "ACHIEVEMENT: " + title
 	title_label.add_theme_color_override("font_color", COLOR_SUCCESS)
-	vbox.add_child(title_label)
+	title_label.add_theme_font_size_override("font_size", 16)
+	text_vbox.add_child(title_label)
 	
 	var desc_label = Label.new()
 	desc_label.text = description
-	vbox.add_child(desc_label)
+	desc_label.add_theme_font_size_override("font_size", 14)
+	text_vbox.add_child(desc_label)
 	
 	add_child(achievement_popup)
 	
+	# Slide in from right
 	var tween = create_tween()
-	tween.tween_property(achievement_popup, "position:x", size.x, 0).set_delay(3.0)
+	tween.tween_property(achievement_popup, "position:x", size.x - achievement_popup.size.x - 20, 0.5).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_BACK)
+	
+	# Wait then slide out
+	tween.tween_interval(3.0)
+	tween.tween_property(achievement_popup, "position:x", size.x + 50, 0.5).set_ease(Tween.EASE_IN)
 	tween.tween_callback(achievement_popup.queue_free)
+	
+	# Add particles for flair
+	var particles = create_particle_effect(achievement_popup.position + Vector2(160, 45), COLOR_SUCCESS)
+	add_child(particles)
+	particles.emitting = true
+
+func create_particle_effect(pos, color):
+	var particles = CPUParticles2D.new()
+	particles.position = pos
+	particles.amount = 20
+	particles.lifetime = 1.0
+	particles.explosiveness = 0.8
+	particles.direction = Vector2(0, -1)
+	particles.spread = 180
+	particles.gravity = Vector2(0, 80)
+	particles.initial_velocity_min = 50
+	particles.initial_velocity_max = 100
+	particles.scale_amount_min = 2
+	particles.scale_amount_max = 4
+	particles.color = color
+	return particles
 
 func get_stylebox_from_theme(name):
 	var style = StyleBoxFlat.new()
-	style.bg_color = COLOR_BG_PANEL
+	style.bg_color = Color(0.12, 0.12, 0.12, 0.95)
 	style.border_width_left = 2
 	style.border_width_top = 2
 	style.border_width_right = 2
 	style.border_width_bottom = 2
-	style.border_color = COLOR_PRIMARY
-	style.corner_radius_top_left = 5
-	style.corner_radius_top_right = 5
-	style.corner_radius_bottom_right = 5
-	style.corner_radius_bottom_left = 5
+	style.border_color = Color(0.0, 0.6, 0.3, 0.6)
+	style.corner_radius_top_left = 8
+	style.corner_radius_top_right = 8
+	style.corner_radius_bottom_right = 8
+	style.corner_radius_bottom_left = 8
+	style.shadow_color = Color(0, 0, 0, 0.5)
+	style.shadow_size = 6
+	style.shadow_offset = Vector2(2, 2)
 	return style
 
 func log_message(msg):
