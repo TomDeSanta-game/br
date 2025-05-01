@@ -68,6 +68,9 @@ func _ready():
 	score_label = $LabLayout/TitleBar/ScoreLabel
 	combo_label = $LabLayout/TitleBar/ComboLabel
 	
+	# Load custom font
+	load_custom_font()
+	
 	# Create beautiful UI styling
 	apply_beautiful_ui_theme()
 	
@@ -93,6 +96,26 @@ func _ready():
 	# Add intro animation
 	animate_intro()
 
+func load_custom_font():
+	# Load the pixel font from assets
+	var font = load("res://assets/Fonts/pixel_font.ttf")
+	if not font:
+		return
+		
+	# Apply font to all labels recursively
+	apply_font_to_node(self, font)
+
+func apply_font_to_node(node, font):
+	if node is Label:
+		node.add_theme_font_override("font", font)
+	elif node is Button:
+		node.add_theme_font_override("font", font)
+	elif node is RichTextLabel:
+		node.add_theme_font_override("normal_font", font)
+	
+	for child in node.get_children():
+		apply_font_to_node(child, font)
+
 func animate_intro():
 	# Fade in main sections one by one
 	var sections = [
@@ -113,13 +136,13 @@ func animate_intro():
 		if section:
 			var tween = create_tween()
 			tween.tween_property(section, "modulate", Color(1, 1, 1, 1), 0.5).set_delay(delay)
-			delay += 0.2
+			delay += 0.15 # Faster animation
 			
-	# Pulse title
+	# Pulse title with Breaking Bad style
 	var title = $LabLayout/TitleBar/Title
 	if title:
 		var tween = create_tween()
-		tween.tween_property(title, "modulate", Color(1.2, 1.2, 1.2), 0.5).set_delay(1.5)
+		tween.tween_property(title, "modulate", Color(0.2, 1.0, 0.3), 0.5).set_delay(1.2)
 		tween.tween_property(title, "modulate", Color(1, 1, 1), 0.5)
 
 func apply_beautiful_ui_theme():
@@ -144,14 +167,20 @@ func apply_beautiful_ui_theme():
 		vignette.anchor_bottom = 1.0
 		vignette.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		background.add_child(vignette)
+		
+		# Add subtle scanlines effect
+		var scanlines = create_scanlines()
+		background.add_child(scanlines)
 	
 	# Style title bar with "Breaking Bad" theme
 	var title = $LabLayout/TitleBar/Title
 	if title:
-		title.text = "BREAKING BAD: THE LAB"
+		title.text = "HEISENBERG'S LAB"
 		title.add_theme_font_size_override("font_size", 32)
-		title.add_theme_color_override("font_color", Color(0.0, 0.7, 0.3))
-		title.add_theme_color_override("font_shadow_color", Color(0, 0, 0, 0.5))
+		title.add_theme_color_override("font_color", Color(0.1, 0.9, 0.3))
+		title.add_theme_color_override("font_outline_color", Color(0, 0, 0, 1))
+		title.add_theme_constant_override("outline_size", 2)
+		title.add_theme_color_override("font_shadow_color", Color(0, 0, 0, 0.7))
 		title.add_theme_constant_override("shadow_offset_x", 2)
 		title.add_theme_constant_override("shadow_offset_y", 2)
 	
@@ -160,6 +189,54 @@ func apply_beautiful_ui_theme():
 	
 	# Style buttons
 	style_control_buttons()
+	
+	# Add crystal icon to score display
+	var crystal_icon = create_crystal_icon()
+	$LabLayout/TitleBar.add_child(crystal_icon)
+	crystal_icon.global_position = score_label.global_position - Vector2(24, -2)
+
+func create_crystal_icon():
+	var icon = TextureRect.new()
+	icon.texture = preload("res://assets/early_methaphetamine_batch.png")
+	icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	icon.custom_minimum_size = Vector2(20, 20)
+	icon.modulate = COLOR_BLUE_SKY
+	
+	# Add subtle rotation animation
+	var tween = create_tween()
+	tween.set_loops()
+	tween.tween_property(icon, "rotation_degrees", 5, 2)
+	tween.tween_property(icon, "rotation_degrees", -5, 2)
+	
+	return icon
+
+func create_scanlines():
+	var scanlines = ColorRect.new()
+	scanlines.color = Color(1, 1, 1, 0.03)
+	scanlines.material = create_scanlines_material()
+	scanlines.anchor_right = 1.0
+	scanlines.anchor_bottom = 1.0
+	scanlines.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	return scanlines
+
+func create_scanlines_material():
+	var shader_material = ShaderMaterial.new()
+	var shader = Shader.new()
+	shader.code = """
+	shader_type canvas_item;
+	
+	uniform float line_thickness : hint_range(0.0, 1.0) = 0.002;
+	uniform float line_frequency : hint_range(0.0, 100.0) = 100.0;
+	uniform vec4 line_color : source_color = vec4(0.0, 0.0, 0.0, 0.3);
+	
+	void fragment() {
+		float lines = abs(sin(UV.y * line_frequency)) < line_thickness ? 1.0 : 0.0;
+		COLOR = mix(vec4(0.0), line_color, lines);
+	}
+	"""
+	shader_material.shader = shader
+	return shader_material
 
 func style_panels():
 	var panels = [
@@ -175,17 +252,17 @@ func style_panels():
 	for panel in panels:
 		if panel:
 			var style = StyleBoxFlat.new()
-			style.bg_color = Color(0.12, 0.12, 0.12, 0.95)
-			style.border_width_left = 2
-			style.border_width_top = 2
-			style.border_width_right = 2
-			style.border_width_bottom = 2
-			style.border_color = Color(0.0, 0.6, 0.3, 0.6)
-			style.corner_radius_top_left = 8
-			style.corner_radius_top_right = 8
-			style.corner_radius_bottom_right = 8
-			style.corner_radius_bottom_left = 8
-			style.shadow_color = Color(0, 0, 0, 0.3)
+			style.bg_color = Color(0.08, 0.08, 0.08, 0.95)
+			style.border_width_left = 1
+			style.border_width_top = 1
+			style.border_width_right = 1
+			style.border_width_bottom = 1
+			style.border_color = Color(0.0, 0.7, 0.3, 0.7)
+			style.corner_radius_top_left = 6
+			style.corner_radius_top_right = 6
+			style.corner_radius_bottom_right = 6
+			style.corner_radius_bottom_left = 6
+			style.shadow_color = Color(0, 0, 0, 0.4)
 			style.shadow_size = 4
 			style.shadow_offset = Vector2(2, 2)
 			panel.add_theme_stylebox_override("panel", style)
@@ -195,8 +272,16 @@ func style_panels():
 				if child is VBoxContainer:
 					var label = child.get_node_or_null("Label") if child else null
 					if label and label is Label:
-						label.add_theme_font_size_override("font_size", 18)
+						label.add_theme_font_size_override("font_size", 16)
 						label.add_theme_color_override("font_color", Color(0.0, 0.8, 0.4))
+						
+						# Add background highlight
+						var highlight = ColorRect.new()
+						highlight.color = Color(0.0, 0.3, 0.15, 0.4)
+						highlight.size = Vector2(label.size.x + 20, label.size.y)
+						highlight.position = Vector2(-10, 0)
+						label.add_child(highlight)
+						highlight.z_index = -1
 
 func style_control_buttons():
 	var control_panel = $LabLayout/ControlPanel
@@ -205,34 +290,43 @@ func style_control_buttons():
 			if child is Button:
 				# Create button style
 				var normal_style = StyleBoxFlat.new()
-				normal_style.bg_color = Color(0.15, 0.15, 0.15, 1)
-				normal_style.border_width_left = 2
-				normal_style.border_width_top = 2
-				normal_style.border_width_right = 2
-				normal_style.border_width_bottom = 2
-				normal_style.border_color = Color(0.0, 0.6, 0.3, 0.8)
-				normal_style.corner_radius_top_left = 6
-				normal_style.corner_radius_top_right = 6
-				normal_style.corner_radius_bottom_right = 6
-				normal_style.corner_radius_bottom_left = 6
+				normal_style.bg_color = Color(0.08, 0.08, 0.08, 1)
+				normal_style.border_width_left = 1
+				normal_style.border_width_top = 1
+				normal_style.border_width_right = 1
+				normal_style.border_width_bottom = 1
+				normal_style.border_color = Color(0.0, 0.7, 0.3, 0.8)
+				normal_style.corner_radius_top_left = 3
+				normal_style.corner_radius_top_right = 3
+				normal_style.corner_radius_bottom_right = 3
+				normal_style.corner_radius_bottom_left = 3
 				child.add_theme_stylebox_override("normal", normal_style)
 				
 				# Hover style
 				var hover_style = normal_style.duplicate()
-				hover_style.bg_color = Color(0.2, 0.2, 0.2, 1)
-				hover_style.border_color = Color(0.0, 0.8, 0.4, 1.0)
+				hover_style.bg_color = Color(0.15, 0.15, 0.15, 1)
+				hover_style.border_color = Color(0.0, 0.9, 0.4, 1.0)
 				child.add_theme_stylebox_override("hover", hover_style)
 				
 				# Pressed style
 				var pressed_style = normal_style.duplicate()
-				pressed_style.bg_color = Color(0.1, 0.1, 0.1, 1)
+				pressed_style.bg_color = Color(0.05, 0.05, 0.05, 1)
 				pressed_style.border_color = Color(0.0, 0.5, 0.25, 1.0)
 				child.add_theme_stylebox_override("pressed", pressed_style)
 				
 				# Text color
 				child.add_theme_color_override("font_color", Color(0.0, 0.8, 0.4))
 				child.add_theme_color_override("font_hover_color", Color(0.0, 1.0, 0.5))
-				child.add_theme_font_size_override("font_size", 18)
+				child.add_theme_font_size_override("font_size", 16)
+				
+				# Add glow effect
+				var glow = ColorRect.new()
+				glow.color = Color(0.0, 0.8, 0.3, 0.0)
+				glow.size = child.size + Vector2(10, 10)
+				glow.position = Vector2(-5, -5)
+				glow.z_index = -1
+				glow.name = "ButtonGlow"
+				child.add_child(glow)
 				
 				# Add hover effect
 				child.mouse_entered.connect(_on_control_button_mouse_entered.bind(child))
@@ -280,10 +374,15 @@ func create_vignette_material():
 	return shader_material
 
 func adjust_ui_layout():
-	# Make sure title bar has proper spacing
+	# Make everything more compact
+	var lab_layout = $LabLayout
+	if lab_layout:
+		lab_layout.add_theme_constant_override("separation", 10) # Reduced from 20
+	
+	# Make sure title bar has proper spacing but compact
 	var title_bar = $LabLayout/TitleBar
 	if title_bar:
-		title_bar.add_theme_constant_override("separation", 30)
+		title_bar.add_theme_constant_override("separation", 20) # Reduced from 30
 		title_bar.alignment = BoxContainer.ALIGNMENT_CENTER
 		
 		# Organize title bar elements
@@ -292,37 +391,45 @@ func adjust_ui_layout():
 			if child is Label:
 				labels.append(child)
 				
-		# Set consistent sizes for labels
+		# Set consistent sizes for labels (reduced size)
 		for label in labels:
-			label.custom_minimum_size.x = 140
-	
-	# Make chemical buttons more uniform and visually pleasing
+			label.custom_minimum_size.x = 120 # Reduced from 140
+			
+	# Make chemical buttons more compact and pixel-art like
 	var chemical_buttons_container = $LabLayout/MainContent/LeftPanel/ChemicalsPanel/VBoxContainer/ChemicalButtons
 	if chemical_buttons_container:
-		chemical_buttons_container.add_theme_constant_override("separation", 10)
+		chemical_buttons_container.add_theme_constant_override("separation", 4) # Reduced from 10
 		
 		for child in chemical_buttons_container.get_children():
 			if child is Button:
-				child.custom_minimum_size.y = 50
+				child.custom_minimum_size.y = 38 # Reduced from 50
 	
-	# Improve beaker display area
+	# Improve beaker display area - keep it large as focal point
 	var reaction_display = $LabLayout/MainContent/MidPanel/ReactionPanel/VBoxContainer/ReactionContainer/ReactionDisplay
 	if reaction_display:
-		reaction_display.custom_minimum_size = Vector2(250, 250)
+		reaction_display.custom_minimum_size = Vector2(230, 230) # Slightly reduced
 		
-	# Make the recipe panel more readable
+	# Make the recipe panel more compact
 	var recipe_panel = $LabLayout/MainContent/RightPanel/RecipePanel
 	if recipe_panel:
 		recipe_panel.size_flags_vertical = Control.SIZE_EXPAND_FILL
 		var recipe_text = $LabLayout/MainContent/RightPanel/RecipePanel/VBoxContainer/RecipeText
 		if recipe_text:
-			recipe_text.add_theme_constant_override("line_separation", 10)
+			recipe_text.add_theme_constant_override("line_separation", 6) # Reduced from 10
 	
 	# Create better bottom controls layout
 	var control_panel = $LabLayout/ControlPanel
 	if control_panel:
-		control_panel.add_theme_constant_override("separation", 30)
+		control_panel.add_theme_constant_override("separation", 20) # Reduced from 30
 		control_panel.alignment = BoxContainer.ALIGNMENT_CENTER
+		for child in control_panel.get_children():
+			if child is Button:
+				child.custom_minimum_size = Vector2(130, 36) # Smaller buttons
+				
+	# Make log panel smaller to save space
+	var log_panel = $LabLayout/LogPanel
+	if log_panel:
+		log_panel.custom_minimum_size.y = 80 # Reduced from 100
 
 func setup_game():
 	# Reset game state
@@ -607,7 +714,7 @@ func flash_beaker_color(color):
 
 func update_recipe_display():
 	if recipe_text:
-		var text = "[font_size=18][color=#aaaaaa]CORRECT RECIPE ORDER:[/color][/font_size]\n\n"
+		var text = "[font_size=14][color=#22ff66]CORRECT RECIPE:[/color][/font_size]\n"
 		
 		for i in range(correct_recipe.size()):
 			var chemical = correct_recipe[i]
@@ -616,13 +723,23 @@ func update_recipe_display():
 			
 			if i < chemicals_in_beaker.size():
 				if chemicals_in_beaker[i] == chemical:
-					checked = " [color=#34C759][font_size=16]✓[/font_size][/color]"
+					checked = " [color=#34C759][font_size=12]✓[/font_size][/color]"
 				else:
-					checked = " [color=#FF3B30][font_size=16]✗[/font_size][/color]"
+					checked = " [color=#FF3B30][font_size=12]✗[/font_size][/color]"
 			
-			text += "[color=#" + color_hex + "]■[/color] [color=#dddddd][font_size=16]" + str(i+1) + ". " + chemical + checked + "[/font_size][/color]\n"
+			text += "[color=#" + color_hex + "]■[/color] [color=#dddddd][font_size=12]" + str(i+1) + ". " + chemical + checked + "[/font_size][/color]\n"
 		
 		recipe_text.text = text
+		
+		# Add subtle background highlight to current step
+		var current_step = chemicals_in_beaker.size()
+		if current_step < correct_recipe.size() and not recipe_complete:
+			# We can't directly highlight lines in RichTextLabel, but we tell the player
+			# which step they're on in the log
+			if current_step == 0:
+				log_message("Start with " + correct_recipe[0])
+			else:
+				log_message("Next: Add " + correct_recipe[current_step])
 
 func animate_beaker(delta):
 	var blue_intensity = min(1.0, float(chemicals_in_beaker.size()) / correct_recipe.size())
@@ -921,54 +1038,92 @@ func update_combo_display():
 
 func show_achievement(title, description):
 	var achievement_popup = PanelContainer.new()
-	achievement_popup.add_theme_stylebox_override("panel", get_stylebox_from_theme("panel"))
-	achievement_popup.size = Vector2(320, 90)
+	
+	# Create a pixelated, Breaking Bad styled panel
+	var style = StyleBoxFlat.new()
+	style.bg_color = Color(0.08, 0.08, 0.08, 0.95)
+	style.border_width_left = 2
+	style.border_width_top = 2
+	style.border_width_right = 2
+	style.border_width_bottom = 2
+	style.border_color = Color(0.0, 0.7, 0.3, 0.8)
+	style.corner_radius_top_left = 3
+	style.corner_radius_top_right = 3
+	style.corner_radius_bottom_right = 3
+	style.corner_radius_bottom_left = 3
+	style.shadow_color = Color(0, 0, 0, 0.6)
+	style.shadow_size = 6
+	style.shadow_offset = Vector2(3, 3)
+	
+	achievement_popup.add_theme_stylebox_override("panel", style)
+	achievement_popup.size = Vector2(280, 70) # More compact
 	achievement_popup.position = Vector2(size.x, 20)
 	achievement_popup.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	
 	var vbox = VBoxContainer.new()
+	vbox.add_theme_constant_override("separation", 4) # More compact spacing
 	achievement_popup.add_child(vbox)
 	
 	# Add achievement icon
 	var hbox = HBoxContainer.new()
+	hbox.add_theme_constant_override("separation", 8) # More compact
 	vbox.add_child(hbox)
 	
 	var icon = TextureRect.new()
 	icon.texture = preload("res://assets/early_methaphetamine_batch.png")
 	icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	icon.custom_minimum_size = Vector2(40, 40)
+	icon.custom_minimum_size = Vector2(32, 32) # Smaller icon
 	icon.modulate = COLOR_BLUE_SKY
 	hbox.add_child(icon)
 	
+	# Create a spinning animation for the crystal
+	var tween = create_tween()
+	tween.set_loops()
+	tween.tween_property(icon, "rotation_degrees", 360, 3)
+	
 	# Title and description in vertical layout
 	var text_vbox = VBoxContainer.new()
+	text_vbox.add_theme_constant_override("separation", 2) # More compact
 	hbox.add_child(text_vbox)
 	
 	var title_label = Label.new()
-	title_label.text = "ACHIEVEMENT: " + title
-	title_label.add_theme_color_override("font_color", COLOR_SUCCESS)
-	title_label.add_theme_font_size_override("font_size", 16)
+	title_label.text = title.to_upper()
+	title_label.add_theme_color_override("font_color", Color(0.0, 0.9, 0.4))
+	title_label.add_theme_font_size_override("font_size", 14) # Smaller font
 	text_vbox.add_child(title_label)
 	
 	var desc_label = Label.new()
 	desc_label.text = description
-	desc_label.add_theme_font_size_override("font_size", 14)
+	desc_label.add_theme_font_size_override("font_size", 12) # Smaller font
 	text_vbox.add_child(desc_label)
 	
 	add_child(achievement_popup)
 	
-	# Slide in from right
-	var tween = create_tween()
-	tween.tween_property(achievement_popup, "position:x", size.x - achievement_popup.size.x - 20, 0.5).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_BACK)
+	# Slide in from right with bounce effect
+	var slide_tween = create_tween()
+	slide_tween.tween_property(achievement_popup, "position:x", size.x - achievement_popup.size.x - 20, 0.5).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_BACK)
+	
+	# Add glow effect that pulses
+	var glow = ColorRect.new()
+	glow.color = Color(0.0, 0.7, 0.3, 0.0)
+	glow.size = achievement_popup.size + Vector2(10, 10)
+	glow.position = Vector2(-5, -5)
+	glow.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	achievement_popup.add_child(glow)
+	
+	var glow_tween = create_tween()
+	glow_tween.set_loops(2)
+	glow_tween.tween_property(glow, "color:a", 0.2, 0.5)
+	glow_tween.tween_property(glow, "color:a", 0.0, 0.5)
 	
 	# Wait then slide out
-	tween.tween_interval(3.0)
-	tween.tween_property(achievement_popup, "position:x", size.x + 50, 0.5).set_ease(Tween.EASE_IN)
-	tween.tween_callback(achievement_popup.queue_free)
+	slide_tween.tween_interval(2.5) # Shorter display time
+	slide_tween.tween_property(achievement_popup, "position:x", size.x + 50, 0.5).set_ease(Tween.EASE_IN)
+	slide_tween.tween_callback(achievement_popup.queue_free)
 	
-	# Add particles for flair
-	var particles = create_particle_effect(achievement_popup.position + Vector2(160, 45), COLOR_SUCCESS)
+	# Add particles for flair - more compact
+	var particles = create_particle_effect(achievement_popup.position + Vector2(140, 35), COLOR_SUCCESS)
 	add_child(particles)
 	particles.emitting = true
 
