@@ -1,79 +1,201 @@
-[gd_scene load_steps=9 format=3 uid="uid://de3rlyhm5uqv0"]
+[gd_scene load_steps=16 format=3 uid="uid://de3rlyhm5uqv0"]
 
 [ext_resource type="Script" uid="uid://lgw258n0t506" path="res://UI/Scripts/MethLab/MethLabGame.gd" id="1_b1uks"]
 [ext_resource type="Texture2D" uid="uid://bfx8anmqwqy21" path="res://assets/early_methaphetamine_batch.png" id="2_yx5kj"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ivhrl"]
-bg_color = Color(0.133333, 0.133333, 0.133333, 1)
+bg_color = Color(0.0980392, 0.109804, 0.101961, 1)
 border_width_left = 2
 border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
-border_color = Color(0.301961, 0.301961, 0.301961, 1)
-corner_radius_top_left = 5
-corner_radius_top_right = 5
-corner_radius_bottom_right = 5
-corner_radius_bottom_left = 5
+border_color = Color(0.356863, 0.4, 0.219608, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+shadow_color = Color(0, 0, 0, 0.2)
+shadow_size = 4
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1s5wj"]
-bg_color = Color(0.0588235, 0.513726, 0.133333, 1)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.0980392, 0.631373, 0.156863, 1)
-corner_radius_top_left = 5
-corner_radius_top_right = 5
-corner_radius_bottom_right = 5
-corner_radius_bottom_left = 5
+bg_color = Color(0.0784314, 0.45098, 0.145098, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 3
+border_color = Color(0.12549, 0.670588, 0.231373, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+shadow_color = Color(0, 0, 0, 0.25)
+shadow_size = 3
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fq4p6"]
 bg_color = Color(0.564706, 0.0745098, 0.0745098, 1)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 3
 border_color = Color(0.756863, 0.211765, 0.211765, 1)
-corner_radius_top_left = 5
-corner_radius_top_right = 5
-corner_radius_bottom_right = 5
-corner_radius_bottom_left = 5
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+shadow_color = Color(0, 0, 0, 0.25)
+shadow_size = 3
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1ihg3"]
 bg_color = Color(0.133333, 0.133333, 0.133333, 1)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 3
 border_color = Color(0.564706, 0.0745098, 0.0745098, 1)
-corner_radius_top_left = 5
-corner_radius_top_right = 5
-corner_radius_bottom_right = 5
-corner_radius_bottom_left = 5
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+shadow_color = Color(0, 0, 0, 0.25)
+shadow_size = 3
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yodl2"]
-bg_color = Color(0.247059, 0.247059, 0.247059, 1)
+bg_color = Color(0.184314, 0.184314, 0.184314, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 3
+border_color = Color(0.392157, 0.392157, 0.392157, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+shadow_color = Color(0, 0, 0, 0.25)
+shadow_size = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_r7j4g"]
+bg_color = Color(0.0705882, 0.0862745, 0.0705882, 1)
 border_width_left = 2
 border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
-border_color = Color(0.392157, 0.392157, 0.392157, 1)
+border_color = Color(0.301961, 0.352941, 0.227451, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+shadow_color = Color(0, 0, 0, 0.2)
+shadow_size = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hp2u5"]
+bg_color = Color(0.0980392, 0.207843, 0.113725, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.356863, 0.4, 0.219608, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5bjrg"]
+bg_color = Color(0.239216, 0.552941, 0.180392, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.356863, 0.701961, 0.227451, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dyt8x"]
+bg_color = Color(0.321569, 0.0941176, 0.0666667, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.678431, 0.152941, 0.0980392, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i31xs"]
+bg_color = Color(0.0627451, 0.0627451, 0.0627451, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.105882, 0.105882, 0.105882, 1)
 corner_radius_top_left = 5
 corner_radius_top_right = 5
 corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_r7j4g"]
-bg_color = Color(0.188235, 0.188235, 0.188235, 1)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.301961, 0.301961, 0.301961, 1)
-corner_radius_top_left = 10
-corner_radius_top_right = 10
-corner_radius_bottom_right = 10
-corner_radius_bottom_left = 10
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q87iu"]
+bg_color = Color(0.0588235, 0.0862745, 0.0745098, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.188235, 0.286275, 0.223529, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="Shader" id="Shader_vkq6e"]
+code = "shader_type canvas_item;
+
+uniform float scan_line_count : hint_range(0, 1080) = 300.0;
+uniform float scan_line_intensity : hint_range(0.0, 1.0) = 0.1;
+uniform float noise_intensity : hint_range(0.0, 1.0) = 0.04;
+uniform float vignette_intensity : hint_range(0.0, 1.0) = 0.4;
+uniform float flicker_intensity : hint_range(0.0, 1.0) = 0.03;
+uniform float time_scale : hint_range(0.1, 10.0) = 5.0;
+
+float random(vec2 uv) {
+    return fract(sin(dot(uv, vec2(12.9898, 78.233))) * 43758.5453);
+}
+
+void fragment() {
+    // Get base color
+    vec4 color = texture(TEXTURE, UV);
+    
+    // Scan lines
+    float scan_line = sin(UV.y * scan_line_count * 3.14159);
+    color.rgb -= scan_line_intensity * vec3(pow(abs(scan_line), 0.5));
+    
+    // Noise
+    float noise = random(UV + TIME * time_scale * 0.01);
+    color.rgb += (noise - 0.5) * noise_intensity;
+    
+    // Vignette effect
+    float vignette = length(UV - 0.5) * 1.5;
+    color.rgb *= 1.0 - vignette_intensity * vignette;
+    
+    // Flicker
+    float flicker = random(vec2(TIME * time_scale * 0.1, TIME * time_scale * 0.1));
+    color.rgb += (flicker - 0.5) * flicker_intensity;
+    
+    // Slight green tint
+    color.rgb += vec3(-0.02, 0.01, -0.02);
+    
+    COLOR = color;
+}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0nmnn"]
+shader = SubResource("Shader_vkq6e")
+shader_parameter/scan_line_count = 300.0
+shader_parameter/scan_line_intensity = 0.1
+shader_parameter/noise_intensity = 0.04
+shader_parameter/vignette_intensity = 0.4
+shader_parameter/flicker_intensity = 0.03
+shader_parameter/time_scale = 5.0
 
 [node name="MethLabGame" type="Control"]
 layout_mode = 3
@@ -91,7 +213,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.0705882, 0.0705882, 0.0705882, 1)
+color = Color(0.0352941, 0.0431373, 0.0352941, 1)
 
 [node name="LabLayout" type="VBoxContainer" parent="."]
 layout_mode = 1
@@ -100,7 +222,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 20
+theme_override_constants/separation = 16
 
 [node name="TitleBar" type="HBoxContainer" parent="LabLayout"]
 layout_mode = 2
@@ -109,45 +231,52 @@ alignment = 1
 
 [node name="Title" type="Label" parent="LabLayout/TitleBar"]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.768627, 0.945098, 0.156863, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
 theme_override_font_sizes/font_size = 28
 text = "METH LAB"
 horizontal_alignment = 1
 
 [node name="TimerLabel" type="Label" parent="LabLayout/TitleBar"]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.556863, 0.815686, 0.196078, 1)
 theme_override_font_sizes/font_size = 20
 text = "1:30"
 
 [node name="QualityLabel" type="Label" parent="LabLayout/TitleBar"]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.556863, 0.815686, 0.196078, 1)
 theme_override_font_sizes/font_size = 20
 text = "Quality: 0%"
 
 [node name="ProfitLabel" type="Label" parent="LabLayout/TitleBar"]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.556863, 0.815686, 0.196078, 1)
 theme_override_font_sizes/font_size = 20
 text = "Profit: $0"
 
 [node name="ScoreLabel" type="Label" parent="LabLayout/TitleBar"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.4, 0.6, 1, 1)
+theme_override_colors/font_color = Color(0.556863, 0.815686, 0.196078, 1)
 theme_override_font_sizes/font_size = 20
 text = "Score: 0"
 
 [node name="ComboLabel" type="Label" parent="LabLayout/TitleBar"]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.556863, 0.815686, 0.196078, 1)
 theme_override_font_sizes/font_size = 20
 text = "Combo: x1.0"
 
 [node name="MainContent" type="HBoxContainer" parent="LabLayout"]
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_constants/separation = 20
+theme_override_constants/separation = 16
 
 [node name="LeftPanel" type="VBoxContainer" parent="LabLayout/MainContent"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_constants/separation = 15
+theme_override_constants/separation = 12
 
 [node name="ChemicalsPanel" type="PanelContainer" parent="LabLayout/MainContent/LeftPanel"]
 layout_mode = 2
@@ -156,37 +285,18 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_ivhrl")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="LabLayout/MainContent/LeftPanel/ChemicalsPanel"]
 layout_mode = 2
-theme_override_constants/separation = 10
+theme_override_constants/separation = 8
 
 [node name="Label" type="Label" parent="LabLayout/MainContent/LeftPanel/ChemicalsPanel/VBoxContainer"]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.67451, 0.827451, 0.372549, 1)
 text = "CHEMICALS"
 horizontal_alignment = 1
 
 [node name="ChemicalButtons" type="VBoxContainer" parent="LabLayout/MainContent/LeftPanel/ChemicalsPanel/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_constants/separation = 10
-
-[node name="PseudoephedrineButton" type="Button" parent="LabLayout/MainContent/LeftPanel/ChemicalsPanel/VBoxContainer/ChemicalButtons"]
-layout_mode = 2
-text = "Add Pseudoephedrine"
-
-[node name="PhosphorusButton" type="Button" parent="LabLayout/MainContent/LeftPanel/ChemicalsPanel/VBoxContainer/ChemicalButtons"]
-layout_mode = 2
-text = "Add Red Phosphorus"
-
-[node name="IodineButton" type="Button" parent="LabLayout/MainContent/LeftPanel/ChemicalsPanel/VBoxContainer/ChemicalButtons"]
-layout_mode = 2
-text = "Add Iodine"
-
-[node name="MethylamineButton" type="Button" parent="LabLayout/MainContent/LeftPanel/ChemicalsPanel/VBoxContainer/ChemicalButtons"]
-layout_mode = 2
-text = "Add Methylamine"
-
-[node name="AluminumButton" type="Button" parent="LabLayout/MainContent/LeftPanel/ChemicalsPanel/VBoxContainer/ChemicalButtons"]
-layout_mode = 2
-text = "Add Aluminum"
+theme_override_constants/separation = 8
 
 [node name="EquipmentPanel" type="PanelContainer" parent="LabLayout/MainContent/LeftPanel"]
 layout_mode = 2
@@ -195,39 +305,52 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_ivhrl")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="LabLayout/MainContent/LeftPanel/EquipmentPanel"]
 layout_mode = 2
-theme_override_constants/separation = 10
+theme_override_constants/separation = 8
 
 [node name="Label" type="Label" parent="LabLayout/MainContent/LeftPanel/EquipmentPanel/VBoxContainer"]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.67451, 0.827451, 0.372549, 1)
 text = "EQUIPMENT"
 horizontal_alignment = 1
 
 [node name="EquipmentButtons" type="VBoxContainer" parent="LabLayout/MainContent/LeftPanel/EquipmentPanel/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_constants/separation = 10
+theme_override_constants/separation = 8
 
 [node name="BeakerButton" type="Button" parent="LabLayout/MainContent/LeftPanel/EquipmentPanel/VBoxContainer/EquipmentButtons"]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.85098, 0.85098, 0.85098, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_q87iu")
 text = "Use Beaker"
 
 [node name="HotPlateButton" type="Button" parent="LabLayout/MainContent/LeftPanel/EquipmentPanel/VBoxContainer/EquipmentButtons"]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.85098, 0.85098, 0.85098, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_q87iu")
 text = "Adjust Hot Plate"
 
 [node name="FilterButton" type="Button" parent="LabLayout/MainContent/LeftPanel/EquipmentPanel/VBoxContainer/EquipmentButtons"]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.85098, 0.85098, 0.85098, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_q87iu")
 text = "Use Filter"
 
 [node name="CentrifugeButton" type="Button" parent="LabLayout/MainContent/LeftPanel/EquipmentPanel/VBoxContainer/EquipmentButtons"]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.85098, 0.85098, 0.85098, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_q87iu")
 text = "Use Centrifuge"
 
 [node name="MidPanel" type="VBoxContainer" parent="LabLayout/MainContent"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 1.5
-theme_override_constants/separation = 15
+theme_override_constants/separation = 12
 
 [node name="ReactionPanel" type="PanelContainer" parent="LabLayout/MainContent/MidPanel"]
 layout_mode = 2
@@ -237,10 +360,11 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_ivhrl")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="LabLayout/MainContent/MidPanel/ReactionPanel"]
 layout_mode = 2
-theme_override_constants/separation = 10
+theme_override_constants/separation = 8
 
 [node name="Label" type="Label" parent="LabLayout/MainContent/MidPanel/ReactionPanel/VBoxContainer"]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.67451, 0.827451, 0.372549, 1)
 text = "REACTION"
 horizontal_alignment = 1
 
@@ -262,17 +386,18 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_ivhrl")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="LabLayout/MainContent/MidPanel/ControlsPanel"]
 layout_mode = 2
-theme_override_constants/separation = 10
+theme_override_constants/separation = 8
 
 [node name="Label" type="Label" parent="LabLayout/MainContent/MidPanel/ControlsPanel/VBoxContainer"]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.67451, 0.827451, 0.372549, 1)
 text = "CONTROLS"
 horizontal_alignment = 1
 
 [node name="Controls" type="HBoxContainer" parent="LabLayout/MainContent/MidPanel/ControlsPanel/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_constants/separation = 20
+theme_override_constants/separation = 16
 alignment = 1
 
 [node name="StartButton" type="Button" parent="LabLayout/MainContent/MidPanel/ControlsPanel/VBoxContainer/Controls"]
@@ -297,7 +422,7 @@ text = "RESET"
 [node name="RightPanel" type="VBoxContainer" parent="LabLayout/MainContent"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_constants/separation = 15
+theme_override_constants/separation = 12
 
 [node name="MetricsPanel" type="PanelContainer" parent="LabLayout/MainContent/RightPanel"]
 layout_mode = 2
@@ -306,65 +431,78 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_ivhrl")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="LabLayout/MainContent/RightPanel/MetricsPanel"]
 layout_mode = 2
-theme_override_constants/separation = 10
+theme_override_constants/separation = 8
 
 [node name="Label" type="Label" parent="LabLayout/MainContent/RightPanel/MetricsPanel/VBoxContainer"]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.67451, 0.827451, 0.372549, 1)
 text = "METRICS"
 horizontal_alignment = 1
 
 [node name="TemperatureContainer" type="VBoxContainer" parent="LabLayout/MainContent/RightPanel/MetricsPanel/VBoxContainer"]
 layout_mode = 2
-theme_override_constants/separation = 5
+theme_override_constants/separation = 4
 
 [node name="Label" type="Label" parent="LabLayout/MainContent/RightPanel/MetricsPanel/VBoxContainer/TemperatureContainer"]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.784314, 0.784314, 0.784314, 1)
 text = "Temperature:"
 
 [node name="TemperatureBar" type="ProgressBar" parent="LabLayout/MainContent/RightPanel/MetricsPanel/VBoxContainer/TemperatureContainer"]
 layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_i31xs")
+theme_override_styles/fill = SubResource("StyleBoxFlat_dyt8x")
 max_value = 1.0
 value = 0.5
 show_percentage = false
 
 [node name="PurityContainer" type="VBoxContainer" parent="LabLayout/MainContent/RightPanel/MetricsPanel/VBoxContainer"]
 layout_mode = 2
-theme_override_constants/separation = 5
+theme_override_constants/separation = 4
 
 [node name="Label" type="Label" parent="LabLayout/MainContent/RightPanel/MetricsPanel/VBoxContainer/PurityContainer"]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.784314, 0.784314, 0.784314, 1)
 text = "Purity:"
 
 [node name="PurityBar" type="ProgressBar" parent="LabLayout/MainContent/RightPanel/MetricsPanel/VBoxContainer/PurityContainer"]
 layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_i31xs")
+theme_override_styles/fill = SubResource("StyleBoxFlat_5bjrg")
 max_value = 1.0
 value = 0.2
 show_percentage = false
 
 [node name="YieldContainer" type="VBoxContainer" parent="LabLayout/MainContent/RightPanel/MetricsPanel/VBoxContainer"]
 layout_mode = 2
-theme_override_constants/separation = 5
+theme_override_constants/separation = 4
 
 [node name="Label" type="Label" parent="LabLayout/MainContent/RightPanel/MetricsPanel/VBoxContainer/YieldContainer"]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.784314, 0.784314, 0.784314, 1)
 text = "Yield:"
 
 [node name="YieldBar" type="ProgressBar" parent="LabLayout/MainContent/RightPanel/MetricsPanel/VBoxContainer/YieldContainer"]
 layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_i31xs")
+theme_override_styles/fill = SubResource("StyleBoxFlat_hp2u5")
 max_value = 1.0
 value = 0.3
 show_percentage = false
 
 [node name="StabilityContainer" type="VBoxContainer" parent="LabLayout/MainContent/RightPanel/MetricsPanel/VBoxContainer"]
 layout_mode = 2
-theme_override_constants/separation = 5
+theme_override_constants/separation = 4
 
 [node name="Label" type="Label" parent="LabLayout/MainContent/RightPanel/MetricsPanel/VBoxContainer/StabilityContainer"]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.784314, 0.784314, 0.784314, 1)
 text = "Stability:"
 
 [node name="StabilityBar" type="ProgressBar" parent="LabLayout/MainContent/RightPanel/MetricsPanel/VBoxContainer/StabilityContainer"]
 layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_i31xs")
+theme_override_styles/fill = SubResource("StyleBoxFlat_5bjrg")
 max_value = 1.0
 value = 0.8
 show_percentage = false
@@ -376,70 +514,91 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_ivhrl")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="LabLayout/MainContent/RightPanel/RecipePanel"]
 layout_mode = 2
-theme_override_constants/separation = 10
+theme_override_constants/separation = 8
 
 [node name="Label" type="Label" parent="LabLayout/MainContent/RightPanel/RecipePanel/VBoxContainer"]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.67451, 0.827451, 0.372549, 1)
 text = "RECIPE NOTES"
 horizontal_alignment = 1
 
 [node name="RecipeText" type="RichTextLabel" parent="LabLayout/MainContent/RightPanel/RecipePanel/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
+theme_override_colors/default_color = Color(0.67451, 0.752941, 0.556863, 1)
 bbcode_enabled = true
-text = "[color=#aaaaaa]• Keep temperature between 75-85°C
-• Add chemicals in correct order
-• Methylamine is highly reactive
-• Filter solution after heating
-• Stabilize with aluminum when yield > 70%[/color]"
+text = "• Add chemicals in this order:
+1. Pseudoephedrine
+2. Red Phosphorus
+3. Iodine
+4. Methylamine
+5. Aluminum
+
+Remember: The success depends on the correct sequence!"
 
 [node name="LogPanel" type="PanelContainer" parent="LabLayout"]
 layout_mode = 2
 size_flags_vertical = 3
-size_flags_stretch_ratio = 0.5
+size_flags_stretch_ratio = 0.4
 theme_override_styles/panel = SubResource("StyleBoxFlat_r7j4g")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="LabLayout/LogPanel"]
 layout_mode = 2
-theme_override_constants/separation = 10
+theme_override_constants/separation = 8
 
 [node name="LogTitle" type="Label" parent="LabLayout/LogPanel/VBoxContainer"]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.67451, 0.827451, 0.372549, 1)
 text = "LAB LOG"
 horizontal_alignment = 1
 
 [node name="LogText" type="RichTextLabel" parent="LabLayout/LogPanel/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
+theme_override_colors/default_color = Color(0.67451, 0.752941, 0.556863, 1)
 bbcode_enabled = true
-text = "[color=#888888]> Meth lab initialized. Ready to begin cooking process.
-> Waiting for user input...[/color]"
+text = "> Meth lab initialized. Ready to begin cooking process.
+> Waiting for user input..."
 
 [node name="ControlPanel" type="HBoxContainer" parent="LabLayout"]
 layout_mode = 2
-theme_override_constants/separation = 20
+theme_override_constants/separation = 16
 alignment = 1
 
 [node name="ResetButton" type="Button" parent="LabLayout/ControlPanel"]
 custom_minimum_size = Vector2(150, 40)
 layout_mode = 2
+theme_override_colors/font_color = Color(0.85098, 0.85098, 0.85098, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_yodl2")
 text = "RESET"
 
 [node name="NextLevelButton" type="Button" parent="LabLayout/ControlPanel"]
 custom_minimum_size = Vector2(150, 40)
 layout_mode = 2
+theme_override_colors/font_color = Color(0.85098, 0.85098, 0.85098, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_1s5wj")
 text = "NEXT LEVEL"
 
 [node name="QuitButton" type="Button" parent="LabLayout/ControlPanel"]
 custom_minimum_size = Vector2(150, 40)
 layout_mode = 2
+theme_override_colors/font_color = Color(0.85098, 0.85098, 0.85098, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_1ihg3")
 text = "QUIT"
 
-[connection signal="pressed" from="LabLayout/MainContent/LeftPanel/ChemicalsPanel/VBoxContainer/ChemicalButtons/PseudoephedrineButton" to="." method="_on_pseudoephedrine_button_pressed"]
-[connection signal="pressed" from="LabLayout/MainContent/LeftPanel/ChemicalsPanel/VBoxContainer/ChemicalButtons/PhosphorusButton" to="." method="_on_phosphorus_button_pressed"]
-[connection signal="pressed" from="LabLayout/MainContent/LeftPanel/ChemicalsPanel/VBoxContainer/ChemicalButtons/IodineButton" to="." method="_on_iodine_button_pressed"]
-[connection signal="pressed" from="LabLayout/MainContent/LeftPanel/ChemicalsPanel/VBoxContainer/ChemicalButtons/MethylamineButton" to="." method="_on_methylamine_button_pressed"]
-[connection signal="pressed" from="LabLayout/MainContent/LeftPanel/ChemicalsPanel/VBoxContainer/ChemicalButtons/AluminumButton" to="." method="_on_aluminum_button_pressed"]
+[node name="CRTEffect" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_0nmnn")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
 [connection signal="pressed" from="LabLayout/MainContent/LeftPanel/EquipmentPanel/VBoxContainer/EquipmentButtons/BeakerButton" to="." method="_on_beaker_button_pressed"]
 [connection signal="pressed" from="LabLayout/MainContent/LeftPanel/EquipmentPanel/VBoxContainer/EquipmentButtons/HotPlateButton" to="." method="_on_hot_plate_button_pressed"]
 [connection signal="pressed" from="LabLayout/MainContent/LeftPanel/EquipmentPanel/VBoxContainer/EquipmentButtons/FilterButton" to="." method="_on_filter_button_pressed"]
