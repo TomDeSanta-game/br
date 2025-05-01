@@ -1,7 +1,8 @@
-[gd_scene load_steps=16 format=3 uid="uid://de3rlyhm5uqv0"]
+[gd_scene load_steps=17 format=3 uid="uid://de3rlyhm5uqv0"]
 
 [ext_resource type="Script" uid="uid://lgw258n0t506" path="res://UI/Scripts/MethLab/MethLabGame.gd" id="1_b1uks"]
 [ext_resource type="Texture2D" uid="uid://bfx8anmqwqy21" path="res://assets/early_methaphetamine_batch.png" id="2_yx5kj"]
+[ext_resource type="FontFile" uid="uid://4abjw2wj62vx" path="res://addons/dialogic/Example Assets/Fonts/Roboto-Regular.ttf" id="3_5dn0j"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ivhrl"]
 bg_color = Color(0.0980392, 0.109804, 0.101961, 1)
@@ -221,13 +222,17 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -10.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 16
+theme_override_constants/separation = 8
 
 [node name="TitleBar" type="HBoxContainer" parent="LabLayout"]
 layout_mode = 2
-theme_override_constants/separation = 20
+theme_override_constants/separation = 12
 alignment = 1
 
 [node name="Title" type="Label" parent="LabLayout/TitleBar"]
@@ -235,6 +240,7 @@ layout_mode = 2
 theme_override_colors/font_color = Color(0.768627, 0.945098, 0.156863, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 2
+theme_override_fonts/font = ExtResource("3_5dn0j")
 theme_override_font_sizes/font_size = 28
 text = "METH LAB"
 horizontal_alignment = 1
@@ -242,42 +248,47 @@ horizontal_alignment = 1
 [node name="TimerLabel" type="Label" parent="LabLayout/TitleBar"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.556863, 0.815686, 0.196078, 1)
-theme_override_font_sizes/font_size = 20
+theme_override_fonts/font = ExtResource("3_5dn0j")
+theme_override_font_sizes/font_size = 18
 text = "1:30"
 
 [node name="QualityLabel" type="Label" parent="LabLayout/TitleBar"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.556863, 0.815686, 0.196078, 1)
-theme_override_font_sizes/font_size = 20
+theme_override_fonts/font = ExtResource("3_5dn0j")
+theme_override_font_sizes/font_size = 18
 text = "Quality: 0%"
 
 [node name="ProfitLabel" type="Label" parent="LabLayout/TitleBar"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.556863, 0.815686, 0.196078, 1)
-theme_override_font_sizes/font_size = 20
+theme_override_fonts/font = ExtResource("3_5dn0j")
+theme_override_font_sizes/font_size = 18
 text = "Profit: $0"
 
 [node name="ScoreLabel" type="Label" parent="LabLayout/TitleBar"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.556863, 0.815686, 0.196078, 1)
-theme_override_font_sizes/font_size = 20
+theme_override_fonts/font = ExtResource("3_5dn0j")
+theme_override_font_sizes/font_size = 18
 text = "Score: 0"
 
 [node name="ComboLabel" type="Label" parent="LabLayout/TitleBar"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.556863, 0.815686, 0.196078, 1)
-theme_override_font_sizes/font_size = 20
+theme_override_fonts/font = ExtResource("3_5dn0j")
+theme_override_font_sizes/font_size = 18
 text = "Combo: x1.0"
 
 [node name="MainContent" type="HBoxContainer" parent="LabLayout"]
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_constants/separation = 16
+theme_override_constants/separation = 10
 
 [node name="LeftPanel" type="VBoxContainer" parent="LabLayout/MainContent"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_constants/separation = 12
+theme_override_constants/separation = 8
 
 [node name="ChemicalsPanel" type="PanelContainer" parent="LabLayout/MainContent/LeftPanel"]
 layout_mode = 2
@@ -286,18 +297,20 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_ivhrl")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="LabLayout/MainContent/LeftPanel/ChemicalsPanel"]
 layout_mode = 2
-theme_override_constants/separation = 8
+theme_override_constants/separation = 6
 
 [node name="Label" type="Label" parent="LabLayout/MainContent/LeftPanel/ChemicalsPanel/VBoxContainer"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.67451, 0.827451, 0.372549, 1)
+theme_override_fonts/font = ExtResource("3_5dn0j")
+theme_override_font_sizes/font_size = 16
 text = "CHEMICALS"
 horizontal_alignment = 1
 
 [node name="ChemicalButtons" type="VBoxContainer" parent="LabLayout/MainContent/LeftPanel/ChemicalsPanel/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_constants/separation = 8
+theme_override_constants/separation = 6
 
 [node name="EquipmentPanel" type="PanelContainer" parent="LabLayout/MainContent/LeftPanel"]
 layout_mode = 2
@@ -306,23 +319,27 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_ivhrl")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="LabLayout/MainContent/LeftPanel/EquipmentPanel"]
 layout_mode = 2
-theme_override_constants/separation = 8
+theme_override_constants/separation = 6
 
 [node name="Label" type="Label" parent="LabLayout/MainContent/LeftPanel/EquipmentPanel/VBoxContainer"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.67451, 0.827451, 0.372549, 1)
+theme_override_fonts/font = ExtResource("3_5dn0j")
+theme_override_font_sizes/font_size = 16
 text = "EQUIPMENT"
 horizontal_alignment = 1
 
 [node name="EquipmentButtons" type="VBoxContainer" parent="LabLayout/MainContent/LeftPanel/EquipmentPanel/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_constants/separation = 8
+theme_override_constants/separation = 6
 
 [node name="BeakerButton" type="Button" parent="LabLayout/MainContent/LeftPanel/EquipmentPanel/VBoxContainer/EquipmentButtons"]
 layout_mode = 2
 theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
 theme_override_colors/font_color = Color(0.85098, 0.85098, 0.85098, 1)
+theme_override_fonts/font = ExtResource("3_5dn0j")
+theme_override_font_sizes/font_size = 14
 theme_override_styles/normal = SubResource("StyleBoxFlat_q87iu")
 text = "Use Beaker"
 
@@ -330,6 +347,8 @@ text = "Use Beaker"
 layout_mode = 2
 theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
 theme_override_colors/font_color = Color(0.85098, 0.85098, 0.85098, 1)
+theme_override_fonts/font = ExtResource("3_5dn0j")
+theme_override_font_sizes/font_size = 14
 theme_override_styles/normal = SubResource("StyleBoxFlat_q87iu")
 text = "Adjust Hot Plate"
 
@@ -337,6 +356,8 @@ text = "Adjust Hot Plate"
 layout_mode = 2
 theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
 theme_override_colors/font_color = Color(0.85098, 0.85098, 0.85098, 1)
+theme_override_fonts/font = ExtResource("3_5dn0j")
+theme_override_font_sizes/font_size = 14
 theme_override_styles/normal = SubResource("StyleBoxFlat_q87iu")
 text = "Use Filter"
 
@@ -344,6 +365,8 @@ text = "Use Filter"
 layout_mode = 2
 theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
 theme_override_colors/font_color = Color(0.85098, 0.85098, 0.85098, 1)
+theme_override_fonts/font = ExtResource("3_5dn0j")
+theme_override_font_sizes/font_size = 14
 theme_override_styles/normal = SubResource("StyleBoxFlat_q87iu")
 text = "Use Centrifuge"
 
@@ -351,7 +374,7 @@ text = "Use Centrifuge"
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 1.5
-theme_override_constants/separation = 12
+theme_override_constants/separation = 8
 
 [node name="ReactionPanel" type="PanelContainer" parent="LabLayout/MainContent/MidPanel"]
 layout_mode = 2
@@ -361,11 +384,13 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_ivhrl")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="LabLayout/MainContent/MidPanel/ReactionPanel"]
 layout_mode = 2
-theme_override_constants/separation = 8
+theme_override_constants/separation = 6
 
 [node name="Label" type="Label" parent="LabLayout/MainContent/MidPanel/ReactionPanel/VBoxContainer"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.67451, 0.827451, 0.372549, 1)
+theme_override_fonts/font = ExtResource("3_5dn0j")
+theme_override_font_sizes/font_size = 16
 text = "REACTION"
 horizontal_alignment = 1
 
@@ -374,7 +399,7 @@ layout_mode = 2
 size_flags_vertical = 3
 
 [node name="ReactionDisplay" type="TextureRect" parent="LabLayout/MainContent/MidPanel/ReactionPanel/VBoxContainer/ReactionContainer"]
-custom_minimum_size = Vector2(200, 200)
+custom_minimum_size = Vector2(190, 190)
 layout_mode = 2
 texture = ExtResource("2_yx5kj")
 expand_mode = 1
@@ -387,29 +412,35 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_ivhrl")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="LabLayout/MainContent/MidPanel/ControlsPanel"]
 layout_mode = 2
-theme_override_constants/separation = 8
+theme_override_constants/separation = 6
 
 [node name="Label" type="Label" parent="LabLayout/MainContent/MidPanel/ControlsPanel/VBoxContainer"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.67451, 0.827451, 0.372549, 1)
+theme_override_fonts/font = ExtResource("3_5dn0j")
+theme_override_font_sizes/font_size = 16
 text = "CONTROLS"
 horizontal_alignment = 1
 
 [node name="Controls" type="HBoxContainer" parent="LabLayout/MainContent/MidPanel/ControlsPanel/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_constants/separation = 16
+theme_override_constants/separation = 10
 alignment = 1
 
 [node name="StartButton" type="Button" parent="LabLayout/MainContent/MidPanel/ControlsPanel/VBoxContainer/Controls"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_fonts/font = ExtResource("3_5dn0j")
+theme_override_font_sizes/font_size = 14
 theme_override_styles/normal = SubResource("StyleBoxFlat_1s5wj")
 text = "START"
 
 [node name="StopButton" type="Button" parent="LabLayout/MainContent/MidPanel/ControlsPanel/VBoxContainer/Controls"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_fonts/font = ExtResource("3_5dn0j")
+theme_override_font_sizes/font_size = 14
 theme_override_styles/hover = SubResource("StyleBoxFlat_fq4p6")
 theme_override_styles/normal = SubResource("StyleBoxFlat_1ihg3")
 text = "STOP"
@@ -417,13 +448,15 @@ text = "STOP"
 [node name="ResetButton" type="Button" parent="LabLayout/MainContent/MidPanel/ControlsPanel/VBoxContainer/Controls"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_fonts/font = ExtResource("3_5dn0j")
+theme_override_font_sizes/font_size = 14
 theme_override_styles/normal = SubResource("StyleBoxFlat_yodl2")
 text = "RESET"
 
 [node name="RightPanel" type="VBoxContainer" parent="LabLayout/MainContent"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_constants/separation = 12
+theme_override_constants/separation = 8
 
 [node name="MetricsPanel" type="PanelContainer" parent="LabLayout/MainContent/RightPanel"]
 layout_mode = 2
@@ -432,11 +465,13 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_ivhrl")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="LabLayout/MainContent/RightPanel/MetricsPanel"]
 layout_mode = 2
-theme_override_constants/separation = 8
+theme_override_constants/separation = 6
 
 [node name="Label" type="Label" parent="LabLayout/MainContent/RightPanel/MetricsPanel/VBoxContainer"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.67451, 0.827451, 0.372549, 1)
+theme_override_fonts/font = ExtResource("3_5dn0j")
+theme_override_font_sizes/font_size = 16
 text = "METRICS"
 horizontal_alignment = 1
 
@@ -447,6 +482,8 @@ theme_override_constants/separation = 4
 [node name="Label" type="Label" parent="LabLayout/MainContent/RightPanel/MetricsPanel/VBoxContainer/TemperatureContainer"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.784314, 0.784314, 0.784314, 1)
+theme_override_fonts/font = ExtResource("3_5dn0j")
+theme_override_font_sizes/font_size = 14
 text = "Temperature:"
 
 [node name="TemperatureBar" type="ProgressBar" parent="LabLayout/MainContent/RightPanel/MetricsPanel/VBoxContainer/TemperatureContainer"]
@@ -464,6 +501,8 @@ theme_override_constants/separation = 4
 [node name="Label" type="Label" parent="LabLayout/MainContent/RightPanel/MetricsPanel/VBoxContainer/PurityContainer"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.784314, 0.784314, 0.784314, 1)
+theme_override_fonts/font = ExtResource("3_5dn0j")
+theme_override_font_sizes/font_size = 14
 text = "Purity:"
 
 [node name="PurityBar" type="ProgressBar" parent="LabLayout/MainContent/RightPanel/MetricsPanel/VBoxContainer/PurityContainer"]
@@ -481,6 +520,8 @@ theme_override_constants/separation = 4
 [node name="Label" type="Label" parent="LabLayout/MainContent/RightPanel/MetricsPanel/VBoxContainer/YieldContainer"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.784314, 0.784314, 0.784314, 1)
+theme_override_fonts/font = ExtResource("3_5dn0j")
+theme_override_font_sizes/font_size = 14
 text = "Yield:"
 
 [node name="YieldBar" type="ProgressBar" parent="LabLayout/MainContent/RightPanel/MetricsPanel/VBoxContainer/YieldContainer"]
@@ -498,6 +539,8 @@ theme_override_constants/separation = 4
 [node name="Label" type="Label" parent="LabLayout/MainContent/RightPanel/MetricsPanel/VBoxContainer/StabilityContainer"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.784314, 0.784314, 0.784314, 1)
+theme_override_fonts/font = ExtResource("3_5dn0j")
+theme_override_font_sizes/font_size = 14
 text = "Stability:"
 
 [node name="StabilityBar" type="ProgressBar" parent="LabLayout/MainContent/RightPanel/MetricsPanel/VBoxContainer/StabilityContainer"]
@@ -515,11 +558,13 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_ivhrl")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="LabLayout/MainContent/RightPanel/RecipePanel"]
 layout_mode = 2
-theme_override_constants/separation = 8
+theme_override_constants/separation = 6
 
 [node name="Label" type="Label" parent="LabLayout/MainContent/RightPanel/RecipePanel/VBoxContainer"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.67451, 0.827451, 0.372549, 1)
+theme_override_fonts/font = ExtResource("3_5dn0j")
+theme_override_font_sizes/font_size = 16
 text = "RECIPE NOTES"
 horizontal_alignment = 1
 
@@ -527,6 +572,8 @@ horizontal_alignment = 1
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_colors/default_color = Color(0.67451, 0.752941, 0.556863, 1)
+theme_override_fonts/normal_font = ExtResource("3_5dn0j")
+theme_override_font_sizes/normal_font_size = 14
 bbcode_enabled = true
 text = "• Add chemicals in this order:
 1. Pseudoephedrine
@@ -540,16 +587,18 @@ Remember: The success depends on the correct sequence!"
 [node name="LogPanel" type="PanelContainer" parent="LabLayout"]
 layout_mode = 2
 size_flags_vertical = 3
-size_flags_stretch_ratio = 0.4
+size_flags_stretch_ratio = 0.35
 theme_override_styles/panel = SubResource("StyleBoxFlat_r7j4g")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="LabLayout/LogPanel"]
 layout_mode = 2
-theme_override_constants/separation = 8
+theme_override_constants/separation = 4
 
 [node name="LogTitle" type="Label" parent="LabLayout/LogPanel/VBoxContainer"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.67451, 0.827451, 0.372549, 1)
+theme_override_fonts/font = ExtResource("3_5dn0j")
+theme_override_font_sizes/font_size = 16
 text = "LAB LOG"
 horizontal_alignment = 1
 
@@ -557,36 +606,44 @@ horizontal_alignment = 1
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_colors/default_color = Color(0.67451, 0.752941, 0.556863, 1)
+theme_override_fonts/normal_font = ExtResource("3_5dn0j")
+theme_override_font_sizes/normal_font_size = 14
 bbcode_enabled = true
 text = "> Meth lab initialized. Ready to begin cooking process.
 > Waiting for user input..."
 
 [node name="ControlPanel" type="HBoxContainer" parent="LabLayout"]
 layout_mode = 2
-theme_override_constants/separation = 16
+theme_override_constants/separation = 12
 alignment = 1
 
 [node name="ResetButton" type="Button" parent="LabLayout/ControlPanel"]
-custom_minimum_size = Vector2(150, 40)
+custom_minimum_size = Vector2(130, 36)
 layout_mode = 2
 theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
 theme_override_colors/font_color = Color(0.85098, 0.85098, 0.85098, 1)
+theme_override_fonts/font = ExtResource("3_5dn0j")
+theme_override_font_sizes/font_size = 14
 theme_override_styles/normal = SubResource("StyleBoxFlat_yodl2")
 text = "RESET"
 
 [node name="NextLevelButton" type="Button" parent="LabLayout/ControlPanel"]
-custom_minimum_size = Vector2(150, 40)
+custom_minimum_size = Vector2(130, 36)
 layout_mode = 2
 theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
 theme_override_colors/font_color = Color(0.85098, 0.85098, 0.85098, 1)
+theme_override_fonts/font = ExtResource("3_5dn0j")
+theme_override_font_sizes/font_size = 14
 theme_override_styles/normal = SubResource("StyleBoxFlat_1s5wj")
 text = "NEXT LEVEL"
 
 [node name="QuitButton" type="Button" parent="LabLayout/ControlPanel"]
-custom_minimum_size = Vector2(150, 40)
+custom_minimum_size = Vector2(130, 36)
 layout_mode = 2
 theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
 theme_override_colors/font_color = Color(0.85098, 0.85098, 0.85098, 1)
+theme_override_fonts/font = ExtResource("3_5dn0j")
+theme_override_font_sizes/font_size = 14
 theme_override_styles/normal = SubResource("StyleBoxFlat_1ihg3")
 text = "QUIT"
 
