@@ -484,163 +484,271 @@ func _process(delta):
 	process_visual_effects(delta)
 
 func setup_chemical_buttons():
-	var chemical_buttons = [
-		$LabLayout/MainContent/LeftPanel/ChemicalsPanel/VBoxContainer/ChemicalButtons/PseudoephedrineButton,
-		$LabLayout/MainContent/LeftPanel/ChemicalsPanel/VBoxContainer/ChemicalButtons/PhosphorusButton,
-		$LabLayout/MainContent/LeftPanel/ChemicalsPanel/VBoxContainer/ChemicalButtons/IodineButton,
-		$LabLayout/MainContent/LeftPanel/ChemicalsPanel/VBoxContainer/ChemicalButtons/MethylamineButton,
-		$LabLayout/MainContent/LeftPanel/ChemicalsPanel/VBoxContainer/ChemicalButtons/AluminumButton
-	]
+	# Find the container for our chemical buttons
+	var buttons_container = $LabLayout/MainContent/LeftPanel/ChemicalsPanel/VBoxContainer/ChemicalButtons
 	
-	# Chemical icons and colors - using more distinct textures for different chemicals
-	var chemical_icons = {
-		"Pseudoephedrine": preload("res://assets/early_methaphetamine_batch.png"),
-		"Red Phosphorus": preload("res://assets/early_methaphetamine_batch.png"),
-		"Iodine": preload("res://assets/early_methaphetamine_batch.png"),
-		"Methylamine": preload("res://assets/early_methaphetamine_batch.png"),
-		"Aluminum": preload("res://assets/early_methaphetamine_batch.png")
-	}
-	
-	for button in chemical_buttons:
-		if button:
+	if buttons_container:
+		# Clear any existing buttons
+		for child in buttons_container.get_children():
+			child.queue_free()
+			
+		# Add a button for each chemical
+		for chemical in get_all_chemicals():
+			var button = Button.new()
+			button.text = chemical
+			button.custom_minimum_size.y = 38
+			button.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+			
+			# Set up dragging
+			button.gui_input.connect(_on_chemical_gui_input.bind(chemical))
+			
 			# Style the button
-			button.add_theme_stylebox_override("normal", create_button_style(get_chemical_color(button.text.replace("Add ", ""))))
-			button.add_theme_stylebox_override("hover", create_button_style(get_chemical_color(button.text.replace("Add ", "")).lightened(0.2)))
-			button.add_theme_stylebox_override("pressed", create_button_style(get_chemical_color(button.text.replace("Add ", "")).darkened(0.2)))
+			style_chemical_button(button, chemical)
 			
-			# Add icon to button
-			var chemical_name = button.text.replace("Add ", "")
-			var icon = TextureRect.new()
-			icon.texture = chemical_icons[chemical_name]
-			icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-			icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-			icon.custom_minimum_size = Vector2(32, 32)
-			
-			# Create horizontal container for icon and text
-			var hbox = HBoxContainer.new()
-			button.add_child(hbox)
-			
-			# Add icon
-			hbox.add_child(icon)
-			
-			# Add label for chemical name
-			var label = Label.new()
-			label.text = chemical_name
-			label.add_theme_font_size_override("font_size", 16)
-			hbox.add_child(label)
-			
-			# Set button text to empty since we're using our custom layout
-			button.text = ""
-			
-			# Center the container
-			hbox.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-			hbox.alignment = BoxContainer.ALIGNMENT_CENTER
-			hbox.add_theme_constant_override("separation", 10)
-			
-			# Connect signals
-			button.gui_input.connect(_on_chemical_gui_input.bind(button))
-			# Add hover effect
-			button.mouse_entered.connect(_on_button_mouse_entered.bind(button))
-			button.mouse_exited.connect(_on_button_mouse_exited.bind(button))
-			
-			# Apply color tint based on the chemical
-			icon.modulate = get_chemical_color(chemical_name)
+			buttons_container.add_child(button)
 
-func _on_button_mouse_entered(button):
-	var tween = create_tween()
-	tween.tween_property(button, "modulate", Color(1.2, 1.2, 1.2), 0.2)
+func get_all_chemicals():
+	return ["Pseudoephedrine", "Red Phosphorus", "Iodine", "Methylamine", "Aluminum"]
 
-func _on_button_mouse_exited(button):
-	var tween = create_tween()
-	tween.tween_property(button, "modulate", Color(1, 1, 1), 0.2)
-
-func _on_chemical_gui_input(event, chemical_button):
-	# Determine chemical name from button's child label
-	var chemical_name = ""
-	if chemical_button.get_child_count() > 0 and chemical_button.get_child(0) is HBoxContainer:
-		var hbox = chemical_button.get_child(0)
-		for child in hbox.get_children():
-			if child is Label:
-				chemical_name = child.text
-				break
+func style_chemical_button(button, chemical):
+	var color = get_chemical_color(chemical)
 	
-	if chemical_name == "":
-		return
+	# Create custom icon based on chemical
+	var icon = create_chemical_icon(chemical, color)
+	button.icon = icon
+	button.expand_icon = true
+	button.icon_alignment = HORIZONTAL_ALIGNMENT_LEFT
+	
+	# Add proper padding/spacing
+	button.add_theme_constant_override("h_separation", 10)
+	
+	# Create stylebox
+	var normal_style = StyleBoxFlat.new()
+	normal_style.bg_color = Color(0.05, 0.05, 0.05, 1)
+	normal_style.border_width_left = 2
+	normal_style.border_width_top = 2
+	normal_style.border_width_right = 2
+	normal_style.border_width_bottom = 2
+	normal_style.border_color = color.darkened(0.3) # Darker version of chemical color
+	normal_style.corner_radius_top_left = 3
+	normal_style.corner_radius_top_right = 3
+	normal_style.corner_radius_bottom_right = 3
+	normal_style.corner_radius_bottom_left = 3
+	button.add_theme_stylebox_override("normal", normal_style)
+	
+	# Hover style
+	var hover_style = normal_style.duplicate()
+	hover_style.bg_color = Color(0.1, 0.1, 0.1, 1)
+	hover_style.border_color = color
+	button.add_theme_stylebox_override("hover", hover_style)
+	
+	# Pressed style
+	var pressed_style = normal_style.duplicate()
+	pressed_style.bg_color = Color(0.03, 0.03, 0.03, 1)
+	pressed_style.border_color = color.darkened(0.5)
+	button.add_theme_stylebox_override("pressed", pressed_style)
+	
+	# Font overrides
+	button.add_theme_font_size_override("font_size", 14)
+	button.add_theme_color_override("font_color", Color.WHITE)
+	button.add_theme_color_override("font_hover_color", color.lightened(0.2))
+
+func create_chemical_icon(chemical_name, color):
+	# Create custom 8-bit style icon
+	var image = Image.create(32, 32, false, Image.FORMAT_RGBA8)
+	
+	# Fill background transparent
+	image.fill(Color(0, 0, 0, 0))
+	
+	# Choose the right icon pattern based on chemical name
+	match chemical_name:
+		"Pseudoephedrine":
+			draw_pill_icon(image, color)
+		"Red Phosphorus":
+			draw_powder_icon(image, Color.RED)
+		"Iodine":
+			draw_crystal_icon(image, Color(0.5, 0.0, 0.5))
+		"Methylamine":
+			draw_liquid_icon(image, Color(0.0, 0.5, 0.5))
+		"Aluminum":
+			draw_metal_icon(image, Color(0.7, 0.7, 0.7))
+		_:
+			# Default to a simple square if no pattern matches
+			for y in range(8, 24):
+				for x in range(8, 24):
+					image.set_pixel(x, y, color)
+	
+	# Create texture from image
+	var texture = ImageTexture.create_from_image(image)
+	return texture
+
+func draw_pill_icon(image, color):
+	# Draw a pill capsule shape
+	var center_x = 16
+	var center_y = 16
+	var width = 12
+	var height = 20
+	
+	# Draw oval pill
+	for y in range(center_y - height/2, center_y + height/2):
+		for x in range(center_x - width/2, center_x + width/2):
+			var dx = (x - center_x) / float(width/2)
+			var dy = (y - center_y) / float(height/2)
+			if dx*dx + dy*dy <= 1.0:
+				image.set_pixel(x, y, color)
+	
+	# Add line across middle in darker color
+	var line_color = color.darkened(0.3)
+	for y in range(center_y - 2, center_y + 2):
+		for x in range(center_x - width/2, center_x + width/2):
+			var dx = (x - center_x) / float(width/2)
+			var dy = (y - center_y) / float(height/2)
+			if dx*dx + dy*dy <= 1.0:
+				image.set_pixel(x, y, line_color)
+
+func draw_powder_icon(image, color):
+	# Draw powder as small particles
+	for i in range(40):
+		var x = randi() % 24 + 4
+		var y = randi() % 24 + 4
+		image.set_pixel(x, y, color)
 		
+		# Some pixels have a small cluster
+		if randf() < 0.5:
+			if x < 31: image.set_pixel(x+1, y, color)
+			if x > 0: image.set_pixel(x-1, y, color)
+			if y < 31: image.set_pixel(x, y+1, color)
+			if y > 0: image.set_pixel(x, y-1, color)
+
+func draw_crystal_icon(image, color):
+	# Draw crystal shape
+	var center_x = 16
+	var center_y = 16
+	
+	# Main crystal body
+	for y in range(8, 24):
+		var width = 16 - abs(y - 16)
+		for x in range(center_x - width, center_x + width):
+			image.set_pixel(x, y, color)
+	
+	# Highlight
+	var highlight = color.lightened(0.3)
+	for y in range(8, 20):
+		var width = 3
+		for x in range(center_x - width, center_x):
+			if x >= center_x - (16 - abs(y - 16)):
+				image.set_pixel(x, y, highlight)
+
+func draw_liquid_icon(image, color):
+	# Draw a flask with liquid
+	var center_x = 16
+	var center_y = 16
+	
+	# Flask shape
+	var flask_color = Color(0.8, 0.8, 0.8, 0.5)
+	for y in range(10, 24):
+		var width = 5 + int((y - 10) / 2.0)
+		if width > 10: width = 10
+		for x in range(center_x - width, center_x + width):
+			image.set_pixel(x, y, flask_color)
+	
+	# Liquid inside
+	for y in range(16, 24):
+		var width = 5 + int((y - 10) / 2.0) - 1
+		if width > 9: width = 9
+		for x in range(center_x - width, center_x + width):
+			image.set_pixel(x, y, color)
+	
+	# Flask neck
+	for y in range(5, 10):
+		for x in range(center_x - 2, center_x + 3):
+			image.set_pixel(x, y, flask_color)
+
+func draw_metal_icon(image, color):
+	# Draw metal foil or sheet
+	for y in range(8, 24):
+		for x in range(8, 24):
+			image.set_pixel(x, y, color)
+	
+	# Add shine lines
+	var shine = color.lightened(0.3)
+	for i in range(4):
+		var y = 10 + i * 3
+		for x in range(10, 22):
+			image.set_pixel(x, y, shine)
+
+func create_drag_ghost(chemical):
+	var ghost = Panel.new()
+	
+	# Create a style for the ghost
+	var style = StyleBoxFlat.new()
+	style.bg_color = Color(0.05, 0.05, 0.05, 0.9)
+	style.border_width_left = 2
+	style.border_width_top = 2
+	style.border_width_right = 2
+	style.border_width_bottom = 2
+	style.border_color = get_chemical_color(chemical)
+	style.corner_radius_top_left = 3
+	style.corner_radius_top_right = 3
+	style.corner_radius_bottom_right = 3
+	style.corner_radius_bottom_left = 3
+	ghost.add_theme_stylebox_override("panel", style)
+	
+	# Set size
+	ghost.custom_minimum_size = Vector2(120, 40)
+	
+	# Add icon and label
+	var hbox = HBoxContainer.new()
+	hbox.add_theme_constant_override("separation", 10)
+	ghost.add_child(hbox)
+	
+	# Add chemical icon
+	var icon_texture = create_chemical_icon(chemical, get_chemical_color(chemical))
+	var icon = TextureRect.new()
+	icon.texture = icon_texture
+	icon.custom_minimum_size = Vector2(24, 24)
+	icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	hbox.add_child(icon)
+	
+	# Add label
+	var label = Label.new()
+	label.text = chemical
+	label.add_theme_font_size_override("font_size", 14)
+	label.add_theme_color_override("font_color", Color.WHITE)
+	hbox.add_child(label)
+	
+	# Position the elements
+	hbox.position = Vector2(8, 8)
+	hbox.size = ghost.size - Vector2(16, 16)
+	
+	# Add to scene and position at cursor
+	add_child(ghost)
+	ghost.global_position = drag_start_position - ghost.size / 2
+	
+	# Store reference to the drag ghost
+	drag_ghost = ghost
+	
+	return ghost
+
+func _on_chemical_gui_input(event, chemical):
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT:
 			if event.pressed:
 				# Start drag
 				dragging_chemical = true
-				dragged_chemical_name = chemical_name
+				dragged_chemical_name = chemical
 				drag_start_position = event.global_position
-				create_drag_ghost(chemical_button)
-				apply_pulse_effect(chemical_button)
-			elif dragging_chemical and dragged_chemical_name == chemical_name:
+				create_drag_ghost(chemical)
+				apply_pulse_effect(chemical)
+			elif dragging_chemical and dragged_chemical_name == chemical:
 				# End drag
 				if can_drop and chemicals_in_beaker.size() < max_chemicals and not recipe_complete and timer_running:
-					add_chemical_to_beaker(chemical_name)
+					add_chemical_to_beaker(chemical)
 				clean_up_drag()
 	
-	elif event is InputEventMouseMotion and dragging_chemical and dragged_chemical_name == chemical_name:
+	elif event is InputEventMouseMotion and dragging_chemical and dragged_chemical_name == chemical:
 		update_drag_position(event.global_position)
-
-func create_drag_ghost(source_button):
-	drag_ghost = ColorRect.new()
-	drag_ghost.size = Vector2(120, 40)
-	drag_ghost.color = Color(0.15, 0.15, 0.15, 0.9)
-	drag_ghost.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	
-	# Get chemical name from button
-	var chemical_name = ""
-	if source_button.get_child_count() > 0 and source_button.get_child(0) is HBoxContainer:
-		var hbox = source_button.get_child(0)
-		for child in hbox.get_children():
-			if child is Label:
-				chemical_name = child.text
-				break
-	
-	if chemical_name == "":
-		return
-	
-	# Create container for icon and text
-	var hbox = HBoxContainer.new()
-	hbox.alignment = BoxContainer.ALIGNMENT_CENTER
-	hbox.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	hbox.custom_minimum_size = Vector2(120, 40)
-	hbox.position = Vector2(0, 0)
-	drag_ghost.add_child(hbox)
-	
-	# Get icon texture
-	var icon_texture = null
-	if source_button.get_child_count() > 0 and source_button.get_child(0) is HBoxContainer:
-		var source_hbox = source_button.get_child(0)
-		for child in source_hbox.get_children():
-			if child is TextureRect:
-				icon_texture = child.texture
-				break
-	
-	# Add icon if we found one
-	if icon_texture:
-		var icon = TextureRect.new()
-		icon.texture = icon_texture
-		icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-		icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-		icon.custom_minimum_size = Vector2(30, 30)
-		icon.modulate = get_chemical_color(chemical_name)
-		hbox.add_child(icon)
-	
-	# Add label
-	var label = Label.new()
-	label.text = chemical_name
-	label.add_theme_color_override("font_color", COLOR_TEXT)
-	label.add_theme_font_size_override("font_size", 14)
-	hbox.add_child(label)
-	
-	add_child(drag_ghost)
-	
-	# Position at cursor
-	drag_ghost.global_position = drag_start_position - drag_ghost.size / 2
 
 func update_drag_position(position):
 	if not drag_ghost:
@@ -992,11 +1100,20 @@ func process_visual_effects(delta):
 		
 		i += 1
 
-func apply_pulse_effect(button):
-	var original_scale = button.scale
-	var tween = create_tween()
-	tween.tween_property(button, "scale", original_scale * 1.2, 0.1)
-	tween.tween_property(button, "scale", original_scale, 0.1)
+func apply_pulse_effect(chemical):
+	var button = null
+	
+	# Find the button for this chemical
+	var buttons_container = $LabLayout/MainContent/LeftPanel/ChemicalsPanel/VBoxContainer/ChemicalButtons
+	for child in buttons_container.get_children():
+		if child is Button and child.text == chemical:
+			button = child
+			break
+	
+	if button:
+		var tween = create_tween()
+		tween.tween_property(button, "modulate", Color(1.5, 1.5, 1.5), 0.1)
+		tween.tween_property(button, "modulate", Color(1, 1, 1), 0.1)
 
 func update_timer_display():
 	if timer_label:
