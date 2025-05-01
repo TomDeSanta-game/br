@@ -171,6 +171,10 @@ func apply_beautiful_ui_theme():
 		# Add subtle scanlines effect
 		var scanlines = create_scanlines()
 		background.add_child(scanlines)
+		
+		# Add noise filter for TV/film grain effect
+		var noise = create_noise_filter()
+		background.add_child(noise)
 	
 	# Style title bar with "Breaking Bad" theme
 	var title = $LabLayout/TitleBar/Title
@@ -1192,3 +1196,34 @@ func create_button_style(color):
 	style.corner_radius_bottom_left = 6
 	style.corner_radius_bottom_right = 6
 	return style
+
+func create_noise_filter():
+	var noise = ColorRect.new()
+	noise.color = Color(1, 1, 1, 1)
+	noise.material = create_noise_material()
+	noise.anchor_right = 1.0
+	noise.anchor_bottom = 1.0
+	noise.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	return noise
+
+func create_noise_material():
+	var shader_material = ShaderMaterial.new()
+	var shader = Shader.new()
+	shader.code = """
+	shader_type canvas_item;
+	
+	uniform float noise_amount : hint_range(0.0, 1.0) = 0.04;
+	uniform float flicker_speed : hint_range(0.0, 10.0) = 5.0;
+	
+	float random(vec2 uv) {
+		return fract(sin(dot(uv.xy, vec2(12.9898, 78.233))) * 43758.5453123);
+	}
+	
+	void fragment() {
+		float noise = random(UV + vec2(TIME * flicker_speed, 0.0));
+		vec4 noise_color = vec4(noise, noise, noise, 1.0) * noise_amount;
+		COLOR = noise_color;
+	}
+	"""
+	shader_material.shader = shader
+	return shader_material
