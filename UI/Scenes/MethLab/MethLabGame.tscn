@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://de3rlyhm5uqv0"]
+[gd_scene load_steps=16 format=3 uid="uid://de3rlyhm5uqv0"]
 
 [ext_resource type="Script" uid="uid://lgw258n0t506" path="res://UI/Scripts/MethLab/MethLabGame.gd" id="1_b1uks"]
 [ext_resource type="Texture2D" uid="uid://bfx8anmqwqy21" path="res://assets/early_methaphetamine_batch.png" id="2_yx5kj"]
@@ -10,10 +10,6 @@ border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
 border_color = Color(0, 0.580392, 0, 1)
-corner_radius_top_left = 0
-corner_radius_top_right = 0
-corner_radius_bottom_right = 0
-corner_radius_bottom_left = 0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q87iu"]
 bg_color = Color(0, 0.0784314, 0, 1)
@@ -22,10 +18,6 @@ border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
 border_color = Color(0, 0.521569, 0, 1)
-corner_radius_top_left = 0
-corner_radius_top_right = 0
-corner_radius_bottom_right = 0
-corner_radius_bottom_left = 0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1s5wj"]
 bg_color = Color(0, 0.462745, 0, 1)
@@ -34,10 +26,6 @@ border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
 border_color = Color(0, 0.721569, 0, 1)
-corner_radius_top_left = 0
-corner_radius_top_right = 0
-corner_radius_bottom_right = 0
-corner_radius_bottom_left = 0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fq4p6"]
 bg_color = Color(0.352941, 0, 0, 1)
@@ -46,10 +34,6 @@ border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
 border_color = Color(0.596078, 0, 0, 1)
-corner_radius_top_left = 0
-corner_radius_top_right = 0
-corner_radius_bottom_right = 0
-corner_radius_bottom_left = 0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1ihg3"]
 bg_color = Color(0.168627, 0, 0, 1)
@@ -58,10 +42,6 @@ border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
 border_color = Color(0.341176, 0, 0, 1)
-corner_radius_top_left = 0
-corner_radius_top_right = 0
-corner_radius_bottom_right = 0
-corner_radius_bottom_left = 0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yodl2"]
 bg_color = Color(0.0588235, 0.0588235, 0.0588235, 1)
@@ -70,10 +50,6 @@ border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
 border_color = Color(0.211765, 0.211765, 0.211765, 1)
-corner_radius_top_left = 0
-corner_radius_top_right = 0
-corner_radius_bottom_right = 0
-corner_radius_bottom_left = 0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i31xs"]
 bg_color = Color(0, 0, 0, 1)
@@ -82,43 +58,15 @@ border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
 border_color = Color(0, 0.345098, 0, 1)
-corner_radius_top_left = 0
-corner_radius_top_right = 0
-corner_radius_bottom_right = 0
-corner_radius_bottom_left = 0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dyt8x"]
 bg_color = Color(0.466667, 0, 0, 1)
-border_width_left = 0
-border_width_top = 0
-border_width_right = 0
-border_width_bottom = 0
-corner_radius_top_left = 0
-corner_radius_top_right = 0
-corner_radius_bottom_right = 0
-corner_radius_bottom_left = 0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5bjrg"]
 bg_color = Color(0, 0.733333, 0, 1)
-border_width_left = 0
-border_width_top = 0
-border_width_right = 0
-border_width_bottom = 0
-corner_radius_top_left = 0
-corner_radius_top_right = 0
-corner_radius_bottom_right = 0
-corner_radius_bottom_left = 0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hp2u5"]
 bg_color = Color(0, 0.564706, 0, 1)
-border_width_left = 0
-border_width_top = 0
-border_width_right = 0
-border_width_bottom = 0
-corner_radius_top_left = 0
-corner_radius_top_right = 0
-corner_radius_bottom_right = 0
-corner_radius_bottom_left = 0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_r7j4g"]
 bg_color = Color(0, 0.0627451, 0, 1)
@@ -127,18 +75,6 @@ border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
 border_color = Color(0, 0.580392, 0, 1)
-corner_radius_top_left = 0
-corner_radius_top_right = 0
-corner_radius_bottom_right = 0
-corner_radius_bottom_left = 0
-
-[sub_resource type="FontFile" id="FontFile_q3a6r"]
-cache/0/16/0/ascent = 0.0
-cache/0/16/0/descent = 0.0
-cache/0/16/0/underline_position = 0.0
-cache/0/16/0/underline_thickness = 0.0
-cache/0/16/0/scale = 1.0
-cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
 
 [sub_resource type="Shader" id="Shader_vkq6e"]
 code = "shader_type canvas_item;
@@ -232,37 +168,43 @@ layout_mode = 2
 theme_override_colors/font_color = Color(0.768627, 0.945098, 0.156863, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 0
-theme_override_font_sizes/font_size = 24
+theme_override_fonts/font = SystemFont.new({})
+theme_override_font_sizes/font_size = 22
 text = "HEISENBERG'S LAB"
 horizontal_alignment = 1
 
 [node name="TimerLabel" type="Label" parent="LabLayout/TitleBar"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.556863, 0.815686, 0.196078, 1)
+theme_override_fonts/font = SystemFont.new({})
 theme_override_font_sizes/font_size = 14
 text = "1:14"
 
 [node name="QualityLabel" type="Label" parent="LabLayout/TitleBar"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.556863, 0.815686, 0.196078, 1)
+theme_override_fonts/font = SystemFont.new({})
 theme_override_font_sizes/font_size = 14
 text = "Quality: 0%"
 
 [node name="ProfitLabel" type="Label" parent="LabLayout/TitleBar"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.556863, 0.815686, 0.196078, 1)
+theme_override_fonts/font = SystemFont.new({})
 theme_override_font_sizes/font_size = 14
 text = "Profit: $0"
 
 [node name="ScoreLabel" type="Label" parent="LabLayout/TitleBar"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.556863, 0.815686, 0.196078, 1)
+theme_override_fonts/font = SystemFont.new({})
 theme_override_font_sizes/font_size = 14
 text = "Score: 0"
 
 [node name="ComboLabel" type="Label" parent="LabLayout/TitleBar"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.556863, 0.815686, 0.196078, 1)
+theme_override_fonts/font = SystemFont.new({})
 theme_override_font_sizes/font_size = 14
 text = "Combo: x1.0"
 
@@ -288,6 +230,7 @@ theme_override_constants/separation = 2
 [node name="Label" type="Label" parent="LabLayout/MainContent/LeftPanel/ChemicalsPanel/VBoxContainer"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0.831373, 0, 1)
+theme_override_fonts/font = SystemFont.new({})
 theme_override_font_sizes/font_size = 14
 text = "CHEMICALS"
 horizontal_alignment = 1
@@ -309,6 +252,7 @@ theme_override_constants/separation = 2
 [node name="Label" type="Label" parent="LabLayout/MainContent/LeftPanel/EquipmentPanel/VBoxContainer"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0.831373, 0, 1)
+theme_override_fonts/font = SystemFont.new({})
 theme_override_font_sizes/font_size = 14
 text = "EQUIPMENT"
 horizontal_alignment = 1
@@ -322,6 +266,7 @@ theme_override_constants/separation = 2
 layout_mode = 2
 theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
 theme_override_colors/font_color = Color(0.85098, 0.85098, 0.85098, 1)
+theme_override_fonts/font = SystemFont.new({})
 theme_override_font_sizes/font_size = 12
 theme_override_styles/normal = SubResource("StyleBoxFlat_q87iu")
 text = "Use Beaker"
@@ -330,6 +275,7 @@ text = "Use Beaker"
 layout_mode = 2
 theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
 theme_override_colors/font_color = Color(0.85098, 0.85098, 0.85098, 1)
+theme_override_fonts/font = SystemFont.new({})
 theme_override_font_sizes/font_size = 12
 theme_override_styles/normal = SubResource("StyleBoxFlat_q87iu")
 text = "Adjust Hot Plate"
@@ -338,6 +284,7 @@ text = "Adjust Hot Plate"
 layout_mode = 2
 theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
 theme_override_colors/font_color = Color(0.85098, 0.85098, 0.85098, 1)
+theme_override_fonts/font = SystemFont.new({})
 theme_override_font_sizes/font_size = 12
 theme_override_styles/normal = SubResource("StyleBoxFlat_q87iu")
 text = "Use Filter"
@@ -346,6 +293,7 @@ text = "Use Filter"
 layout_mode = 2
 theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
 theme_override_colors/font_color = Color(0.85098, 0.85098, 0.85098, 1)
+theme_override_fonts/font = SystemFont.new({})
 theme_override_font_sizes/font_size = 12
 theme_override_styles/normal = SubResource("StyleBoxFlat_q87iu")
 text = "Use Centrifuge"
@@ -369,6 +317,7 @@ theme_override_constants/separation = 2
 [node name="Label" type="Label" parent="LabLayout/MainContent/MidPanel/ReactionPanel/VBoxContainer"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0.831373, 0, 1)
+theme_override_fonts/font = SystemFont.new({})
 theme_override_font_sizes/font_size = 14
 text = "REACTION"
 horizontal_alignment = 1
@@ -378,7 +327,7 @@ layout_mode = 2
 size_flags_vertical = 3
 
 [node name="ReactionDisplay" type="TextureRect" parent="LabLayout/MainContent/MidPanel/ReactionPanel/VBoxContainer/ReactionContainer"]
-custom_minimum_size = Vector2(170, 170)
+custom_minimum_size = Vector2(160, 160)
 layout_mode = 2
 texture = ExtResource("2_yx5kj")
 expand_mode = 1
@@ -396,6 +345,7 @@ theme_override_constants/separation = 2
 [node name="Label" type="Label" parent="LabLayout/MainContent/MidPanel/ControlsPanel/VBoxContainer"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0.831373, 0, 1)
+theme_override_fonts/font = SystemFont.new({})
 theme_override_font_sizes/font_size = 14
 text = "CONTROLS"
 horizontal_alignment = 1
@@ -409,6 +359,7 @@ alignment = 1
 [node name="StartButton" type="Button" parent="LabLayout/MainContent/MidPanel/ControlsPanel/VBoxContainer/Controls"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_fonts/font = SystemFont.new({})
 theme_override_font_sizes/font_size = 14
 theme_override_styles/normal = SubResource("StyleBoxFlat_1s5wj")
 text = "START"
@@ -416,6 +367,7 @@ text = "START"
 [node name="StopButton" type="Button" parent="LabLayout/MainContent/MidPanel/ControlsPanel/VBoxContainer/Controls"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_fonts/font = SystemFont.new({})
 theme_override_font_sizes/font_size = 14
 theme_override_styles/hover = SubResource("StyleBoxFlat_fq4p6")
 theme_override_styles/normal = SubResource("StyleBoxFlat_1ihg3")
@@ -424,6 +376,7 @@ text = "STOP"
 [node name="ResetButton" type="Button" parent="LabLayout/MainContent/MidPanel/ControlsPanel/VBoxContainer/Controls"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_fonts/font = SystemFont.new({})
 theme_override_font_sizes/font_size = 14
 theme_override_styles/normal = SubResource("StyleBoxFlat_yodl2")
 text = "RESET"
@@ -445,6 +398,7 @@ theme_override_constants/separation = 2
 [node name="Label" type="Label" parent="LabLayout/MainContent/RightPanel/MetricsPanel/VBoxContainer"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0.831373, 0, 1)
+theme_override_fonts/font = SystemFont.new({})
 theme_override_font_sizes/font_size = 14
 text = "METRICS"
 horizontal_alignment = 1
@@ -456,6 +410,7 @@ theme_override_constants/separation = 2
 [node name="Label" type="Label" parent="LabLayout/MainContent/RightPanel/MetricsPanel/VBoxContainer/TemperatureContainer"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.784314, 0.784314, 0.784314, 1)
+theme_override_fonts/font = SystemFont.new({})
 theme_override_font_sizes/font_size = 12
 text = "Temperature:"
 
@@ -474,6 +429,7 @@ theme_override_constants/separation = 2
 [node name="Label" type="Label" parent="LabLayout/MainContent/RightPanel/MetricsPanel/VBoxContainer/PurityContainer"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.784314, 0.784314, 0.784314, 1)
+theme_override_fonts/font = SystemFont.new({})
 theme_override_font_sizes/font_size = 12
 text = "Purity:"
 
@@ -492,6 +448,7 @@ theme_override_constants/separation = 2
 [node name="Label" type="Label" parent="LabLayout/MainContent/RightPanel/MetricsPanel/VBoxContainer/YieldContainer"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.784314, 0.784314, 0.784314, 1)
+theme_override_fonts/font = SystemFont.new({})
 theme_override_font_sizes/font_size = 12
 text = "Yield:"
 
@@ -510,6 +467,7 @@ theme_override_constants/separation = 2
 [node name="Label" type="Label" parent="LabLayout/MainContent/RightPanel/MetricsPanel/VBoxContainer/StabilityContainer"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.784314, 0.784314, 0.784314, 1)
+theme_override_fonts/font = SystemFont.new({})
 theme_override_font_sizes/font_size = 12
 text = "Stability:"
 
@@ -533,6 +491,7 @@ theme_override_constants/separation = 2
 [node name="Label" type="Label" parent="LabLayout/MainContent/RightPanel/RecipePanel/VBoxContainer"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0.831373, 0, 1)
+theme_override_fonts/font = SystemFont.new({})
 theme_override_font_sizes/font_size = 14
 text = "RECIPE NOTES"
 horizontal_alignment = 1
@@ -541,7 +500,7 @@ horizontal_alignment = 1
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_colors/default_color = Color(0.521569, 0.733333, 0.188235, 1)
-theme_override_fonts/normal_font = SubResource("FontFile_q3a6r")
+theme_override_fonts/normal_font = SystemFont.new({"font_names": ["Arial"]})
 theme_override_font_sizes/normal_font_size = 12
 bbcode_enabled = true
 text = "CORRECT RECIPE:
@@ -564,6 +523,7 @@ theme_override_constants/separation = 2
 [node name="LogTitle" type="Label" parent="LabLayout/LogPanel/VBoxContainer"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0.831373, 0, 1)
+theme_override_fonts/font = SystemFont.new({})
 theme_override_font_sizes/font_size = 14
 text = "LAB LOG"
 horizontal_alignment = 1
@@ -572,7 +532,7 @@ horizontal_alignment = 1
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_colors/default_color = Color(0.415686, 0.666667, 0.109804, 1)
-theme_override_fonts/normal_font = SubResource("FontFile_q3a6r")
+theme_override_fonts/normal_font = SystemFont.new({"font_names": ["Arial"]})
 theme_override_font_sizes/normal_font_size = 12
 bbcode_enabled = true
 text = "> Lab initialized. Ready to begin cooking process.
@@ -584,28 +544,31 @@ theme_override_constants/separation = 8
 alignment = 1
 
 [node name="ResetButton" type="Button" parent="LabLayout/ControlPanel"]
-custom_minimum_size = Vector2(110, 32)
+custom_minimum_size = Vector2(100, 28)
 layout_mode = 2
 theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
 theme_override_colors/font_color = Color(0.85098, 0.85098, 0.85098, 1)
+theme_override_fonts/font = SystemFont.new({})
 theme_override_font_sizes/font_size = 12
 theme_override_styles/normal = SubResource("StyleBoxFlat_yodl2")
 text = "RESET"
 
 [node name="NextLevelButton" type="Button" parent="LabLayout/ControlPanel"]
-custom_minimum_size = Vector2(110, 32)
+custom_minimum_size = Vector2(100, 28)
 layout_mode = 2
 theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
 theme_override_colors/font_color = Color(0.85098, 0.85098, 0.85098, 1)
+theme_override_fonts/font = SystemFont.new({})
 theme_override_font_sizes/font_size = 12
 theme_override_styles/normal = SubResource("StyleBoxFlat_1s5wj")
 text = "NEXT LEVEL"
 
 [node name="QuitButton" type="Button" parent="LabLayout/ControlPanel"]
-custom_minimum_size = Vector2(110, 32)
+custom_minimum_size = Vector2(100, 28)
 layout_mode = 2
 theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
 theme_override_colors/font_color = Color(0.85098, 0.85098, 0.85098, 1)
+theme_override_fonts/font = SystemFont.new({})
 theme_override_font_sizes/font_size = 12
 theme_override_styles/normal = SubResource("StyleBoxFlat_1ihg3")
 text = "QUIT"
