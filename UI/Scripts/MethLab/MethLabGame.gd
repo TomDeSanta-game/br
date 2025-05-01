@@ -29,16 +29,20 @@ var shake_amount = 0.0
 var correct_recipe = ["Pseudoephedrine", "Red Phosphorus", "Iodine", "Methylamine", "Aluminum"]
 
 # Colors
-const COLOR_BG_DARK = Color("#151515")
-const COLOR_BG_PANEL = Color("#202020")
-const COLOR_PRIMARY = Color("#0066cc")
-const COLOR_ACCENT = Color("#ff6600")
-const COLOR_TEXT = Color("#ffffff")
-const COLOR_TEXT_DIM = Color("#aaaaaa")
-const COLOR_SUCCESS = Color("#34C759")
+const COLOR_BG = Color("#121212")
+const COLOR_PANEL = Color("#1E1E1E")
+const COLOR_PRIMARY = Color("#0088FF")
+const COLOR_ACCENT = Color("#FF6600")
+const COLOR_TEXT = Color("#FFFFFF")
+const COLOR_SUCCESS = Color("#00CC66")
 const COLOR_WARNING = Color("#FFCC00")
-const COLOR_ERROR = Color("#FF3B30")
+const COLOR_ERROR = Color("#FF3333")
 const COLOR_BLUE_SKY = Color("#4F9FE3")
+const COLOR_GREEN = Color(0, 0.8, 0.4, 1)
+const COLOR_RED = Color(0.8, 0.2, 0.2, 1)
+const COLOR_GOLD = Color(1, 0.85, 0, 1)
+const COLOR_CYAN = Color(0, 0.8, 0.8, 1)
+const COLOR_ORANGE = Color(1, 0.65, 0, 1)
 
 # Node references
 var beaker
@@ -51,13 +55,14 @@ var timer_label
 var score_label
 var combo_label
 var sound_effects = {}
+var temperature_bar: ProgressBar
+var purity_bar: ProgressBar
+var yield_bar: ProgressBar
 
 func _ready():
 	if Engine.is_editor_hint():
 		return
 		
-	randomize()
-	
 	# Initialize node references
 	beaker = $LabLayout/MainContent/MidPanel/ReactionPanel/VBoxContainer/ReactionContainer/ReactionDisplay
 	recipe_text = $LabLayout/MainContent/RightPanel/RecipePanel/VBoxContainer/RecipeText
@@ -67,15 +72,12 @@ func _ready():
 	timer_label = $LabLayout/TitleBar/TimerLabel
 	score_label = $LabLayout/TitleBar/ScoreLabel
 	combo_label = $LabLayout/TitleBar/ComboLabel
+	temperature_bar = $LabLayout/MainContent/RightPanel/MetricsPanel/VBoxContainer/TemperatureContainer/TemperatureBar
+	purity_bar = $LabLayout/MainContent/RightPanel/MetricsPanel/VBoxContainer/PurityContainer/PurityBar
+	yield_bar = $LabLayout/MainContent/RightPanel/MetricsPanel/VBoxContainer/YieldContainer/YieldBar
 	
-	# Load custom font
-	load_custom_font()
-	
-	# Create beautiful UI styling
-	apply_beautiful_ui_theme()
-	
-	# Improve UI spacing to prevent overlapping
-	adjust_ui_layout()
+	# Apply basic styling
+	apply_basic_styling()
 	
 	# Set up chemical buttons
 	setup_chemical_buttons()
@@ -93,28 +95,15 @@ func _ready():
 	# Start game timer
 	timer_running = true
 	
-	# Add intro animation
-	animate_intro()
+	# Randomize for gameplay variation
+	randomize()
 
-func load_custom_font():
-	# Load the pixel font from assets
-	var font = load("res://assets/Fonts/pixel_font.ttf")
-	if not font:
-		return
-		
-	# Apply font to all labels recursively
-	apply_font_to_node(self, font)
-
-func apply_font_to_node(node, font):
-	if node is Label:
-		node.add_theme_font_override("font", font)
-	elif node is Button:
-		node.add_theme_font_override("font", font)
-	elif node is RichTextLabel:
-		node.add_theme_font_override("normal_font", font)
+func apply_basic_styling():
+	# Create beautiful UI styling
+	apply_beautiful_ui_theme()
 	
-	for child in node.get_children():
-		apply_font_to_node(child, font)
+	# Improve UI spacing to prevent overlapping
+	adjust_ui_layout()
 
 func animate_intro():
 	# Fade in main sections one by one
@@ -256,36 +245,17 @@ func style_panels():
 	for panel in panels:
 		if panel:
 			var style = StyleBoxFlat.new()
-			style.bg_color = Color(0.08, 0.08, 0.08, 0.95)
+			style.bg_color = COLOR_PANEL
 			style.border_width_left = 1
 			style.border_width_top = 1
 			style.border_width_right = 1
 			style.border_width_bottom = 1
-			style.border_color = Color(0.0, 0.7, 0.3, 0.7)
-			style.corner_radius_top_left = 6
-			style.corner_radius_top_right = 6
-			style.corner_radius_bottom_right = 6
-			style.corner_radius_bottom_left = 6
-			style.shadow_color = Color(0, 0, 0, 0.4)
-			style.shadow_size = 4
-			style.shadow_offset = Vector2(2, 2)
+			style.border_color = COLOR_PRIMARY
+			style.corner_radius_top_left = 4
+			style.corner_radius_top_right = 4
+			style.corner_radius_bottom_right = 4
+			style.corner_radius_bottom_left = 4
 			panel.add_theme_stylebox_override("panel", style)
-			
-			# Style panel titles
-			for child in panel.get_children():
-				if child is VBoxContainer:
-					var label = child.get_node_or_null("Label") if child else null
-					if label and label is Label:
-						label.add_theme_font_size_override("font_size", 16)
-						label.add_theme_color_override("font_color", Color(0.0, 0.8, 0.4))
-						
-						# Add background highlight
-						var highlight = ColorRect.new()
-						highlight.color = Color(0.0, 0.3, 0.15, 0.4)
-						highlight.size = Vector2(label.size.x + 20, label.size.y)
-						highlight.position = Vector2(-10, 0)
-						label.add_child(highlight)
-						highlight.z_index = -1
 
 func style_control_buttons():
 	var control_panel = $LabLayout/ControlPanel
@@ -294,33 +264,31 @@ func style_control_buttons():
 			if child is Button:
 				# Create button style
 				var normal_style = StyleBoxFlat.new()
-				normal_style.bg_color = Color(0.08, 0.08, 0.08, 1)
+				normal_style.bg_color = COLOR_PANEL
 				normal_style.border_width_left = 1
 				normal_style.border_width_top = 1
 				normal_style.border_width_right = 1
 				normal_style.border_width_bottom = 1
-				normal_style.border_color = Color(0.0, 0.7, 0.3, 0.8)
-				normal_style.corner_radius_top_left = 3
-				normal_style.corner_radius_top_right = 3
-				normal_style.corner_radius_bottom_right = 3
-				normal_style.corner_radius_bottom_left = 3
+				normal_style.border_color = COLOR_PRIMARY
+				normal_style.corner_radius_top_left = 4
+				normal_style.corner_radius_top_right = 4
+				normal_style.corner_radius_bottom_right = 4
+				normal_style.corner_radius_bottom_left = 4
 				child.add_theme_stylebox_override("normal", normal_style)
 				
 				# Hover style
 				var hover_style = normal_style.duplicate()
-				hover_style.bg_color = Color(0.15, 0.15, 0.15, 1)
-				hover_style.border_color = Color(0.0, 0.9, 0.4, 1.0)
+				hover_style.bg_color = COLOR_PANEL.lightened(0.1)
 				child.add_theme_stylebox_override("hover", hover_style)
 				
 				# Pressed style
 				var pressed_style = normal_style.duplicate()
-				pressed_style.bg_color = Color(0.05, 0.05, 0.05, 1)
-				pressed_style.border_color = Color(0.0, 0.5, 0.25, 1.0)
+				pressed_style.bg_color = COLOR_PANEL.darkened(0.1)
 				child.add_theme_stylebox_override("pressed", pressed_style)
 				
 				# Text color
-				child.add_theme_color_override("font_color", Color(0.0, 0.8, 0.4))
-				child.add_theme_color_override("font_hover_color", Color(0.0, 1.0, 0.5))
+				child.add_theme_color_override("font_color", COLOR_TEXT)
+				child.add_theme_color_override("font_hover_color", COLOR_TEXT.lightened(0.2))
 				child.add_theme_font_size_override("font_size", 16)
 				
 				# Add glow effect
@@ -513,45 +481,40 @@ func get_all_chemicals():
 func style_chemical_button(button, chemical):
 	var color = get_chemical_color(chemical)
 	
-	# Create custom icon based on chemical
-	var icon = create_chemical_icon(chemical, color)
-	button.icon = icon
-	button.expand_icon = true
-	button.icon_alignment = HORIZONTAL_ALIGNMENT_LEFT
-	
-	# Add proper padding/spacing
-	button.add_theme_constant_override("h_separation", 10)
-	
 	# Create stylebox
 	var normal_style = StyleBoxFlat.new()
-	normal_style.bg_color = Color(0.05, 0.05, 0.05, 1)
+	normal_style.bg_color = COLOR_PANEL
 	normal_style.border_width_left = 2
 	normal_style.border_width_top = 2
 	normal_style.border_width_right = 2
 	normal_style.border_width_bottom = 2
-	normal_style.border_color = color.darkened(0.3) # Darker version of chemical color
-	normal_style.corner_radius_top_left = 3
-	normal_style.corner_radius_top_right = 3
-	normal_style.corner_radius_bottom_right = 3
-	normal_style.corner_radius_bottom_left = 3
+	normal_style.border_color = color
+	normal_style.corner_radius_top_left = 6
+	normal_style.corner_radius_top_right = 6
+	normal_style.corner_radius_bottom_right = 6
+	normal_style.corner_radius_bottom_left = 6
+	normal_style.shadow_color = Color(0, 0, 0, 0.3)
+	normal_style.shadow_size = 3
+	normal_style.shadow_offset = Vector2(1, 1)
 	button.add_theme_stylebox_override("normal", normal_style)
 	
 	# Hover style
 	var hover_style = normal_style.duplicate()
-	hover_style.bg_color = Color(0.1, 0.1, 0.1, 1)
-	hover_style.border_color = color
+	hover_style.bg_color = COLOR_PANEL.lightened(0.1)
 	button.add_theme_stylebox_override("hover", hover_style)
 	
 	# Pressed style
 	var pressed_style = normal_style.duplicate()
-	pressed_style.bg_color = Color(0.03, 0.03, 0.03, 1)
-	pressed_style.border_color = color.darkened(0.5)
+	pressed_style.bg_color = COLOR_PANEL.darkened(0.1)
 	button.add_theme_stylebox_override("pressed", pressed_style)
 	
 	# Font overrides
-	button.add_theme_font_size_override("font_size", 14)
-	button.add_theme_color_override("font_color", Color.WHITE)
-	button.add_theme_color_override("font_hover_color", color.lightened(0.2))
+	var font = load("res://assets/Fonts/Oswald-Regular.ttf")
+	
+	button.add_theme_font_override("font", font)
+	button.add_theme_font_size_override("font_size", 18)
+	button.add_theme_color_override("font_color", COLOR_TEXT)
+	button.add_theme_color_override("font_hover_color", COLOR_SUCCESS)
 
 func create_chemical_icon(chemical_name, color):
 	# Create custom 8-bit style icon
@@ -677,59 +640,52 @@ func draw_metal_icon(image, color):
 		for x in range(10, 22):
 			image.set_pixel(x, y, shine)
 
-func create_drag_ghost(chemical):
-	var ghost = Panel.new()
+func create_drag_ghost(chemical_name):
+	if drag_ghost != null:
+		drag_ghost.queue_free()
+		
+	drag_ghost = Panel.new()
 	
 	# Create a style for the ghost
 	var style = StyleBoxFlat.new()
-	style.bg_color = Color(0.05, 0.05, 0.05, 0.9)
+	style.bg_color = Color(0.09, 0.09, 0.09, 0.95)
 	style.border_width_left = 2
 	style.border_width_top = 2
 	style.border_width_right = 2
 	style.border_width_bottom = 2
-	style.border_color = get_chemical_color(chemical)
-	style.corner_radius_top_left = 3
-	style.corner_radius_top_right = 3
-	style.corner_radius_bottom_right = 3
-	style.corner_radius_bottom_left = 3
-	ghost.add_theme_stylebox_override("panel", style)
+	style.border_color = get_chemical_color(chemical_name)
+	style.corner_radius_top_left = 6
+	style.corner_radius_top_right = 6
+	style.corner_radius_bottom_right = 6
+	style.corner_radius_bottom_left = 6
+	style.shadow_color = Color(0, 0, 0, 0.5)
+	style.shadow_size = 4
+	style.shadow_offset = Vector2(2, 2)
+	drag_ghost.add_theme_stylebox_override("panel", style)
 	
 	# Set size
-	ghost.custom_minimum_size = Vector2(120, 40)
-	
-	# Add icon and label
-	var hbox = HBoxContainer.new()
-	hbox.add_theme_constant_override("separation", 10)
-	ghost.add_child(hbox)
-	
-	# Add chemical icon
-	var icon_texture = create_chemical_icon(chemical, get_chemical_color(chemical))
-	var icon = TextureRect.new()
-	icon.texture = icon_texture
-	icon.custom_minimum_size = Vector2(24, 24)
-	icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	hbox.add_child(icon)
+	drag_ghost.custom_minimum_size = Vector2(150, 45)
 	
 	# Add label
 	var label = Label.new()
-	label.text = chemical
-	label.add_theme_font_size_override("font_size", 14)
-	label.add_theme_color_override("font_color", Color.WHITE)
-	hbox.add_child(label)
+	label.text = chemical_name
+	label.position = Vector2(10, 10)
 	
-	# Position the elements
-	hbox.position = Vector2(8, 8)
-	hbox.size = ghost.size - Vector2(16, 16)
+	# Set Oswald font
+	var font = load("res://assets/Fonts/Oswald-Regular.ttf")
+	label.add_theme_font_override("font", font)
+	label.add_theme_font_size_override("font_size", 18)
+	label.add_theme_color_override("font_color", COLOR_TEXT)
+	
+	drag_ghost.add_child(label)
 	
 	# Add to scene and position at cursor
-	add_child(ghost)
-	ghost.global_position = drag_start_position - ghost.size / 2
+	add_child(drag_ghost)
+	drag_ghost.global_position = drag_start_position - drag_ghost.size / 2
 	
 	# Store reference to the drag ghost
-	drag_ghost = ghost
 	
-	return ghost
+	return drag_ghost
 
 func _on_chemical_gui_input(event, chemical):
 	if event is InputEventMouseButton:
@@ -740,7 +696,6 @@ func _on_chemical_gui_input(event, chemical):
 				dragged_chemical_name = chemical
 				drag_start_position = event.global_position
 				create_drag_ghost(chemical)
-				apply_pulse_effect(chemical)
 			elif dragging_chemical and dragged_chemical_name == chemical:
 				# End drag
 				if can_drop and chemicals_in_beaker.size() < max_chemicals and not recipe_complete and timer_running:
@@ -760,11 +715,6 @@ func update_drag_position(position):
 	if beaker:
 		var beaker_rect = Rect2(beaker.global_position, beaker.size)
 		can_drop = beaker_rect.has_point(position)
-		
-		if can_drop:
-			drag_ghost.color = Color(0.3, 0.8, 0.5, 0.8)
-		else:
-			drag_ghost.color = Color(0.2, 0.6, 0.9, 0.7)
 
 func clean_up_drag():
 	dragging_chemical = false
@@ -780,9 +730,10 @@ func add_chemical_to_beaker(chemical_name):
 	log_message("Added " + chemical_name + " to the beaker.")
 	update_recipe_display()
 	
-	# Visual feedback
+	# Visual feedback with enhanced particle effects
 	flash_beaker_color(get_chemical_color(chemical_name))
-	spawn_particles(beaker.global_position + Vector2(beaker.size.x/2, beaker.size.y/2), 5)
+	spawn_particles(beaker.global_position + Vector2(beaker.size.x/2, beaker.size.y/2), 10)
+	spawn_chemical_splash_effect(get_chemical_color(chemical_name))
 	
 	# Update streak and combo
 	if chemicals_in_beaker.size() <= correct_recipe.size() and chemicals_in_beaker[chemicals_in_beaker.size() - 1] == correct_recipe[chemicals_in_beaker.size() - 1]:
@@ -802,10 +753,10 @@ func add_chemical_to_beaker(chemical_name):
 func get_chemical_color(chemical_name):
 	match chemical_name:
 		"Pseudoephedrine": return Color(0.9, 0.2, 0.2)
-		"Red Phosphorus": return Color(0.8, 0.0, 0.0)
-		"Iodine": return Color(0.6, 0.3, 0.7)
-		"Methylamine": return Color(0.2, 0.5, 0.9)
-		"Aluminum": return Color(0.7, 0.7, 0.8)
+		"Red Phosphorus": return Color(0.8, 0.1, 0.1)
+		"Iodine": return Color(0.5, 0.2, 0.5)
+		"Methylamine": return Color(0.2, 0.4, 0.8)
+		"Aluminum": return Color(0.7, 0.7, 0.7)
 		_: return Color(0.5, 0.5, 0.5)
 
 func flash_beaker_color(color):
@@ -813,8 +764,8 @@ func flash_beaker_color(color):
 		return
 	
 	var flash = ColorRect.new()
-	flash.color = color.lightened(0.3)
-	flash.color.a = 0.7
+	flash.color = color
+	flash.color.a = 0.5
 	flash.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	flash.size = beaker.size
 	
@@ -826,28 +777,25 @@ func flash_beaker_color(color):
 
 func update_recipe_display():
 	if recipe_text:
-		var text = "[font_size=14][color=#22ff66]CORRECT RECIPE:[/color][/font_size]\n"
+		var text = "CORRECT RECIPE:\n"
 		
 		for i in range(correct_recipe.size()):
 			var chemical = correct_recipe[i]
 			var checked = ""
-			var color_hex = get_chemical_color(chemical).to_html(false)
 			
 			if i < chemicals_in_beaker.size():
 				if chemicals_in_beaker[i] == chemical:
-					checked = " [color=#34C759][font_size=12]✓[/font_size][/color]"
+					checked = " ✓"
 				else:
-					checked = " [color=#FF3B30][font_size=12]✗[/font_size][/color]"
+					checked = " ✗"
 			
-			text += "[color=#" + color_hex + "]■[/color] [color=#dddddd][font_size=12]" + str(i+1) + ". " + chemical + checked + "[/font_size][/color]\n"
+			text += str(i+1) + ". " + chemical + checked + "\n"
 		
 		recipe_text.text = text
 		
-		# Add subtle background highlight to current step
+		# Indicate current step in log
 		var current_step = chemicals_in_beaker.size()
 		if current_step < correct_recipe.size() and not recipe_complete:
-			# We can't directly highlight lines in RichTextLabel, but we tell the player
-			# which step they're on in the log
 			if current_step == 0:
 				log_message("Start with " + correct_recipe[0])
 			else:
@@ -921,15 +869,12 @@ func check_recipe():
 	if quality >= 0.8:
 		log_message("SUCCESS! You made high-quality Blue Sky.")
 		log_message("Score: " + str(score) + " (Profit: $" + str(profit) + " + Time Bonus: " + str(time_bonus) + " x" + str(combo_multiplier) + " Combo)")
-		show_success_animation()
 		unlock_next_difficulty()
 	elif quality >= 0.5:
 		log_message("Mixed results. The product is mediocre quality.")
 		log_message("Score: " + str(score) + " (Profit: $" + str(profit) + " + Time Bonus: " + str(time_bonus) + " x" + str(combo_multiplier) + " Combo)")
-		show_partial_success_animation()
 	else:
 		log_message("FAILURE! The chemicals were mixed incorrectly.")
-		show_failure_animation()
 	
 	quality_label.text = "Quality: %d%%" % int(quality * 100)
 	profit_label.text = "Profit: $%d" % profit
@@ -1121,30 +1066,13 @@ func update_timer_display():
 		var seconds = int(time_remaining) % 60
 		timer_label.text = "%d:%02d" % [minutes, seconds]
 		
-		# Breaking Bad style timer with animated color change
-		var color = Color.WHITE
-		
 		# Change color when time is running low
 		if time_remaining <= 10:
-			color = Color(1.0, 0.1, 0.1)  # Red
-			# Make timer pulse when low
-			if fmod(time_elapsed, 1.0) < 0.5:
-				color = color.lightened(0.3)
+			timer_label.add_theme_color_override("font_color", COLOR_ERROR)
 		elif time_remaining <= 30:
-			# Gradually shift from yellow to red
-			var t = 1.0 - (time_remaining - 10) / 20.0
-			color = Color(1.0, 1.0 - t, 0.0)
+			timer_label.add_theme_color_override("font_color", COLOR_WARNING)
 		else:
-			# Gradual color based on time
-			var t = min(1.0, time_remaining / 90.0)
-			color = Color(1.0 - t, 0.7 + (0.3 * t), 0.3 * t)
-			
-		timer_label.add_theme_color_override("font_color", color)
-		
-		# Add shadow for better visibility
-		timer_label.add_theme_color_override("font_shadow_color", Color(0, 0, 0, 0.5))
-		timer_label.add_theme_constant_override("shadow_offset_x", 1)
-		timer_label.add_theme_constant_override("shadow_offset_y", 1)
+			timer_label.add_theme_color_override("font_color", COLOR_TEXT)
 
 func update_combo_display():
 	if combo_label:
@@ -1283,7 +1211,7 @@ func get_stylebox_from_theme(name):
 
 func log_message(msg):
 	if log_text:
-		log_text.text += "\n[color=#888888]> %s[/color]" % msg
+		log_text.text += "\n> " + msg
 
 func _on_reset_button_pressed():
 	setup_game()
@@ -1300,19 +1228,27 @@ func _on_next_level_button_pressed():
 	log_message("Starting difficulty level " + str(difficulty_level))
 	timer_running = true
 
-func create_button_style(color):
-	var style = StyleBoxFlat.new()
-	style.bg_color = Color(0.15, 0.15, 0.15, 1.0)
-	style.border_width_left = 2
-	style.border_width_top = 2
-	style.border_width_right = 2
-	style.border_width_bottom = 2
-	style.border_color = color
-	style.corner_radius_top_left = 6
-	style.corner_radius_top_right = 6
-	style.corner_radius_bottom_left = 6
-	style.corner_radius_bottom_right = 6
-	return style
+func _on_beaker_button_pressed():
+	log_message("Using beaker...")
+
+func _on_hot_plate_button_pressed():
+	log_message("Adjusting hot plate...")
+
+func _on_filter_button_pressed():
+	log_message("Using filter...")
+
+func _on_centrifuge_button_pressed():
+	log_message("Using centrifuge...")
+
+func _on_start_button_pressed():
+	if not timer_running and not recipe_complete:
+		timer_running = true
+		log_message("Process started!")
+
+func _on_stop_button_pressed():
+	if timer_running:
+		timer_running = false
+		log_message("Process stopped!")
 
 func create_noise_filter():
 	var noise = ColorRect.new()
@@ -1344,3 +1280,53 @@ func create_noise_material():
 	"""
 	shader_material.shader = shader
 	return shader_material
+
+func spawn_chemical_splash_effect(color):
+	if not beaker:
+		return
+		
+	# Create parent node for all particles
+	var splash_container = Node2D.new()
+	beaker.add_child(splash_container)
+	splash_container.position = Vector2(beaker.size.x/2, beaker.size.y/2)
+	
+	# Create multiple particles
+	for i in range(15):
+		var particle = ColorRect.new()
+		particle.color = color
+		particle.color.a = 0.8
+		
+		# Random size for particles
+		var size = randf_range(2, 6)
+		particle.size = Vector2(size, size)
+		
+		# Random initial position within beaker
+		var pos_x = randf_range(-beaker.size.x/3, beaker.size.x/3)
+		var pos_y = randf_range(-10, 10)
+		particle.position = Vector2(pos_x, pos_y)
+		
+		splash_container.add_child(particle)
+		
+		# Create animation
+		var tween = create_tween()
+		
+		# Initial upward motion
+		var target_y = randf_range(-30, -10)
+		var target_x = particle.position.x + randf_range(-20, 20)
+		tween.tween_property(particle, "position", Vector2(target_x, target_y), 0.3)
+		
+		# Then fall back down
+		target_y = randf_range(20, 40)
+		target_x = particle.position.x + randf_range(-15, 15)
+		tween.tween_property(particle, "position", Vector2(target_x, target_y), 0.5)
+		
+		# Fade out
+		tween.parallel().tween_property(particle, "color:a", 0.0, 0.5)
+		
+		# Cleanup when done
+		tween.tween_callback(particle.queue_free)
+	
+	# Remove container after all particles are done
+	var container_tween = create_tween()
+	container_tween.tween_interval(1.0)
+	container_tween.tween_callback(splash_container.queue_free)
