@@ -150,6 +150,7 @@ shadow_size = 4
 [sub_resource type="Shader" id="Shader_vkq6e"]
 code = "shader_type canvas_item;
 
+uniform sampler2D SCREEN_TEXTURE : hint_screen_texture, filter_linear_mipmap;
 uniform float scan_line_count : hint_range(0, 1080) = 300.0;
 uniform float scan_line_intensity : hint_range(0.0, 1.0) = 0.05;
 uniform float noise_intensity : hint_range(0.0, 1.0) = 0.02;
