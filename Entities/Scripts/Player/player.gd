@@ -360,7 +360,7 @@ func discover_memory(memory_spot: Node2D) -> void:
 func show_memory(text: String) -> void:
 	apply_camera_shake(0.5, 0.3)
 	set_camera_zoom(3.6, 0.5)
-	show_thought("[color=#ffcb74][b]Memory:[/b][/color]\n" + text, 7.0)
+	show_thought("Memory:\n" + text, 7.0)
 	
 	var fade_color = ColorRect.new()
 	fade_color.color = Color(1, 1, 1, 0)
@@ -662,8 +662,8 @@ func hide_objective() -> void:
 	var pulse_player = objective_label.get_node("PulseAnimationPlayer")
 	pulse_player.stop()
 func show_styled_objective(title: String, content: String, duration: float = 5.0) -> void:
-	var bbcode_text = "[color=#ffdd44]" + title + "[/color]\n" + content
-	show_objective(bbcode_text, duration)
+	var formatted_text = title + "\n" + content
+	show_objective(formatted_text, duration)
 	
 func complete_objective(hide_after: float = 3.0) -> void:
 	var pulse_player = objective_label.get_node("PulseAnimationPlayer")
