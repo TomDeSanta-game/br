@@ -1,20 +1,15 @@
 extends Node2D
-
 @export var grid_size = 32
 @export var grid_color = Color(0.5, 0.5, 0.5, 0.2)
 @export var grid_visible = false
-
 func _ready():
 	update_grid_visibility(grid_visible)
-
 func update_grid_visibility(visible_state: bool):
 	grid_visible = visible_state
 	visible = grid_visible
 	queue_redraw()
-
 func toggle_grid():
 	update_grid_visibility(!grid_visible)
-
 func _draw():
 	if not visible:
 		return

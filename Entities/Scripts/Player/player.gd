@@ -1,5 +1,4 @@
 extends CharacterBody2D
-
 const ANIMATIONS: Dictionary = {
 	"DOWN_IDLE": "Down_Idle",
 	"RIGHT_IDLE": "Right_Idle",
@@ -8,10 +7,8 @@ const ANIMATIONS: Dictionary = {
 	"RIGHT_RUN": "Right_Run",
 	"UP_RUN": "Up_Run"
 }
-
 const ANIMATION_RUN: String = "run"
 const ANIMATION_IDLE: String = "idle"
-
 var speed: float = 100.0
 @export var max_speed: float = 120.0
 var current_max_speed: float = max_speed
@@ -25,7 +22,6 @@ var sprint_recovery_rate: float = 15.0
 var sprint_recovery_delay: float = 1.0
 var sprint_recovery_timer: float = 0.0
 var min_sprint_stamina: float = 20.0
-
 @export var acceleration: float = 600.0
 @export var deceleration: float = 800.0
 var wall_slide_factor: float = 0.85
@@ -39,24 +35,20 @@ var movement_epsilon: float = 0.2
 var is_interact_mode = false
 var ui_hidden = false
 var is_running: bool = false
-
 var direction_change_delay: float = 0.08
 var direction_change_timer: float = 0.0
 var direction_hysteresis: float = 0.3
 var animation_stability_threshold: float = 0.4
 var min_velocity_for_run: float = 30.0
-
 var terrain_speed_modifier: float = 1.0
 var context_speed_multiplier: float = 1.0
 var speed_decay_rate: float = 0.25
-
 var focused_walking: bool = false
 var focus_target: Vector2 = Vector2.ZERO
 var focus_object: Node2D = null
 var focus_speed_factor: float = 0.7
 var focus_strength: float = 0.0
 var focus_fade_speed: float = 2.0
-
 var current_mood: String = "neutral"
 var mood_intensity: float = 0.0
 var footstep_timer: float = 0.0
@@ -64,7 +56,6 @@ var footstep_threshold_run: float = 0.25
 var footstep_threshold_walk: float = 0.45
 var footstep_volume: float = 0.6
 var footstep_environment: String = "normal"
-
 var thought_active: bool = false
 var thought_timer: float = 0.0
 var thought_duration: float = 0.0
@@ -72,13 +63,11 @@ var last_thought_time: float = 0.0
 var min_thought_interval: float = 20.0
 var memory_trigger_radius: float = 150.0
 var memories_discovered: Array = []
-
 var input_buffer_time: float = 0.2
 var interact_buffer_timer: float = 0.0
 var last_interact_position: Vector2 = Vector2.ZERO
 var last_collision_normal: Vector2 = Vector2.ZERO
 var corner_ray_length: float = 16.0
-
 var camera_offset = Vector2.ZERO
 var camera_target_zoom = Vector2(4, 4)
 var camera_shake_intensity: float = 0.0
@@ -89,7 +78,6 @@ var run_timer = 0.0
 var idle_timer = 0.0
 var can_zoom_in = true
 var can_zoom_out = true
-
 var current_animation: String = ""
 var animation_locked: bool = false
 var animation_lock_timer: float = 0.0
@@ -105,7 +93,6 @@ var smoothed_direction: Vector2 = Vector2.ZERO
 var last_anim_direction: Vector2 = Vector2.DOWN
 var velocity_history: Array[Vector2] = []
 var velocity_history_size: int = 8
-
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var camera: Camera2D = $Camera2D
 @onready var assistant: Node2D = get_tree().get_first_node_in_group("Assistant")
@@ -123,9 +110,7 @@ var velocity_history_size: int = 8
 @onready var thought_text: RichTextLabel
 @onready var footstep_audio: AudioStreamPlayer2D
 @onready var ambience_audio: AudioStreamPlayer
-
 @export var debug_mode: bool = false
-
 func _ready() -> void:
 	setup_collision()
 	setup_state_machine()
@@ -138,17 +123,14 @@ func _ready() -> void:
 	
 	await get_tree().create_timer(0.2).timeout
 	set_camera_zoom(4.0, 1.5)
-
 func setup_collision() -> void:
 	collision_layer = LLM.player_layer
 	collision_mask = LLM.world_layer | LLM.enemy_layer | LLM.npc_layer | LLM.assistant_layer | LLM.object_layer
-
 func setup_state_machine() -> void:
 	state_machine = PlayerStateMachine.new()
 	add_child(state_machine)
 	state_machine.init(self)
 	state_machine.set_active(true)
-
 func setup_animation() -> void:
 	if animated_sprite:
 		current_animation = ANIMATIONS.DOWN_IDLE
@@ -158,7 +140,6 @@ func setup_animation() -> void:
 		smoothed_direction = Vector2.DOWN
 		
 		animated_sprite.speed_scale = 1.0
-
 func setup_thought_bubble() -> void:
 	thought_bubble = Control.new()
 	thought_bubble.visible = false
@@ -175,7 +156,6 @@ func setup_thought_bubble() -> void:
 	thought_bubble.add_child(panel)
 	thought_bubble.add_child(thought_text)
 	$CanvasLayer.add_child(thought_bubble)
-
 func setup_audio() -> void:
 	footstep_audio = AudioStreamPlayer2D.new()
 	footstep_audio.volume_db = -15
@@ -186,12 +166,10 @@ func setup_audio() -> void:
 	ambience_audio.volume_db = -20
 	ambience_audio.bus = "Ambient"
 	add_child(ambience_audio)
-
 func setup_ui() -> void:
 	IdManager.add_item("01", inventory)
 	$CanvasLayer.visible = true
 	heat_bar.visible = true
-
 func setup_camera() -> void:
 	camera_noise.seed = randi()
 	camera_noise.frequency = 0.5
@@ -201,7 +179,6 @@ func setup_camera() -> void:
 	camera.drag_top_margin = 0.1
 	camera.drag_right_margin = 0.1
 	camera.drag_bottom_margin = 0.1
-
 func setup_corner_rays() -> void:
 	corner_ray_right = RayCast2D.new()
 	corner_ray_left = RayCast2D.new()
@@ -224,7 +201,6 @@ func setup_corner_rays() -> void:
 	corner_ray_left.position = Vector2(-offset, 0)
 	corner_ray_up.position = Vector2(0, -offset)
 	corner_ray_down.position = Vector2(0, offset)
-
 func _process(delta: float) -> void:
 	check_heat()
 	update_camera(delta)
@@ -245,7 +221,6 @@ func _process(delta: float) -> void:
 	if debug_mode:
 		_setup_debug_label()
 	debug_label.visible = debug_mode
-
 func update_animation_state(delta: float) -> void:
 	if animation_locked:
 		return
@@ -269,7 +244,6 @@ func update_animation_state(delta: float) -> void:
 		
 		current_animation = "idle_" + idle_direction
 		animated_sprite.play(current_animation)
-
 func update_focus_state(delta: float) -> void:
 	if focused_walking:
 		if focus_object != null and is_instance_valid(focus_object):
@@ -285,7 +259,6 @@ func update_focus_state(delta: float) -> void:
 			focus_strength = 0.0
 	else:
 		focus_strength = 0.0
-
 func update_footsteps(delta: float) -> void:
 	if velocity.length() > movement_epsilon:
 		footstep_timer += delta
@@ -297,7 +270,6 @@ func update_footsteps(delta: float) -> void:
 		if footstep_timer > threshold:
 			footstep_timer = 0
 			play_footstep()
-
 func play_footstep() -> void:
 	if is_instance_valid(footstep_audio):
 		var pitch_scale = randf_range(0.8, 1.2)
@@ -313,7 +285,6 @@ func play_footstep() -> void:
 		footstep_audio.pitch_scale = pitch_scale
 		footstep_audio.volume_db = linear_to_db(volume)
 		footstep_audio.play()
-
 func update_thought_system(delta: float) -> void:
 	if thought_active:
 		thought_timer -= delta
@@ -324,7 +295,6 @@ func update_thought_system(delta: float) -> void:
 		
 		if last_thought_time > min_thought_interval:
 			check_for_random_thought()
-
 func check_for_random_thought() -> void:
 	if not thought_active and randf() < 0.01 and not inventory_toggled:
 		var thoughts = [
@@ -356,7 +326,6 @@ func check_for_random_thought() -> void:
 		
 		var thought = thoughts[randi() % thoughts.size()]
 		show_thought(thought, 4.0)
-
 func show_thought(text: String, duration: float) -> void:
 	thought_text.text = "[i]" + text + "[/i]"
 	thought_bubble.visible = true
@@ -367,13 +336,11 @@ func show_thought(text: String, duration: float) -> void:
 	
 	var tween = create_tween()
 	tween.tween_property(thought_bubble, "modulate:a", 1.0, 0.5)
-
 func hide_thought() -> void:
 	var tween = create_tween()
 	tween.tween_property(thought_bubble, "modulate:a", 0.0, 0.5)
 	tween.tween_callback(func(): thought_bubble.visible = false)
 	thought_active = false
-
 func check_for_memories() -> void:
 	var memory_spots = get_tree().get_nodes_in_group("MemorySpot")
 	
@@ -381,7 +348,6 @@ func check_for_memories() -> void:
 		if global_position.distance_to(spot.global_position) < memory_trigger_radius:
 			if not memories_discovered.has(spot.name):
 				discover_memory(spot)
-
 func discover_memory(memory_spot: Node2D) -> void:
 	memories_discovered.append(memory_spot.name)
 	
@@ -391,7 +357,6 @@ func discover_memory(memory_spot: Node2D) -> void:
 		
 		if memory_spot.has_method("trigger_memory_effect"):
 			memory_spot.trigger_memory_effect(self)
-
 func show_memory(text: String) -> void:
 	apply_camera_shake(0.5, 0.3)
 	set_camera_zoom(3.6, 0.5)
@@ -413,7 +378,6 @@ func show_memory(text: String) -> void:
 	
 	await get_tree().create_timer(4.0).timeout
 	set_camera_zoom(4.0, 1.5)
-
 func set_mood(mood: String, intensity: float = 1.0) -> void:
 	current_mood = mood
 	mood_intensity = intensity
@@ -428,11 +392,9 @@ func set_mood(mood: String, intensity: float = 1.0) -> void:
 		set_movement_context_multiplier(0.8, 5.0)
 	elif mood == "sneaking":
 		set_movement_context_multiplier(0.6, 10.0)
-
 func update_input_buffers(delta: float) -> void:
 	if interact_buffer_timer > 0:
 		interact_buffer_timer -= delta
-
 func update_camera_timers(delta: float) -> void:
 	if is_running:
 		run_timer += delta
@@ -454,11 +416,9 @@ func update_camera_timers(delta: float) -> void:
 			
 			await get_tree().create_timer(2.0).timeout
 			can_zoom_in = true
-
 func _physics_process(delta: float) -> void:
 	handle_movement(delta)
 	update_smoothed_values(delta)
-
 func update_smoothed_values(delta: float) -> void:
 	velocity_history.push_back(velocity)
 	if velocity_history.size() > velocity_history_size:
@@ -471,7 +431,6 @@ func update_smoothed_values(delta: float) -> void:
 	if direction.length() > 0.3 and last_anim_direction.dot(direction) < -0.5:
 		animation_locked = true
 		animation_lock_timer = animation_lock_duration
-
 func handle_movement(delta: float) -> void:
 	var input_vector: Vector2 = get_input_vector()
 	
@@ -494,7 +453,6 @@ func handle_movement(delta: float) -> void:
 	var collision = get_last_slide_collision()
 	if collision:
 		handle_collision(collision.get_position())
-
 func handle_collision(previous_position: Vector2) -> void:
 	for i in get_slide_collision_count():
 		var collision = get_slide_collision(i)
@@ -508,7 +466,6 @@ func handle_collision(previous_position: Vector2) -> void:
 				var recovery_direction = last_collision_normal.normalized()
 				global_position += recovery_direction * 2.0
 				velocity = velocity.bounce(last_collision_normal) * 0.3
-
 func get_input_vector() -> Vector2:
 	var input_vector = Vector2.ZERO
 	input_vector.x = Input.get_action_strength("RIGHT") - Input.get_action_strength("LEFT")
@@ -521,7 +478,6 @@ func get_input_vector() -> Vector2:
 		input_vector = input_vector.normalized() * (0.3 + input_vector.length()) * 0.8
 	
 	return input_vector
-
 func try_corner_correction() -> bool:
 	var motion_dir = velocity.normalized()
 	
@@ -565,7 +521,6 @@ func try_corner_correction() -> bool:
 		return true
 	
 	return false
-
 func handle_running(direction: Vector2) -> void:
 	if velocity.length() > min_velocity_for_run * 0.7:
 		is_running = true
@@ -576,13 +531,11 @@ func handle_running(direction: Vector2) -> void:
 		apply_camera_forward_focus(0.3, effective_direction)
 	else:
 		handle_idle()
-
 func handle_idle() -> void:
 	is_running = false
 	heat_bar.stop_fill_anisprotic()
 	state_machine.update(get_process_delta_time())
 	apply_camera_forward_focus(0.0, Vector2.ZERO)
-
 func update_camera(delta: float) -> void:
 	if camera_shake_time > 0:
 		camera_shake_time -= delta
@@ -595,51 +548,41 @@ func update_camera(delta: float) -> void:
 		camera.offset = camera_offset
 	
 	camera.zoom = camera_target_zoom
-
 func apply_camera_shake(intensity: float, time: float) -> void:
 	camera_shake_intensity = intensity
 	camera_shake_time = time
 	camera_shake_decay = time
-
 func apply_camera_forward_focus(strength: float, direction: Vector2) -> void:
 	camera_offset = direction * 20.0 * strength
-
 func set_camera_zoom(zoom_level: float, duration: float = 0.5) -> void:
 	camera_target_zoom = Vector2(zoom_level, zoom_level)
-	# Always apply zoom immediately regardless of duration
+	
 	camera.zoom = camera_target_zoom
-
 func set_movement_context_multiplier(multiplier: float, duration: float = 2.0) -> void:
 	context_speed_multiplier = multiplier
 	speed_decay_rate = 1.0 / duration
 	
 func set_terrain_speed_modifier(modifier: float) -> void:
 	terrain_speed_modifier = modifier
-
 func focus_on_point(target_position: Vector2) -> void:
 	focused_walking = true
 	focus_target = target_position
 	focus_object = null
-
 func focus_on_object(target_object: Node2D) -> void:
 	if is_instance_valid(target_object):
 		focused_walking = true
 		focus_target = target_object.global_position
 		focus_object = target_object
-
 func clear_focus() -> void:
 	focused_walking = false
 	focus_object = null
 	focus_strength = 0.0
-
 func check_heat() -> void:
 	if heat_bar._current_heat == heat_bar.max_heat:
 		die()
-
 func die() -> void:
 	apply_camera_shake(10.0, 0.5)
 	SceneManager.reload_scene()
-
 func _setup_debug_label() -> void:
 	var position_text = "Position: (" + str(int(global_position.x)) + ", " + str(int(global_position.y)) + ")"
 	var velocity_text = "Velocity: (" + str(int(velocity.x)) + ", " + str(int(velocity.y)) + ")"
@@ -671,7 +614,6 @@ func _setup_debug_label() -> void:
 		memories_text + "\n" +
 		sprint_text
 	)
-
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("INTERACT"):
 		last_interact_position = global_position
@@ -694,7 +636,6 @@ func _unhandled_input(event: InputEvent) -> void:
 		hide_ui(true)
 		await get_tree().create_timer(0.1).timeout
 		apply_camera_shake(0.7, 0.2)
-
 func show_objective(text: String, duration: float = 5.0) -> void:
 	objective_text.text = text
 	
@@ -720,7 +661,6 @@ func hide_objective() -> void:
 	
 	var pulse_player = objective_label.get_node("PulseAnimationPlayer")
 	pulse_player.stop()
-
 func show_styled_objective(title: String, content: String, duration: float = 5.0) -> void:
 	var bbcode_text = "[color=#ffdd44]" + title + "[/color]\n" + content
 	show_objective(bbcode_text, duration)
@@ -732,7 +672,6 @@ func complete_objective(hide_after: float = 3.0) -> void:
 	var animation_player = objective_label.get_node("AnimationPlayer")
 	animation_player.stop()
 	animation_player.play("complete")
-
 	$CanvasLayer/ObjectiveLabel/IconContainer/Icon.text = "✓"
 	$CanvasLayer/ObjectiveLabel/TitleLabel.text = "OBJECTIVE COMPLETED"
 	
@@ -750,7 +689,6 @@ func complete_objective(hide_after: float = 3.0) -> void:
 		
 		await get_tree().create_timer(0.3).timeout
 		set_camera_zoom(4.0, 1.5)
-
 func hide_ui(boolean: bool) -> void:
 	ui_hidden = boolean
 	if boolean:
@@ -766,18 +704,14 @@ func hide_ui(boolean: bool) -> void:
 		heat_bar.show()
 		if debug_mode:
 			debug_label.show()
-
 func is_player_running() -> bool:
 	return is_running
-
 func update_animation(input_vector: Vector2) -> void:
 	direction = input_vector
 	handle_running(input_vector)
-
 func update_idle_animation() -> void:
 	direction = Vector2.ZERO
 	handle_idle()
-
 func update_sprint(delta: float) -> void:
 	if Input.is_action_pressed("SPRINT") and can_sprint and sprint_stamina > min_sprint_stamina:
 		sprint_active = true

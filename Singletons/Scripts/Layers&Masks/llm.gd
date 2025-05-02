@@ -1,5 +1,4 @@
 extends Node
-
 var world_layer = 1
 var player_layer = 2
 var assistant_layer = 3

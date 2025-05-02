@@ -1,5 +1,4 @@
 extends Control
-
 @export var heat_gradient: Gradient
 @export var min_heat: float = 0.0
 @export var max_heat: float = 100.0
@@ -7,23 +6,19 @@ extends Control
 @export var danger_threshold: float = 70.0
 @export var caution_threshold: float = 40.0
 @export var low_threshold: float = 10.0
-
 var _current_heat: float = 0.0
 var _is_filling_anisprotic: bool = false
 var _fill_rate: float = 0.0
 var _last_heat_state: String = "normal"
-
 @onready var heat_bar_fill: ProgressBar = $MainContainer/HeatBarOutline/MarginContainer/HeatBarFill
 @onready var shader_overlay: ColorRect = $MainContainer/HeatBarOutline/MarginContainer/ShaderOverlay
 @onready var value_display: Label = $MainContainer/HeaderContainer/ValueDisplay
 @onready var particles_top: CPUParticles2D = $GlowParticlesTop
 @onready var particles_bottom: CPUParticles2D = $GlowParticlesBottom
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
-
 @onready var cold_indicator: Panel = $MainContainer/StateIndicators/ColdIndicator
 @onready var caution_indicator: Panel = $MainContainer/StateIndicators/CautionIndicator
 @onready var danger_indicator: Panel = $MainContainer/StateIndicators/DangerIndicator
-
 func _ready() -> void:
 	cold_indicator.modulate.a = 0.4
 	caution_indicator.modulate.a = 0.4
@@ -31,7 +26,6 @@ func _ready() -> void:
 	
 	fill(initial_heat)
 	_current_heat = initial_heat
-
 func _process(delta: float) -> void:
 	if _is_filling_anisprotic:
 		var new_heat = _current_heat + (_fill_rate * delta)
@@ -40,7 +34,6 @@ func _process(delta: float) -> void:
 		
 		if _current_heat >= max_heat:
 			stop_fill_anisprotic()
-
 func fill(value: float) -> void:
 	var clamped_value = clamp(value, min_heat, max_heat)
 	_current_heat = clamped_value
@@ -54,7 +47,6 @@ func fill(value: float) -> void:
 	value_display.text = str(int(clamped_value)) + "%"
 	
 	_update_heat_visual_state(clamped_value)
-
 func _update_heat_visual_state(heat_value: float) -> void:
 	cold_indicator.modulate.a = 0.4
 	caution_indicator.modulate.a = 0.4
@@ -109,11 +101,9 @@ func _update_heat_visual_state(heat_value: float) -> void:
 			shader_overlay.material.set_shader_parameter("speed", 0.5)
 	
 	_last_heat_state = current_state
-
 func fill_anisprotic(rate_per_second: float) -> void:
 	_fill_rate = rate_per_second
 	_is_filling_anisprotic = true
-
 func stop_fill_anisprotic() -> void:
 	_is_filling_anisprotic = false
 	_fill_rate = 0.0 

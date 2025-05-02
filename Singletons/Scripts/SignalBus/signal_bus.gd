@@ -1,6 +1,4 @@
 extends Node
-
-# Player signals
 signal player_state_changed(new_state, old_state)
 signal player_crouched(is_crouched)
 signal player_moved(direction, delta)
@@ -25,8 +23,6 @@ signal player_entered_car
 signal player_exited_car
 signal player_entered_meth_lab
 signal player_money_changed(amount)
-
-# NPC signals
 signal npc_died(npc)
 signal npc_detected_player(npc)
 signal npc_lost_player(npc)
@@ -34,16 +30,12 @@ signal npc_state_changed(npc, state)
 signal npc_dialog_started(npc)
 signal npc_dialog_ended(npc)
 signal npc_interacted(npc)
-
-# Enemy signals
 signal enemy_died(enemy)
 signal enemy_spawned(enemy)
 signal enemy_detected_player(enemy)
 signal enemy_lost_player(enemy)
 signal enemy_damaged(enemy, damage)
 signal enemy_attacked(enemy)
-
-# Game state signals
 signal game_state_changed(state)
 signal game_paused(is_paused)
 signal game_over(reason)
@@ -67,8 +59,6 @@ signal game_tutorial_started(tutorial)
 signal game_tutorial_completed(tutorial)
 signal scene_transitioning(from_scene, to_scene)
 signal scene_transitioned(to_scene)
-
-# UI signals
 signal ui_button_pressed(button_name)
 signal ui_dialog_option_selected(option)
 signal ui_menu_opened(menu_name)
@@ -94,8 +84,6 @@ signal ui_phone_call_declined(caller)
 signal ui_phone_call_ended(caller)
 signal ui_phone_message_received(sender, message)
 signal ui_phone_message_sent(receiver, message)
-
-# MethLab signals
 signal meth_lab_started
 signal meth_lab_completed(quality, profit)
 signal meth_lab_failed(reason)
@@ -105,8 +93,6 @@ signal meth_lab_temperature_changed(temperature)
 signal meth_lab_reaction_state_changed(state)
 signal meth_lab_batch_quality_updated(quality)
 signal meth_lab_explosion(severity)
-
-# World interaction signals
 signal door_opened(door)
 signal door_closed(door)
 signal car_started(car)
@@ -130,24 +116,18 @@ signal character_damaged(character, damage, source)
 signal character_healed(character, amount)
 signal character_status_effect_applied(character, effect, duration)
 signal character_status_effect_removed(character, effect)
-
-# Cinematic signals
 signal cinematic_started(cinematic_name)
 signal cinematic_ended(cinematic_name)
 signal cinematic_skipped(cinematic_name)
 signal camera_shake_requested(intensity, duration)
 signal slow_motion_started(scale, duration)
 signal slow_motion_ended
-
-# Audio signals
 signal music_track_changed(track_name)
 signal music_volume_changed(volume)
 signal sound_played(sound_name, position)
 signal ambient_sound_changed(ambient_name)
 signal voice_line_started(character, line)
 signal voice_line_ended(character)
-
-# Debug signals
 signal debug_message(message)
 signal debug_error(error)
 signal debug_warning(warning)
@@ -156,14 +136,10 @@ signal debug_console_command(command, args)
 signal debug_console_output(output)
 signal debug_fps_changed(fps)
 signal debug_memory_usage_changed(usage)
-
-# Car wash signals
 signal car_wash_started
 signal car_wash_car_cleaned(completion_percentage)
 signal car_wash_completed
 signal car_wash_money_earned(amount)
-
-# Heat level signals
 signal heat_level_increased(reason)
 signal heat_level_decreased(reason)
 signal heat_cooldown_started

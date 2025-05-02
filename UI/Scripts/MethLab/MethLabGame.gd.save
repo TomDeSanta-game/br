@@ -1,5 +1,0 @@
-^C
-cd /home/tomdesanta/Documents/Portfolio/breaking-bad && echo 'extends Control' > UI/Scripts/MethLab/MethLabGame.gd
-^C
-cd /home/tomdesanta/Documents/Portfolio/breaking-bad && ls -la UI/Scripts/MethLab/
-

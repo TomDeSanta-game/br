@@ -1,5 +1,4 @@
 extends Node2D
-
 var formation_offsets = [
 	Vector2(-10, -5),
 	Vector2(10, -5),
@@ -37,16 +36,13 @@ var zoom_speed = 0.5
 var dust_particles = []
 var dialogic_started = false
 var meth_lab_unlocked = false
-
 @onready var meth_lab_button = $MethLabButton
 @onready var player = $Player
 @onready var hank = $Hank
 @onready var dialog_area = $DialogTrigger
 @onready var meth_lab_entrance = $MethLabEntrance
-
 var dialog_started = false
 var entering_lab = false
-
 func _ready() -> void:
 	$Jesse.speed = 30.0
 	
@@ -84,13 +80,11 @@ func _ready() -> void:
 	
 	if meth_lab_button:
 		meth_lab_button.hide_button()
-
 	if dialog_area:
 		dialog_area.body_entered.connect(_on_dialog_trigger_entered)
 		
 	if meth_lab_entrance:
 		meth_lab_entrance.body_entered.connect(_on_meth_lab_entrance_entered)
-
 func create_desert_dust() -> void:
 	var desert_dust = CPUParticles2D.new()
 	desert_dust.name = "DesertDust"
@@ -106,7 +100,6 @@ func create_desert_dust() -> void:
 	desert_dust.scale_amount_max = 2.0
 	desert_dust.color = Color(0.9, 0.8, 0.6, 0.1)
 	add_child(desert_dust)
-
 func _physics_process(delta: float) -> void:
 	if Input.is_action_just_pressed("ui_accept"):
 		raiding = !raiding
@@ -134,7 +127,6 @@ func _physics_process(delta: float) -> void:
 			
 		update_camera(delta)
 		update_particles_intensity()
-
 func update_car_focus(delta: float) -> void:
 	car_focus_timer += delta
 	
@@ -149,22 +141,18 @@ func update_car_focus(delta: float) -> void:
 			var Dialogic = get_node("/root/Dialogic")
 			Dialogic.start("ridewithhank")
 			Dialogic.timeline_ended.connect(_on_dialogic_timeline_ended)
-
 func open_meth_lab() -> void:
 	if meth_lab_unlocked:
 		get_tree().change_scene_to_file("res://UI/Scenes/MethLab/MethLabGame.tscn")
-
 func _on_dialogic_timeline_ended():
 	meth_lab_unlocked = true
 	if meth_lab_button:
 		meth_lab_button.show_button()
-
 func calculate_formation_center() -> Vector2:
 	var center = Vector2(0, 0)
 	for officer in officers:
 		center += officer.position
 	return center / officers.size()
-
 func move_officers_towards_house(delta: float) -> void:
 	var direction_to_house = (house_position - formation_center).normalized()
 	formation_center += direction_to_house * raid_speed * delta
@@ -191,7 +179,6 @@ func move_officers_towards_house(delta: float) -> void:
 		if !target_reached:
 			target_reached = true
 			camera_transition_time = 0.0
-
 func surround_house(delta: float) -> void:
 	var house_surround_offsets = [
 		Vector2(-60, -20), 
@@ -220,7 +207,6 @@ func surround_house(delta: float) -> void:
 		
 		var officer_details = officer.get_node("OfficerDetails")
 		officer_details.rotation = polygon.rotation
-
 func handle_collision(officer: CharacterBody2D) -> void:
 	var push_direction = Vector2.ZERO
 	
@@ -230,7 +216,6 @@ func handle_collision(officer: CharacterBody2D) -> void:
 	
 	if push_direction != Vector2.ZERO:
 		formation_center += push_direction.normalized() * 10.0
-
 func update_camera(delta: float) -> void:
 	var approach_vector = Vector2.ZERO
 	
@@ -273,14 +258,12 @@ func update_camera(delta: float) -> void:
 	
 	$Camera2D.global_position = camera_target_position
 	$Camera2D.zoom = current_zoom
-
 func ease_out_cubic(t: float) -> float:
 	return 1.0 - pow(1.0 - t, 3)
 		
 func toggle_dust_particles(enabled: bool) -> void:
 	for particles in dust_particles:
 		particles.emitting = enabled
-
 func update_particles_intensity() -> void:
 	for i in range(officers.size()):
 		var officer = officers[i]
@@ -293,7 +276,6 @@ func update_particles_intensity() -> void:
 			particles.emitting = true
 		else:
 			particles.emitting = false
-
 func update_daylight_cycle(delta: float) -> void:
 	daylight_intensity += daylight_direction * 0.001 * delta
 	
@@ -304,12 +286,10 @@ func update_daylight_cycle(delta: float) -> void:
 		
 	if has_node("DynamicDaylight"):
 		$DynamicDaylight.color.a = daylight_intensity
-
 func _on_dialog_trigger_entered(body):
 	if body.is_in_group("Player") and not dialog_started:
 		dialog_started = true
 		Dialogic.start_timeline("ridewithhank")
-
 func _on_meth_lab_entrance_entered(body):
 	if body.is_in_group("Player") and not entering_lab:
 		entering_lab = true
