@@ -1,0 +1,540 @@
+[gd_scene load_steps=13 format=3 uid="uid://de3rlyhm5uqv0"]
+
+[ext_resource type="Script" path="res://Levels/Chemistry/meth_lab.gd" id="1_u4qsa"]
+[ext_resource type="Texture2D" uid="uid://bfx8anmqwqy21" path="res://assets/early_methaphetamine_batch.png" id="2_yx5kj"]
+[ext_resource type="FontFile" uid="uid://d4i63hmnuy55s" path="res://assets/Fonts/Oswald-Regular.ttf" id="3_e1sqx"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ivhrl"]
+bg_color = Color(0.070588, 0.094118, 0.12549, 0.95)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0, 0.521569, 0.196078, 0.6)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+shadow_color = Color(0, 0, 0, 0.4)
+shadow_size = 4
+shadow_offset = Vector2(2, 2)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q87iu"]
+bg_color = Color(0.07, 0.094, 0.125, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0, 0.7, 0.3, 0.8)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5bjrg"]
+bg_color = Color(0, 0.7, 0.3, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dyt8x"]
+bg_color = Color(0.356863, 0.784314, 0.913725, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nvlls"]
+bg_color = Color(0.156863, 0.164706, 0.211765, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.329412, 0.329412, 0.329412, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_beaker"]
+bg_color = Color(0.156863, 0.564706, 0.811765, 0.8)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_button_normal"]
+bg_color = Color(0.121569, 0.172549, 0.239216, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0, 0.521569, 0.196078, 0.6)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_button_hover"]
+bg_color = Color(0.152941, 0.215686, 0.298039, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0, 0.65098, 0.25098, 0.8)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_button_pressed"]
+bg_color = Color(0.07, 0.094, 0.125, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0, 0.7, 0.3, 0.8)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[node name="MethLab" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_u4qsa")
+
+[node name="BackgroundTexture" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.12549, 0.14902, 0.172549, 1)
+
+[node name="MainContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MainContainer"]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="HeaderPanel" type="PanelContainer" parent="MainContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ivhrl")
+
+[node name="HeaderContainer" type="HBoxContainer" parent="MainContainer/VBoxContainer/HeaderPanel"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="TitleLabel" type="Label" parent="MainContainer/VBoxContainer/HeaderPanel/HeaderContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_fonts/font = ExtResource("3_e1sqx")
+theme_override_font_sizes/font_size = 28
+text = "CHEMISTRY LAB"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TimeContainer" type="HBoxContainer" parent="MainContainer/VBoxContainer/HeaderPanel/HeaderContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 10
+
+[node name="TimeLabel" type="Label" parent="MainContainer/VBoxContainer/HeaderPanel/HeaderContainer/TimeContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_e1sqx")
+theme_override_font_sizes/font_size = 24
+text = "TIME REMAINING:"
+vertical_alignment = 1
+
+[node name="TimeValue" type="Label" parent="MainContainer/VBoxContainer/HeaderPanel/HeaderContainer/TimeContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_e1sqx")
+theme_override_font_sizes/font_size = 24
+text = "05:00"
+vertical_alignment = 1
+
+[node name="ContentContainer" type="HBoxContainer" parent="MainContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 15
+
+[node name="LeftColumn" type="VBoxContainer" parent="MainContainer/VBoxContainer/ContentContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 15
+
+[node name="ChemicalsPanel" type="PanelContainer" parent="MainContainer/VBoxContainer/ContentContainer/LeftColumn"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_ivhrl")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MainContainer/VBoxContainer/ContentContainer/LeftColumn/ChemicalsPanel"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="ChemicalsHeader" type="Label" parent="MainContainer/VBoxContainer/ContentContainer/LeftColumn/ChemicalsPanel/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_e1sqx")
+theme_override_font_sizes/font_size = 22
+text = "CHEMICALS"
+horizontal_alignment = 1
+
+[node name="ChemicalsList" type="VBoxContainer" parent="MainContainer/VBoxContainer/ContentContainer/LeftColumn/ChemicalsPanel/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Pseudoephedrine" type="Button" parent="MainContainer/VBoxContainer/ContentContainer/LeftColumn/ChemicalsPanel/VBoxContainer/ChemicalsList"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("3_e1sqx")
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("StyleBoxFlat_button_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_button_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_button_pressed")
+text = "Pseudoephedrine"
+
+[node name="RedPhosphorus" type="Button" parent="MainContainer/VBoxContainer/ContentContainer/LeftColumn/ChemicalsPanel/VBoxContainer/ChemicalsList"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("3_e1sqx")
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("StyleBoxFlat_button_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_button_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_button_pressed")
+text = "Red Phosphorus"
+
+[node name="Iodine" type="Button" parent="MainContainer/VBoxContainer/ContentContainer/LeftColumn/ChemicalsPanel/VBoxContainer/ChemicalsList"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("3_e1sqx")
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("StyleBoxFlat_button_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_button_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_button_pressed")
+text = "Iodine"
+
+[node name="Methylamine" type="Button" parent="MainContainer/VBoxContainer/ContentContainer/LeftColumn/ChemicalsPanel/VBoxContainer/ChemicalsList"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("3_e1sqx")
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("StyleBoxFlat_button_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_button_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_button_pressed")
+text = "Methylamine"
+
+[node name="Aluminum" type="Button" parent="MainContainer/VBoxContainer/ContentContainer/LeftColumn/ChemicalsPanel/VBoxContainer/ChemicalsList"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("3_e1sqx")
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("StyleBoxFlat_button_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_button_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_button_pressed")
+text = "Aluminum"
+
+[node name="EquipmentPanel" type="PanelContainer" parent="MainContainer/VBoxContainer/ContentContainer/LeftColumn"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_ivhrl")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MainContainer/VBoxContainer/ContentContainer/LeftColumn/EquipmentPanel"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="EquipmentHeader" type="Label" parent="MainContainer/VBoxContainer/ContentContainer/LeftColumn/EquipmentPanel/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_e1sqx")
+theme_override_font_sizes/font_size = 22
+text = "EQUIPMENT"
+horizontal_alignment = 1
+
+[node name="TemperatureContainer" type="HBoxContainer" parent="MainContainer/VBoxContainer/ContentContainer/LeftColumn/EquipmentPanel/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="TemperatureLabel" type="Label" parent="MainContainer/VBoxContainer/ContentContainer/LeftColumn/EquipmentPanel/VBoxContainer/TemperatureContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_fonts/font = ExtResource("3_e1sqx")
+theme_override_font_sizes/font_size = 18
+text = "Temperature:"
+vertical_alignment = 1
+
+[node name="TemperatureValue" type="Label" parent="MainContainer/VBoxContainer/ContentContainer/LeftColumn/EquipmentPanel/VBoxContainer/TemperatureContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_e1sqx")
+theme_override_font_sizes/font_size = 18
+text = "25°C"
+vertical_alignment = 1
+
+[node name="TemperatureControls" type="HBoxContainer" parent="MainContainer/VBoxContainer/ContentContainer/LeftColumn/EquipmentPanel/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="IncreaseTemp" type="Button" parent="MainContainer/VBoxContainer/ContentContainer/LeftColumn/EquipmentPanel/VBoxContainer/TemperatureControls"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_fonts/font = ExtResource("3_e1sqx")
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("StyleBoxFlat_button_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_button_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_button_pressed")
+text = "HEAT"
+
+[node name="DecreaseTemp" type="Button" parent="MainContainer/VBoxContainer/ContentContainer/LeftColumn/EquipmentPanel/VBoxContainer/TemperatureControls"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_fonts/font = ExtResource("3_e1sqx")
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("StyleBoxFlat_button_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_button_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_button_pressed")
+text = "COOL"
+
+[node name="StirButton" type="Button" parent="MainContainer/VBoxContainer/ContentContainer/LeftColumn/EquipmentPanel/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_e1sqx")
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("StyleBoxFlat_button_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_button_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_button_pressed")
+text = "STIR SOLUTION"
+
+[node name="CrystallizeButton" type="Button" parent="MainContainer/VBoxContainer/ContentContainer/LeftColumn/EquipmentPanel/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_e1sqx")
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("StyleBoxFlat_button_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_button_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_button_pressed")
+text = "CRYSTALLIZE"
+
+[node name="CenterColumn" type="VBoxContainer" parent="MainContainer/VBoxContainer/ContentContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 1.5
+theme_override_constants/separation = 15
+
+[node name="BeakerPanel" type="PanelContainer" parent="MainContainer/VBoxContainer/ContentContainer/CenterColumn"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_ivhrl")
+
+[node name="BeakerContainer" type="VBoxContainer" parent="MainContainer/VBoxContainer/ContentContainer/CenterColumn/BeakerPanel"]
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="PhaseLabel" type="Label" parent="MainContainer/VBoxContainer/ContentContainer/CenterColumn/BeakerPanel/BeakerContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_e1sqx")
+theme_override_font_sizes/font_size = 20
+text = "PHASE:"
+horizontal_alignment = 1
+
+[node name="PhaseValue" type="Label" parent="MainContainer/VBoxContainer/ContentContainer/CenterColumn/BeakerPanel/BeakerContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_e1sqx")
+theme_override_font_sizes/font_size = 20
+text = "Mix Initial Chemicals"
+horizontal_alignment = 1
+
+[node name="Beaker" type="Control" parent="MainContainer/VBoxContainer/ContentContainer/CenterColumn/BeakerPanel/BeakerContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="BeakerOutline" type="Panel" parent="MainContainer/VBoxContainer/ContentContainer/CenterColumn/BeakerPanel/BeakerContainer/Beaker"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -100.0
+offset_top = -150.0
+offset_right = 100.0
+offset_bottom = 150.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_nvlls")
+
+[node name="BeakerLiquid" type="Panel" parent="MainContainer/VBoxContainer/ContentContainer/CenterColumn/BeakerPanel/BeakerContainer/Beaker"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -95.0
+offset_top = 30.0
+offset_right = 95.0
+offset_bottom = 145.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_beaker")
+
+[node name="StatusPanel" type="PanelContainer" parent="MainContainer/VBoxContainer/ContentContainer/CenterColumn"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ivhrl")
+
+[node name="StatusContainer" type="VBoxContainer" parent="MainContainer/VBoxContainer/ContentContainer/CenterColumn/StatusPanel"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="StatusHeader" type="Label" parent="MainContainer/VBoxContainer/ContentContainer/CenterColumn/StatusPanel/StatusContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_e1sqx")
+theme_override_font_sizes/font_size = 22
+text = "STATUS"
+horizontal_alignment = 1
+
+[node name="ChemicalsAddedContainer" type="HBoxContainer" parent="MainContainer/VBoxContainer/ContentContainer/CenterColumn/StatusPanel/StatusContainer"]
+layout_mode = 2
+
+[node name="ChemicalsAddedLabel" type="Label" parent="MainContainer/VBoxContainer/ContentContainer/CenterColumn/StatusPanel/StatusContainer/ChemicalsAddedContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_fonts/font = ExtResource("3_e1sqx")
+theme_override_font_sizes/font_size = 18
+text = "Chemicals Added:"
+vertical_alignment = 1
+
+[node name="ChemicalsAddedValue" type="Label" parent="MainContainer/VBoxContainer/ContentContainer/CenterColumn/StatusPanel/StatusContainer/ChemicalsAddedContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_e1sqx")
+theme_override_font_sizes/font_size = 18
+text = "0/5"
+vertical_alignment = 1
+
+[node name="QualityContainer" type="HBoxContainer" parent="MainContainer/VBoxContainer/ContentContainer/CenterColumn/StatusPanel/StatusContainer"]
+layout_mode = 2
+
+[node name="QualityLabel" type="Label" parent="MainContainer/VBoxContainer/ContentContainer/CenterColumn/StatusPanel/StatusContainer/QualityContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_fonts/font = ExtResource("3_e1sqx")
+theme_override_font_sizes/font_size = 18
+text = "Quality:"
+vertical_alignment = 1
+
+[node name="QualityValue" type="Label" parent="MainContainer/VBoxContainer/ContentContainer/CenterColumn/StatusPanel/StatusContainer/QualityContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_e1sqx")
+theme_override_font_sizes/font_size = 18
+text = "0%"
+vertical_alignment = 1
+
+[node name="QualityBar" type="ProgressBar" parent="MainContainer/VBoxContainer/ContentContainer/CenterColumn/StatusPanel/StatusContainer"]
+layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_nvlls")
+theme_override_styles/fill = SubResource("StyleBoxFlat_5bjrg")
+value = 50.0
+show_percentage = false
+
+[node name="RightColumn" type="VBoxContainer" parent="MainContainer/VBoxContainer/ContentContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 15
+
+[node name="RecipePanel" type="PanelContainer" parent="MainContainer/VBoxContainer/ContentContainer/RightColumn"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_ivhrl")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MainContainer/VBoxContainer/ContentContainer/RightColumn/RecipePanel"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="RecipeHeader" type="Label" parent="MainContainer/VBoxContainer/ContentContainer/RightColumn/RecipePanel/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_e1sqx")
+theme_override_font_sizes/font_size = 22
+text = "RECIPE INSTRUCTIONS"
+horizontal_alignment = 1
+
+[node name="RecipeInstructions" type="RichTextLabel" parent="MainContainer/VBoxContainer/ContentContainer/RightColumn/RecipePanel/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_fonts/normal_font = ExtResource("3_e1sqx")
+theme_override_font_sizes/normal_font_size = 16
+bbcode_enabled = true
+text = "[b]Phase 1:[/b] Mix Initial Chemicals
+1. Add Pseudoephedrine
+2. Add Red Phosphorus 
+3. Add Iodine
+4. Heat to 70-80°C
+5. Stir solution
+
+[b]Phase 2:[/b] Add Methylamine
+1. Cool to 30-35°C
+2. Add Methylamine
+3. Stir solution
+4. Heat to 60-70°C
+
+[b]Phase 3:[/b] Final Processing
+1. Add Aluminum
+2. Stir solution
+3. Cool to 20-25°C
+4. Crystallize"
+
+[node name="ButtonPanel" type="PanelContainer" parent="MainContainer/VBoxContainer/ContentContainer/RightColumn"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ivhrl")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MainContainer/VBoxContainer/ContentContainer/RightColumn/ButtonPanel"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="ResultImage" type="TextureRect" parent="MainContainer/VBoxContainer/ContentContainer/RightColumn/ButtonPanel/VBoxContainer"]
+layout_mode = 2
+texture = ExtResource("2_yx5kj")
+expand_mode = 2
+stretch_mode = 5
+
+[node name="FinishButton" type="Button" parent="MainContainer/VBoxContainer/ContentContainer/RightColumn/ButtonPanel/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_e1sqx")
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxFlat_button_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_button_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_button_pressed")
+text = "FINISH BATCH"
+
+[node name="ExitButton" type="Button" parent="MainContainer/VBoxContainer/ContentContainer/RightColumn/ButtonPanel/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_e1sqx")
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxFlat_button_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_button_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_button_pressed")
+text = "EXIT LAB"
+
+[connection signal="pressed" from="MainContainer/VBoxContainer/ContentContainer/LeftColumn/ChemicalsPanel/VBoxContainer/ChemicalsList/Pseudoephedrine" to="." method="_on_chemical_pressed" binds= ["Pseudoephedrine"]]
+[connection signal="pressed" from="MainContainer/VBoxContainer/ContentContainer/LeftColumn/ChemicalsPanel/VBoxContainer/ChemicalsList/RedPhosphorus" to="." method="_on_chemical_pressed" binds= ["Red Phosphorus"]]
+[connection signal="pressed" from="MainContainer/VBoxContainer/ContentContainer/LeftColumn/ChemicalsPanel/VBoxContainer/ChemicalsList/Iodine" to="." method="_on_chemical_pressed" binds= ["Iodine"]]
+[connection signal="pressed" from="MainContainer/VBoxContainer/ContentContainer/LeftColumn/ChemicalsPanel/VBoxContainer/ChemicalsList/Methylamine" to="." method="_on_chemical_pressed" binds= ["Methylamine"]]
+[connection signal="pressed" from="MainContainer/VBoxContainer/ContentContainer/LeftColumn/ChemicalsPanel/VBoxContainer/ChemicalsList/Aluminum" to="." method="_on_chemical_pressed" binds= ["Aluminum"]]
+[connection signal="pressed" from="MainContainer/VBoxContainer/ContentContainer/LeftColumn/EquipmentPanel/VBoxContainer/TemperatureControls/IncreaseTemp" to="." method="_on_increase_temp_pressed"]
+[connection signal="pressed" from="MainContainer/VBoxContainer/ContentContainer/LeftColumn/EquipmentPanel/VBoxContainer/TemperatureControls/DecreaseTemp" to="." method="_on_decrease_temp_pressed"]
+[connection signal="pressed" from="MainContainer/VBoxContainer/ContentContainer/LeftColumn/EquipmentPanel/VBoxContainer/StirButton" to="." method="_on_stir_button_pressed"]
+[connection signal="pressed" from="MainContainer/VBoxContainer/ContentContainer/LeftColumn/EquipmentPanel/VBoxContainer/CrystallizeButton" to="." method="_on_crystallize_button_pressed"]
+[connection signal="pressed" from="MainContainer/VBoxContainer/ContentContainer/RightColumn/ButtonPanel/VBoxContainer/FinishButton" to="." method="_on_finish_button_pressed"]
+[connection signal="pressed" from="MainContainer/VBoxContainer/ContentContainer/RightColumn/ButtonPanel/VBoxContainer/ExitButton" to="." method="_on_exit_button_pressed"] 
