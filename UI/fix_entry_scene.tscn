@@ -1,0 +1,6 @@
+[gd_scene format=3]
+
+[node name="root" type="Node2D"]
+
+[node name="Script" type="Node" parent="."]
+script = "res://UI/fix_entry_scene.gd"

@@ -1,49 +1,32 @@
 extends Control
-var time_remaining := 300.0
-var score := 0
-var quality := 0.0
-var current_phase := 0
-var current_temperature := 25.0
-var is_stirring := false
-var chemicals_added := []
-var required_chemicals := ["Pseudoephedrine", "Red Phosphorus", "Iodine", "Methylamine"]
+
 var current_step := 0
-var heating_phase_temp_range := [60.0, 80.0]
-var cooling_phase_temp_range := [20.0, 35.0]
 var beaker_liquid: Panel
 var phase_label: Label
+
 func _ready():
-	await get_tree().process_frame
-	
 	initialize_node_references()
-	setup_game()
+	update_beaker()
+
 func initialize_node_references():
-	var beaker_path = "MainContainer/VBoxContainer/ContentContainer/CenterColumn/BeakerPanel/BeakerContainer/Beaker"
-	var beaker = get_node_or_null(beaker_path)
-	
+	var beaker = get_node_or_null("MainContainer/VBoxContainer/ContentContainer/BeakerPanel/BeakerContainer/Beaker")
 	if beaker:
 		beaker_liquid = beaker.get_node_or_null("BeakerLiquid")
 	
-	var phase_path = "MainContainer/VBoxContainer/ContentContainer/CenterColumn/BeakerPanel/BeakerContainer/PhaseValue"
-	phase_label = get_node_or_null(phase_path)
-func setup_game():
-	time_remaining = 300.0
-	score = 0
-	quality = 0.0
-	current_phase = 0
-	current_temperature = 25.0
-	is_stirring = false
-	chemicals_added = []
-	current_step = 0
-	
-	if is_instance_valid(phase_label):
-		phase_label.text = "Phase 1: Mix chemicals"
-	
-	update_beaker()
+	phase_label = get_node_or_null("MainContainer/VBoxContainer/ContentContainer/BeakerPanel/BeakerContainer/PhaseValue")
+
 func update_beaker():
 	if is_instance_valid(beaker_liquid):
 		var color_value = clamp(current_step * 0.25, 0, 1.0)
 		beaker_liquid.modulate = Color(0.2, 0.5 + color_value * 0.5, color_value, 0.8)
 		beaker_liquid.scale = Vector2(1.0, 0.2 + current_step * 0.16)
+
+func _on_start_button_pressed():
+	current_step += 1
+	update_beaker()
+	
+	if is_instance_valid(phase_label):
+		phase_label.text = "Phase %d: Processing..." % (current_step + 1)
+
 func _on_exit_button_pressed():
 	get_tree().change_scene_to_file("res://Levels/House/House.tscn") 

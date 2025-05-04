@@ -1,0 +1,266 @@
+[gd_scene load_steps=3 format=3 uid="uid://bxsf24s7vu55k"]
+
+[ext_resource type="Script" path="res://UI/Scripts/DealingUI.gd" id="1_xtjjr"]
+[ext_resource type="PackedScene" uid="uid://response_button" path="res://UI/Scenes/ResponseButton.tscn" id="2_qptcd"]
+
+[node name="DealingUI" type="Control"]
+process_mode = 3
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_xtjjr")
+customer_label = NodePath("MainPanel/VBoxContainer/CustomerInfo/CustomerLabel")
+dialogue_label = NodePath("MainPanel/VBoxContainer/DialoguePanel/MarginContainer/DialogueLabel")
+response_container = NodePath("MainPanel/VBoxContainer/ResponsePanel/MarginContainer/ResponseContainer")
+response_button_scene = ExtResource("2_qptcd")
+quantity_slider = NodePath("MainPanel/VBoxContainer/NegotiationContainer/MarginContainer/VBoxContainer/QuantityContainer/QuantitySlider")
+price_slider = NodePath("MainPanel/VBoxContainer/NegotiationContainer/MarginContainer/VBoxContainer/PriceContainer/PriceSlider")
+price_label = NodePath("MainPanel/VBoxContainer/NegotiationContainer/MarginContainer/VBoxContainer/PriceContainer/PriceLabel")
+quantity_label = NodePath("MainPanel/VBoxContainer/NegotiationContainer/MarginContainer/VBoxContainer/QuantityContainer/QuantityLabel")
+total_label = NodePath("MainPanel/VBoxContainer/NegotiationContainer/MarginContainer/VBoxContainer/TotalContainer/TotalLabel")
+deal_button = NodePath("MainPanel/VBoxContainer/ButtonPanel/HBoxContainer/DealButton")
+cancel_button = NodePath("MainPanel/VBoxContainer/ButtonPanel/HBoxContainer/CancelButton")
+product_info_container = NodePath("MainPanel/VBoxContainer/ProductInfoContainer")
+negotiation_container = NodePath("MainPanel/VBoxContainer/NegotiationContainer")
+success_panel = NodePath("SuccessPanel")
+failure_panel = NodePath("FailurePanel")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.501961)
+
+[node name="MainPanel" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -300.0
+offset_top = -225.0
+offset_right = 300.0
+offset_bottom = 225.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MainPanel"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="CustomerInfo" type="PanelContainer" parent="MainPanel/VBoxContainer"]
+layout_mode = 2
+
+[node name="CustomerLabel" type="Label" parent="MainPanel/VBoxContainer/CustomerInfo"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Customer"
+horizontal_alignment = 1
+
+[node name="DialoguePanel" type="PanelContainer" parent="MainPanel/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="MainPanel/VBoxContainer/DialoguePanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="DialogueLabel" type="RichTextLabel" parent="MainPanel/VBoxContainer/DialoguePanel/MarginContainer"]
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 18
+text = "Hey, you got something for me?"
+fit_content = true
+
+[node name="ResponsePanel" type="PanelContainer" parent="MainPanel/VBoxContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="MainPanel/VBoxContainer/ResponsePanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="ResponseContainer" type="VBoxContainer" parent="MainPanel/VBoxContainer/ResponsePanel/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="ProductInfoContainer" type="PanelContainer" parent="MainPanel/VBoxContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="MainPanel/VBoxContainer/ProductInfoContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MainPanel/VBoxContainer/ProductInfoContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="QualityLabel" type="Label" parent="MainPanel/VBoxContainer/ProductInfoContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Quality: High"
+
+[node name="PurityLabel" type="Label" parent="MainPanel/VBoxContainer/ProductInfoContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Purity: 80%"
+
+[node name="InventoryLabel" type="Label" parent="MainPanel/VBoxContainer/ProductInfoContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Current Stock: 5.0g"
+
+[node name="NegotiationContainer" type="PanelContainer" parent="MainPanel/VBoxContainer"]
+visible = false
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="MainPanel/VBoxContainer/NegotiationContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MainPanel/VBoxContainer/NegotiationContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="PriceContainer" type="HBoxContainer" parent="MainPanel/VBoxContainer/NegotiationContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="PriceLabel" type="Label" parent="MainPanel/VBoxContainer/NegotiationContainer/MarginContainer/VBoxContainer/PriceContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "$1000.00/g"
+
+[node name="PriceSlider" type="HSlider" parent="MainPanel/VBoxContainer/NegotiationContainer/MarginContainer/VBoxContainer/PriceContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+size_flags_stretch_ratio = 3.0
+min_value = 500.0
+max_value = 2000.0
+value = 1000.0
+
+[node name="QuantityContainer" type="HBoxContainer" parent="MainPanel/VBoxContainer/NegotiationContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="QuantityLabel" type="Label" parent="MainPanel/VBoxContainer/NegotiationContainer/MarginContainer/VBoxContainer/QuantityContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "2.5g"
+
+[node name="QuantitySlider" type="HSlider" parent="MainPanel/VBoxContainer/NegotiationContainer/MarginContainer/VBoxContainer/QuantityContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+size_flags_stretch_ratio = 3.0
+min_value = 0.1
+max_value = 10.0
+step = 0.1
+value = 2.5
+
+[node name="TotalContainer" type="HBoxContainer" parent="MainPanel/VBoxContainer/NegotiationContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="TotalTextLabel" type="Label" parent="MainPanel/VBoxContainer/NegotiationContainer/MarginContainer/VBoxContainer/TotalContainer"]
+layout_mode = 2
+text = "Total:"
+
+[node name="TotalLabel" type="Label" parent="MainPanel/VBoxContainer/NegotiationContainer/MarginContainer/VBoxContainer/TotalContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "$2500.00"
+horizontal_alignment = 2
+
+[node name="ButtonPanel" type="PanelContainer" parent="MainPanel/VBoxContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MainPanel/VBoxContainer/ButtonPanel"]
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="DealButton" type="Button" parent="MainPanel/VBoxContainer/ButtonPanel/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 18
+text = "Make Deal"
+
+[node name="CancelButton" type="Button" parent="MainPanel/VBoxContainer/ButtonPanel/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 18
+text = "Cancel"
+
+[node name="SuccessPanel" type="PanelContainer" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -100.0
+offset_right = 200.0
+offset_bottom = 100.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="SuccessPanel"]
+layout_mode = 2
+alignment = 1
+
+[node name="SuccessLabel" type="Label" parent="SuccessPanel/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.756863, 0, 1)
+theme_override_font_sizes/font_size = 24
+text = "Deal Successful!"
+horizontal_alignment = 1
+
+[node name="SuccessDetails" type="Label" parent="SuccessPanel/VBoxContainer"]
+layout_mode = 2
+text = "You sold 2.5g for $2500."
+horizontal_alignment = 1
+
+[node name="FailurePanel" type="PanelContainer" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -100.0
+offset_right = 200.0
+offset_bottom = 100.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="FailurePanel"]
+layout_mode = 2
+alignment = 1
+
+[node name="FailureLabel" type="Label" parent="FailurePanel/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.921569, 0, 0, 1)
+theme_override_font_sizes/font_size = 24
+text = "Deal Failed!"
+horizontal_alignment = 1
+
+[node name="FailureDetails" type="Label" parent="FailurePanel/VBoxContainer"]
+layout_mode = 2
+text = "The customer got suspicious and left."
+horizontal_alignment = 1

@@ -61,6 +61,7 @@
 │   ├── House
 │   │   ├── House.tscn
 │   │   ├── House.tscn.backup
+│   │   ├── House.tscn.fixed
 │   │   ├── house.gd
 │   │   └── house.gd.uid
 │   └── RideWithHank
@@ -109,32 +110,28 @@
 │   │   │   └── heat_bar.tscn
 │   │   ├── MainMenu.tscn
 │   │   ├── MethLab
-│   │   │   ├── Bubble.tscn
-│   │   │   ├── MethLabEntry.tscn
-│   │   │   └── MethLabGame.tscn
+│   │   │   └── MethhLab.tscn
 │   │   └── OptionsMenu.tscn
-│   └── Scripts
-│       ├── CarWashGame
-│       │   ├── CarModel.gd
-│       │   ├── CarModel.gd.uid
-│       │   ├── CarWashGame.gd
-│       │   ├── CarWashGame.gd.uid
-│       │   ├── CarWashUI.gd
-│       │   └── CarWashUI.gd.uid
-│       ├── HeatBar
-│       │   ├── heat_bar.gd
-│       │   └── heat_bar.gd.uid
-│       ├── MainMenu.gd
-│       ├── MainMenu.gd.uid
-│       ├── MethLab
-│       │   ├── Bubble.gd
-│       │   ├── Bubble.gd.uid
-│       │   ├── MethLabEntry.gd
-│       │   ├── MethLabEntry.gd.uid
-│       │   ├── MethLabGame.gd
-│       │   └── MethLabGame.gd.uid
-│       ├── OptionsMenu.gd
-│       └── OptionsMenu.gd.uid
+│   ├── Scripts
+│   │   ├── CarWashGame
+│   │   │   ├── CarModel.gd
+│   │   │   ├── CarModel.gd.uid
+│   │   │   ├── CarWashGame.gd
+│   │   │   ├── CarWashGame.gd.uid
+│   │   │   ├── CarWashUI.gd
+│   │   │   └── CarWashUI.gd.uid
+│   │   ├── HeatBar
+│   │   │   ├── heat_bar.gd
+│   │   │   └── heat_bar.gd.uid
+│   │   ├── MainMenu.gd
+│   │   ├── MainMenu.gd.uid
+│   │   ├── MethLab
+│   │   │   ├── MethhLab.gd
+│   │   │   └── MethhLab.gd.uid
+│   │   ├── OptionsMenu.gd
+│   │   └── OptionsMenu.gd.uid
+│   ├── fix_entry_scene.gd.uid
+│   └── fix_entry_scene.tscn
 ├── addons
 │   ├── SignalVisualizer
 │   │   ├── Clear.svg
@@ -744,10 +741,27 @@
 │   ├── Fonts
 │   │   ├── Arial.ttf
 │   │   ├── Arial.ttf.import
+│   │   ├── OFL.txt
 │   │   ├── Oswald-Regular.ttf
 │   │   ├── Oswald-Regular.ttf.import
+│   │   ├── Oswald-VariableFont_wght.ttf
+│   │   ├── Oswald-VariableFont_wght.ttf.import
+│   │   ├── README.txt
 │   │   ├── pixel_font.ttf
-│   │   └── pixel_font.ttf.import
+│   │   ├── pixel_font.ttf.import
+│   │   └── static
+│   │       ├── Oswald-Bold.ttf
+│   │       ├── Oswald-Bold.ttf.import
+│   │       ├── Oswald-ExtraLight.ttf
+│   │       ├── Oswald-ExtraLight.ttf.import
+│   │       ├── Oswald-Light.ttf
+│   │       ├── Oswald-Light.ttf.import
+│   │       ├── Oswald-Medium.ttf
+│   │       ├── Oswald-Medium.ttf.import
+│   │       ├── Oswald-Regular.ttf
+│   │       ├── Oswald-Regular.ttf.import
+│   │       ├── Oswald-SemiBold.ttf
+│   │       └── Oswald-SemiBold.ttf.import
 │   ├── Prototype_Character
 │   │   ├── Prototype_Character.aseprite
 │   │   ├── Prototype_Character.png
@@ -779,6 +793,11 @@
 │   │   └── white_tile1.png.import
 │   ├── early_methaphetamine_batch.png
 │   └── early_methaphetamine_batch.png.import
+├── backups
+│   ├── House
+│   │   ├── House.tscn.backup
+│   │   └── House.tscn.current
+│   └── House.tscn.backup
 ├── data.pandora
 ├── default_bus_layout.tres
 ├── dialogic
@@ -796,6 +815,7 @@
 │   ├── styles
 │   │   └── style-o.tres
 │   └── timelines
+│       ├── dea_raid.dtl.uid
 │       ├── diagnosis.dtl
 │       ├── diagnosis.dtl.uid
 │       ├── meth_lab.dtl
@@ -814,4 +834,4 @@
 └── quests
     └── GetToCar.tres
 
-153 directories, 662 files
+156 directories, 679 files

@@ -19,7 +19,6 @@ extends DialogicSubsystem
 signal audio_started(info: Dictionary)
 
 
-
 ## Audio node for holding audio players
 var audio_node := Node.new()
 ## Sound node for holding sound players
@@ -32,7 +31,6 @@ var current_audio_channels: Dictionary = {}
 
 ## Clears the state on this subsystem and stops all audio.
 func clear_game_state(_clear_flag := DialogicGameHandler.ClearFlags.FULL_CLEAR) -> void:
-	var info: Dictionary = dialogic.current_state_info.get("audio", {})
 	stop_all_channels()
 	stop_all_one_shot_sounds()
 
@@ -107,7 +105,7 @@ func update_audio(channel_name:= "", path := "", settings_overrides := {}) -> vo
 
 	## Handle previous audio on channel
 	if is_channel_playing(channel_name):
-		var prev_audio_node: Node = current_audio_channels[channel_name]
+		var prev_audio_node: AudioStreamPlayer = current_audio_channels[channel_name]
 		prev_audio_node.name += "_Prev"
 		if audio_settings.fade_length > 0.0:
 			var fade_out_tween: Tween = create_tween()
@@ -215,7 +213,7 @@ func stop_all_one_shot_sounds() -> void:
 
 ## Converts a linear loudness value to decibel and sets that volume to
 ## the given [param node].
-func interpolate_volume_linearly(value: float, node: Node) -> void:
+func interpolate_volume_linearly(value: float, node: AudioStreamPlayer) -> void:
 	node.volume_db = linear_to_db(value)
 
 

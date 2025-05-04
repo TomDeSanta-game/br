@@ -111,7 +111,9 @@ func add_ref_change(old_name:String, new_name:String, type:Types, where:=Where.T
 		'category':category_name,
 		'character_names':character_names,
 		'texts_only':where == Where.TEXTS_ONLY,
-		'type':type
+		'type':type,
+		'case_sensitive':case_sensitive,
+		'whole_words':whole_words,
 		})
 
 	update_indicator()
@@ -168,6 +170,10 @@ func open() -> void:
 func _on_close_requested() -> void:
 	hide()
 	broken_manager.close()
+
+
+func get_change_count() -> int:
+	return len(broken_manager.reference_changes)
 
 
 func update_indicator() -> void:

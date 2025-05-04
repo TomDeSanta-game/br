@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://response_button"]
+
+[node name="ResponseButton" type="Button"]
+custom_minimum_size = Vector2(0, 40)
+offset_right = 350.0
+offset_bottom = 40.0
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 16
+text = "Response Option"
+alignment = 0
+text_overrun_behavior = 3

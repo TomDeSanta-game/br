@@ -80,19 +80,22 @@ signal dialogic_paused
 signal dialogic_resumed
 
 
-## Emitted when the timeline ends.
-## This can be a timeline ending or [method end_timeline] being called.
-signal timeline_ended
 ## Emitted when a timeline starts by calling either [method start]
 ## or [method start_timeline].
 signal timeline_started
+## Emitted when the timeline ends.
+## This can be a timeline ending or [method end_timeline] being called.
+signal timeline_ended
 ## Emitted when an event starts being executed.
 ## The event may not have finished executing yet.
 signal event_handled(resource: DialogicEvent)
 
 ## Emitted when a [class SignalEvent] event was reached.
+@warning_ignore("unused_signal") # This is emitted by the signal event.
 signal signal_event(argument: Variant)
+
 ## Emitted when a signal event gets fired from a [class TextEvent] event.
+@warning_ignore("unused_signal") # This is emitted by the text subsystem.
 signal text_signal(argument: String)
 
 
@@ -162,6 +165,8 @@ func _ready() -> void:
 
 	clear()
 
+	DialogicResourceUtil.update_event_cache()
+
 	dialog_ending_timeline = DialogicTimeline.new()
 	dialog_ending_timeline.from_text("[clear]")
 
@@ -189,8 +194,10 @@ func start(timeline:Variant, label_or_idx:Variant="") -> Node:
 		scene.show()
 
 	if not scene.is_node_ready():
-		scene.ready.connect(clear.bind(ClearFlags.KEEP_VARIABLES))
-		scene.ready.connect(start_timeline.bind(timeline, label_or_idx))
+		if not scene.ready.is_connected(clear.bind(ClearFlags.KEEP_VARIABLES)):
+			scene.ready.connect(clear.bind(ClearFlags.KEEP_VARIABLES))
+		if not scene.ready.is_connected(start_timeline.bind(timeline, label_or_idx)):
+			scene.ready.connect(start_timeline.bind(timeline, label_or_idx))
 	else:
 		start_timeline(timeline, label_or_idx)
 
@@ -204,10 +211,10 @@ func start_timeline(timeline:Variant, label_or_idx:Variant = "") -> void:
 	# load the resource if only the path is given
 	if typeof(timeline) == TYPE_STRING:
 		#check the lookup table if it's not a full file name
-		if (timeline as String).contains("res://") or (timeline as String).contains("uid://"):
-			timeline = load((timeline as String))
+		if "://" in timeline:
+			timeline = load(timeline)
 		else:
-			timeline = DialogicResourceUtil.get_timeline_resource((timeline as String))
+			timeline = DialogicResourceUtil.get_timeline_resource(timeline)
 
 	if timeline == null:
 		printerr("[Dialogic] There was an error loading this timeline. Check the filename, and the timeline for errors")
@@ -228,10 +235,10 @@ func start_timeline(timeline:Variant, label_or_idx:Variant = "") -> void:
 	elif typeof(label_or_idx) == TYPE_INT:
 		if label_or_idx >-1:
 			current_event_idx = label_or_idx -1
-	
+
 	if not current_timeline == dialog_ending_timeline:
 		timeline_started.emit()
-	
+
 	handle_next_event()
 
 
@@ -240,7 +247,11 @@ func start_timeline(timeline:Variant, label_or_idx:Variant = "") -> void:
 func preload_timeline(timeline_resource:Variant) -> Variant:
 	# I think ideally this should be on a new thread, will test
 	if typeof(timeline_resource) == TYPE_STRING:
-		timeline_resource = load((timeline_resource as String))
+		if "://" in timeline_resource:
+			timeline_resource = load(timeline_resource)
+		else:
+			timeline_resource = DialogicResourceUtil.get_timeline_resource(timeline_resource)
+
 		if timeline_resource == null:
 			printerr("[Dialogic] There was an error preloading this timeline. Check the filename, and the timeline for errors")
 			return null

@@ -15,816 +15,191 @@
 ├── .gitattributes
 ├── .gitignore
 ├── Components
-│   ├── Scenes
-│   └── Scripts
-│       └── PlayerStateMachine
-│           ├── player_state_machine.gd
-│           └── player_state_machine.gd.uid
+│   ├── Scenes
+│   └── Scripts
+│       └── PlayerStateMachine
+│           ├── player_state_machine.gd
+│           └── player_state_machine.gd.uid
 ├── Entities
-│   ├── Scenes
-│   │   ├── Doctor
-│   │   │   └── Doctor.tscn
-│   │   ├── Jesse
-│   │   │   └── jesse.tscn
-│   │   ├── Npcs
-│   │   │   ├── NpcBase
-│   │   │   ├── Skyler
-│   │   │   └── WaltJR
-│   │   └── Player
-│   │       └── player.tscn
-│   └── Scripts
-│       ├── Doctor
-│       │   ├── doctor.gd
-│       │   └── doctor.gd.uid
-│       ├── Guards
-│       │   └── Tuco_Guard
-│       ├── Jesse
-│       │   ├── jesse.gd
-│       │   └── jesse.gd.uid
-│       └── Player
-│           ├── player.gd
-│           └── player.gd.uid
+│   ├── Scenes
+│   │   ├── Doctor
+│   │   │   └── Doctor.tscn
+│   │   ├── Jesse
+│   │   │   └── jesse.tscn
+│   │   ├── Npcs
+│   │   │   ├── NpcBase
+│   │   │   ├── Skyler
+│   │   │   └── WaltJR
+│   │   └── Player
+│   │       └── player.tscn
+│   └── Scripts
+│       ├── Doctor
+│       │   ├── doctor.gd
+│       │   └── doctor.gd.uid
+│       ├── Guards
+│       │   └── Tuco_Guard
+│       ├── Jesse
+│       │   ├── jesse.gd
+│       │   └── jesse.gd.uid
+│       └── Player
+│           ├── player.gd
+│           └── player.gd.uid
 ├── Inventory
-│   ├── Scenes
-│   │   ├── InventorySlot.tscn
-│   │   ├── InventoryUI.tscn
-│   │   └── ItemDetailsPanel.tscn
-│   └── Scripts
-│       ├── inventory_slot.gd
-│       ├── inventory_slot.gd.uid
-│       ├── inventory_ui.gd
-│       ├── inventory_ui.gd.uid
-│       ├── item_details_panel.gd
-│       └── item_details_panel.gd.uid
+│   ├── Scenes
+│   │   ├── InventorySlot.tscn
+│   │   ├── InventoryUI.tscn
+│   │   └── ItemDetailsPanel.tscn
+│   └── Scripts
+│       ├── inventory_slot.gd
+│       ├── inventory_slot.gd.uid
+│       ├── inventory_ui.gd
+│       ├── inventory_ui.gd.uid
+│       ├── item_details_panel.gd
+│       └── item_details_panel.gd.uid
 ├── LICENSE
 ├── Levels
-│   ├── CarWash
-│   │   ├── CarWashLevel.tscn
-│   │   ├── car_wash.gd
-│   │   ├── car_wash.gd.uid
-│   │   ├── grid_visualizer.gd
-│   │   └── grid_visualizer.gd.uid
-│   ├── DoctorsOffice
-│   │   ├── DoctorsOffice.tscn
-│   │   ├── doctors_office.gd
-│   │   └── doctors_office.gd.uid
-│   ├── House
-│   │   ├── House.tscn
-│   │   ├── House.tscn.backup
-│   │   ├── house.gd
-│   │   └── house.gd.uid
-│   └── RideWithHank
-│       ├── meth_lab_button.gd
-│       ├── meth_lab_button.gd.uid
-│       ├── ride_with_hank.gd
-│       ├── ride_with_hank.gd.uid
-│       └── ride_with_hank.tscn
+│   ├── CarWash
+│   │   ├── CarWashLevel.tscn
+│   │   ├── car_wash.gd
+│   │   ├── car_wash.gd.uid
+│   │   ├── grid_visualizer.gd
+│   │   └── grid_visualizer.gd.uid
+│   ├── DoctorsOffice
+│   │   ├── DoctorsOffice.tscn
+│   │   ├── doctors_office.gd
+│   │   └── doctors_office.gd.uid
+│   ├── House
+│   │   ├── House.tscn
+│   │   ├── House.tscn.backup
+│   │   ├── House.tscn.fixed
+│   │   ├── house.gd
+│   │   └── house.gd.uid
+│   └── RideWithHank
+│       ├── meth_lab_button.gd
+│       ├── meth_lab_button.gd.uid
+│       ├── ride_with_hank.gd
+│       ├── ride_with_hank.gd.uid
+│       └── ride_with_hank.tscn
 ├── Objects
-│   ├── Scenes
-│   │   ├── Doors
-│   │   │   ├── Door.tscn
-│   │   │   └── PatchedDoors.tscn
-│   │   └── Early_Meth_Batch
-│   │       └── early_methaphetamine_batch.tscn
-│   └── Scripts
-│       ├── Doors
-│       │   ├── door.gd
-│       │   ├── door.gd.uid
-│       │   ├── patched_doors.gd
-│       │   └── patched_doors.gd.uid
-│       └── Early_Meth_Batch
-│           ├── early_methaphetamine_batch.gd
-│           └── early_methaphetamine_batch.gd.uid
+│   ├── Scenes
+│   │   ├── Doors
+│   │   │   ├── Door.tscn
+│   │   │   └── PatchedDoors.tscn
+│   │   └── Early_Meth_Batch
+│   │       └── early_methaphetamine_batch.tscn
+│   └── Scripts
+│       ├── Doors
+│       │   ├── door.gd
+│       │   ├── door.gd.uid
+│       │   ├── patched_doors.gd
+│       │   └── patched_doors.gd.uid
+│       └── Early_Meth_Batch
+│           ├── early_methaphetamine_batch.gd
+│           └── early_methaphetamine_batch.gd.uid
 ├── README.md
 ├── Singletons
-│   ├── Scenes
-│   └── Scripts
-│       ├── Layers&Masks
-│       │   ├── llm.gd
-│       │   └── llm.gd.uid
-│       └── SignalBus
-│           ├── signal_bus.gd
-│           └── signal_bus.gd.uid
+│   ├── Scenes
+│   └── Scripts
+│       ├── Layers&Masks
+│       │   ├── llm.gd
+│       │   └── llm.gd.uid
+│       └── SignalBus
+│           ├── signal_bus.gd
+│           └── signal_bus.gd.uid
 ├── Systems
-│   └── Scripts
-│       ├── id_manager.gd
-│       └── id_manager.gd.uid
+│   └── Scripts
+│       ├── id_manager.gd
+│       └── id_manager.gd.uid
 ├── UI
-│   ├── Scenes
-│   │   ├── CarWashGame
-│   │   │   ├── CarModel.tscn
-│   │   │   ├── CarWashGame.tscn
-│   │   │   └── CarWashUI.tscn
-│   │   ├── HeatBar
-│   │   │   └── heat_bar.tscn
-│   │   ├── MainMenu.tscn
-│   │   ├── MethLab
-│   │   │   ├── Bubble.tscn
-│   │   │   ├── MethLabEntry.tscn
-│   │   │   └── MethLabGame.tscn
-│   │   └── OptionsMenu.tscn
-│   └── Scripts
-│       ├── CarWashGame
-│       │   ├── CarModel.gd
-│       │   ├── CarModel.gd.uid
-│       │   ├── CarWashGame.gd
-│       │   ├── CarWashGame.gd.uid
-│       │   ├── CarWashUI.gd
-│       │   └── CarWashUI.gd.uid
-│       ├── HeatBar
-│       │   ├── heat_bar.gd
-│       │   └── heat_bar.gd.uid
-│       ├── MainMenu.gd
-│       ├── MainMenu.gd.uid
-│       ├── MethLab
-│       │   ├── Bubble.gd
-│       │   ├── Bubble.gd.uid
-│       │   ├── MethLabEntry.gd
-│       │   ├── MethLabEntry.gd.uid
-│       │   ├── MethLabGame.gd
-│       │   └── MethLabGame.gd.uid
-│       ├── OptionsMenu.gd
-│       └── OptionsMenu.gd.uid
+│   ├── Scenes
+│   │   ├── CarWashGame
+│   │   │   ├── CarModel.tscn
+│   │   │   ├── CarWashGame.tscn
+│   │   │   └── CarWashUI.tscn
+│   │   ├── HeatBar
+│   │   │   └── heat_bar.tscn
+│   │   ├── MainMenu.tscn
+│   │   ├── MethLab
+│   │   │   ├── Bubble.tscn
+│   │   │   ├── MethLabEntry.tscn
+│   │   │   └── MethLabGame.tscn
+│   │   └── OptionsMenu.tscn
+│   └── Scripts
+│       ├── CarWashGame
+│       │   ├── CarModel.gd
+│       │   ├── CarModel.gd.uid
+│       │   ├── CarWashGame.gd
+│       │   ├── CarWashGame.gd.uid
+│       │   ├── CarWashUI.gd
+│       │   └── CarWashUI.gd.uid
+│       ├── HeatBar
+│       │   ├── heat_bar.gd
+│       │   └── heat_bar.gd.uid
+│       ├── MainMenu.gd
+│       ├── MainMenu.gd.uid
+│       ├── MethLab
+│       │   ├── Bubble.gd
+│       │   ├── Bubble.gd.uid
+│       │   ├── MethLabEntry.gd
+│       │   ├── MethLabEntry.gd.uid
+│       │   ├── MethLabGame.gd
+│       │   └── MethLabGame.gd.uid
+│       ├── OptionsMenu.gd
+│       └── OptionsMenu.gd.uid
 ├── addons
-│   ├── SignalVisualizer
-│   │   ├── Clear.svg
-│   │   ├── Clear.svg.import
-│   │   ├── Common
-│   │   │   ├── signal_connection.gd
-│   │   │   ├── signal_connection.gd.uid
-│   │   │   ├── signal_description.gd
-│   │   │   ├── signal_description.gd.uid
-│   │   │   ├── signal_graph.gd
-│   │   │   ├── signal_graph.gd.uid
-│   │   │   ├── signal_graph_utility.gd
-│   │   │   └── signal_graph_utility.gd.uid
-│   │   ├── Debugger
-│   │   │   ├── SignalDebugger.gd
-│   │   │   ├── SignalDebugger.gd.uid
-│   │   │   ├── SignalDebugger.tscn
-│   │   │   ├── signal_debugger_panel.gd
-│   │   │   └── signal_debugger_panel.gd.uid
-│   │   ├── GraphEdit.svg
-│   │   ├── GraphEdit.svg.import
-│   │   ├── Play.svg
-│   │   ├── Play.svg.import
-│   │   ├── SignalVisualizer.gd
-│   │   ├── SignalVisualizer.gd.uid
-│   │   ├── Stop.svg
-│   │   ├── Stop.svg.import
-│   │   ├── Visualizer
-│   │   │   ├── resizable_label.gd
-│   │   │   ├── resizable_label.gd.uid
-│   │   │   ├── signal_graph_node.gd
-│   │   │   ├── signal_graph_node.gd.uid
-│   │   │   ├── signal_graph_node.tscn
-│   │   │   ├── signal_graph_node_item.gd
-│   │   │   ├── signal_graph_node_item.gd.uid
-│   │   │   ├── signal_graph_node_item.tscn
-│   │   │   ├── signal_visualizer_dock.gd
-│   │   │   ├── signal_visualizer_dock.gd.uid
-│   │   │   └── signal_visualizer_dock.tscn
-│   │   └── plugin.cfg
-│   ├── dialogic
-│   │   ├── Core
-│   │   │   ├── DialogicGameHandler.gd
-│   │   │   ├── DialogicGameHandler.gd.uid
-│   │   │   ├── DialogicResourceUtil.gd
-│   │   │   ├── DialogicResourceUtil.gd.uid
-│   │   │   ├── DialogicUtil.gd
-│   │   │   ├── DialogicUtil.gd.uid
-│   │   │   ├── Dialogic_Subsystem.gd
-│   │   │   ├── Dialogic_Subsystem.gd.uid
-│   │   │   ├── index_class.gd
-│   │   │   └── index_class.gd.uid
-│   │   ├── Editor
-│   │   │   ├── CharacterEditor
-│   │   │   ├── Common
-│   │   │   ├── Events
-│   │   │   ├── HomePage
-│   │   │   ├── Images
-│   │   │   ├── Inspector
-│   │   │   ├── Settings
-│   │   │   ├── Theme
-│   │   │   ├── TimelineEditor
-│   │   │   ├── dialogic_editor.gd
-│   │   │   ├── dialogic_editor.gd.uid
-│   │   │   ├── editor_main.gd
-│   │   │   ├── editor_main.gd.uid
-│   │   │   ├── editor_main.tscn
-│   │   │   ├── editors_manager.gd
-│   │   │   └── editors_manager.gd.uid
-│   │   ├── Example Assets
-│   │   │   ├── Fonts
-│   │   │   ├── already_read_indicator.gd
-│   │   │   ├── already_read_indicator.gd.uid
-│   │   │   ├── backgrounds
-│   │   │   ├── default_event.gd
-│   │   │   ├── default_event.gd.uid
-│   │   │   ├── next-indicator
-│   │   │   ├── portraits
-│   │   │   └── sound-effects
-│   │   ├── Modules
-│   │   │   ├── Audio
-│   │   │   ├── Background
-│   │   │   ├── Call
-│   │   │   ├── Character
-│   │   │   ├── Choice
-│   │   │   ├── Clear
-│   │   │   ├── Comment
-│   │   │   ├── Condition
-│   │   │   ├── Core
-│   │   │   ├── DefaultLayoutParts
-│   │   │   ├── End
-│   │   │   ├── Glossary
-│   │   │   ├── HighlightPortrait
-│   │   │   ├── History
-│   │   │   ├── Jump
-│   │   │   ├── LayeredPortrait
-│   │   │   ├── Save
-│   │   │   ├── Settings
-│   │   │   ├── Signal
-│   │   │   ├── Style
-│   │   │   ├── StyleEditor
-│   │   │   ├── Text
-│   │   │   ├── TextInput
-│   │   │   ├── Variable
-│   │   │   ├── Voice
-│   │   │   ├── Wait
-│   │   │   └── WaitInput
-│   │   ├── Resources
-│   │   │   ├── CharacterResourceLoader.gd
-│   │   │   ├── CharacterResourceLoader.gd.uid
-│   │   │   ├── CharacterResourceSaver.gd
-│   │   │   ├── CharacterResourceSaver.gd.uid
-│   │   │   ├── TimelineResourceLoader.gd
-│   │   │   ├── TimelineResourceLoader.gd.uid
-│   │   │   ├── TimelineResourceSaver.gd
-│   │   │   ├── TimelineResourceSaver.gd.uid
-│   │   │   ├── character.gd
-│   │   │   ├── character.gd.uid
-│   │   │   ├── dialogic_identifiable_resource.gd
-│   │   │   ├── dialogic_identifiable_resource.gd.uid
-│   │   │   ├── dialogic_layout_base.gd
-│   │   │   ├── dialogic_layout_base.gd.uid
-│   │   │   ├── dialogic_layout_layer.gd
-│   │   │   ├── dialogic_layout_layer.gd.uid
-│   │   │   ├── dialogic_style.gd
-│   │   │   ├── dialogic_style.gd.uid
-│   │   │   ├── dialogic_style_layer.gd
-│   │   │   ├── dialogic_style_layer.gd.uid
-│   │   │   ├── event.gd
-│   │   │   ├── event.gd.uid
-│   │   │   ├── timeline.gd
-│   │   │   └── timeline.gd.uid
-│   │   ├── plugin.cfg
-│   │   ├── plugin.gd
-│   │   └── plugin.gd.uid
-│   ├── limbo_console
-│   │   ├── LICENSE.md
-│   │   ├── README.md
-│   │   ├── ascii_art.gd
-│   │   ├── ascii_art.gd.uid
-│   │   ├── builtin_commands.gd
-│   │   ├── builtin_commands.gd.uid
-│   │   ├── command_entry.gd
-│   │   ├── command_entry.gd.uid
-│   │   ├── config_mapper.gd
-│   │   ├── config_mapper.gd.uid
-│   │   ├── console_options.gd
-│   │   ├── console_options.gd.uid
-│   │   ├── limbo_console.gd
-│   │   ├── limbo_console.gd.uid
-│   │   ├── plugin.cfg
-│   │   ├── plugin.gd
-│   │   ├── plugin.gd.uid
-│   │   ├── res
-│   │   │   ├── default_theme.tres
-│   │   │   └── fonts
-│   │   ├── util.gd
-│   │   └── util.gd.uid
-│   ├── limbo_console.cfg
-│   ├── limboai
-│   │   ├── LICENSE.md
-│   │   ├── LOGO_LICENSE.md
-│   │   ├── README.md
-│   │   ├── bin
-│   │   │   ├── libliblimboai.windows.editor.x86_64.a
-│   │   │   ├── libliblimboai.windows.template_release.x86_64.a
-│   │   │   ├── liblimboai.android.editor.arm32.so
-│   │   │   ├── liblimboai.android.editor.arm64.so
-│   │   │   ├── liblimboai.android.editor.x86_32.so
-│   │   │   ├── liblimboai.android.editor.x86_64.so
-│   │   │   ├── liblimboai.android.template_release.arm32.so
-│   │   │   ├── liblimboai.android.template_release.arm64.so
-│   │   │   ├── liblimboai.android.template_release.x86_32.so
-│   │   │   ├── liblimboai.android.template_release.x86_64.so
-│   │   │   ├── liblimboai.ios.editor.arm64.dylib
-│   │   │   ├── liblimboai.ios.editor.universal.simulator.dylib
-│   │   │   ├── liblimboai.ios.template_release.arm64.dylib
-│   │   │   ├── liblimboai.ios.template_release.universal.simulator.dylib
-│   │   │   ├── liblimboai.linux.editor.x86_64.so
-│   │   │   ├── liblimboai.linux.template_release.x86_64.so
-│   │   │   ├── liblimboai.macos.editor.framework
-│   │   │   ├── liblimboai.macos.template_release.framework
-│   │   │   ├── liblimboai.web.editor.wasm32.wasm
-│   │   │   ├── liblimboai.web.template_release.wasm32.wasm
-│   │   │   ├── liblimboai.windows.editor.x86_64.dll
-│   │   │   ├── liblimboai.windows.template_release.x86_64.dll
-│   │   │   ├── limboai.gdextension
-│   │   │   └── limboai.gdextension.uid
-│   │   ├── icons
-│   │   │   ├── BTAction.svg
-│   │   │   ├── BTAction.svg.import
-│   │   │   ├── BTAlwaysFail.svg
-│   │   │   ├── BTAlwaysFail.svg.import
-│   │   │   ├── BTAlwaysSucceed.svg
-│   │   │   ├── BTAlwaysSucceed.svg.import
-│   │   │   ├── BTAwaitAnimation.svg
-│   │   │   ├── BTAwaitAnimation.svg.import
-│   │   │   ├── BTCallMethod.svg
-│   │   │   ├── BTCallMethod.svg.import
-│   │   │   ├── BTCheckAgentProperty.svg
-│   │   │   ├── BTCheckAgentProperty.svg.import
-│   │   │   ├── BTCheckTrigger.svg
-│   │   │   ├── BTCheckTrigger.svg.import
-│   │   │   ├── BTCheckVar.svg
-│   │   │   ├── BTCheckVar.svg.import
-│   │   │   ├── BTComment.svg
-│   │   │   ├── BTComment.svg.import
-│   │   │   ├── BTCondition.svg
-│   │   │   ├── BTCondition.svg.import
-│   │   │   ├── BTConsolePrint.svg
-│   │   │   ├── BTConsolePrint.svg.import
-│   │   │   ├── BTCooldown.svg
-│   │   │   ├── BTCooldown.svg.import
-│   │   │   ├── BTDecorator.svg
-│   │   │   ├── BTDecorator.svg.import
-│   │   │   ├── BTDelay.svg
-│   │   │   ├── BTDelay.svg.import
-│   │   │   ├── BTDynamicSelector.svg
-│   │   │   ├── BTDynamicSelector.svg.import
-│   │   │   ├── BTDynamicSequence.svg
-│   │   │   ├── BTDynamicSequence.svg.import
-│   │   │   ├── BTEvaluateExpression.svg
-│   │   │   ├── BTEvaluateExpression.svg.import
-│   │   │   ├── BTFail.svg
-│   │   │   ├── BTFail.svg.import
-│   │   │   ├── BTForEach.svg
-│   │   │   ├── BTForEach.svg.import
-│   │   │   ├── BTInvert.svg
-│   │   │   ├── BTInvert.svg.import
-│   │   │   ├── BTNewScope.svg
-│   │   │   ├── BTNewScope.svg.import
-│   │   │   ├── BTParallel.svg
-│   │   │   ├── BTParallel.svg.import
-│   │   │   ├── BTPauseAnimation.svg
-│   │   │   ├── BTPauseAnimation.svg.import
-│   │   │   ├── BTPlayAnimation.svg
-│   │   │   ├── BTPlayAnimation.svg.import
-│   │   │   ├── BTPlayer.svg
-│   │   │   ├── BTPlayer.svg.import
-│   │   │   ├── BTProbability.svg
-│   │   │   ├── BTProbability.svg.import
-│   │   │   ├── BTProbabilitySelector.svg
-│   │   │   ├── BTProbabilitySelector.svg.import
-│   │   │   ├── BTRandomSelector.svg
-│   │   │   ├── BTRandomSelector.svg.import
-│   │   │   ├── BTRandomSequence.svg
-│   │   │   ├── BTRandomSequence.svg.import
-│   │   │   ├── BTRandomWait.svg
-│   │   │   ├── BTRandomWait.svg.import
-│   │   │   ├── BTRepeat.svg
-│   │   │   ├── BTRepeat.svg.import
-│   │   │   ├── BTRepeatUntilFailure.svg
-│   │   │   ├── BTRepeatUntilFailure.svg.import
-│   │   │   ├── BTRepeatUntilSuccess.svg
-│   │   │   ├── BTRepeatUntilSuccess.svg.import
-│   │   │   ├── BTRunLimit.svg
-│   │   │   ├── BTRunLimit.svg.import
-│   │   │   ├── BTSelector.svg
-│   │   │   ├── BTSelector.svg.import
-│   │   │   ├── BTSequence.svg
-│   │   │   ├── BTSequence.svg.import
-│   │   │   ├── BTSetAgentProperty.svg
-│   │   │   ├── BTSetAgentProperty.svg.import
-│   │   │   ├── BTSetVar.svg
-│   │   │   ├── BTSetVar.svg.import
-│   │   │   ├── BTState.svg
-│   │   │   ├── BTState.svg.import
-│   │   │   ├── BTStopAnimation.svg
-│   │   │   ├── BTStopAnimation.svg.import
-│   │   │   ├── BTSubtree.svg
-│   │   │   ├── BTSubtree.svg.import
-│   │   │   ├── BTTimeLimit.svg
-│   │   │   ├── BTTimeLimit.svg.import
-│   │   │   ├── BTWait.svg
-│   │   │   ├── BTWait.svg.import
-│   │   │   ├── BTWaitTicks.svg
-│   │   │   ├── BTWaitTicks.svg.import
-│   │   │   ├── BehaviorTree.svg
-│   │   │   ├── BehaviorTree.svg.import
-│   │   │   ├── BehaviorTreeView.svg
-│   │   │   ├── BehaviorTreeView.svg.import
-│   │   │   ├── BlackboardPlan.svg
-│   │   │   ├── BlackboardPlan.svg.import
-│   │   │   ├── LimboAI.svg
-│   │   │   ├── LimboAI.svg.import
-│   │   │   ├── LimboDeselectAll.svg
-│   │   │   ├── LimboDeselectAll.svg.import
-│   │   │   ├── LimboEditBlackboard.svg
-│   │   │   ├── LimboEditBlackboard.svg.import
-│   │   │   ├── LimboExtraBlackboard.svg
-│   │   │   ├── LimboExtraBlackboard.svg.import
-│   │   │   ├── LimboExtraClock.svg
-│   │   │   ├── LimboExtraClock.svg.import
-│   │   │   ├── LimboExtraVariable.svg
-│   │   │   ├── LimboExtraVariable.svg.import
-│   │   │   ├── LimboExtractSubtree.svg
-│   │   │   ├── LimboExtractSubtree.svg.import
-│   │   │   ├── LimboHSM.svg
-│   │   │   ├── LimboHSM.svg.import
-│   │   │   ├── LimboPercent.svg
-│   │   │   ├── LimboPercent.svg.import
-│   │   │   ├── LimboSelectAll.svg
-│   │   │   ├── LimboSelectAll.svg.import
-│   │   │   ├── LimboState.svg
-│   │   │   ├── LimboState.svg.import
-│   │   │   ├── LimboVarAdd.svg
-│   │   │   ├── LimboVarAdd.svg.import
-│   │   │   ├── LimboVarEmpty.svg
-│   │   │   ├── LimboVarEmpty.svg.import
-│   │   │   ├── LimboVarError.svg
-│   │   │   ├── LimboVarError.svg.import
-│   │   │   ├── LimboVarExists.svg
-│   │   │   ├── LimboVarExists.svg.import
-│   │   │   ├── LimboVarNotFound.svg
-│   │   │   ├── LimboVarNotFound.svg.import
-│   │   │   ├── LimboVarPrivate.svg
-│   │   │   └── LimboVarPrivate.svg.import
-│   │   └── version.txt
-│   ├── logger
-│   │   ├── config.gd
-│   │   ├── config.gd.uid
-│   │   ├── json-data.gd
-│   │   ├── json-data.gd.uid
-│   │   ├── log-stream.gd
-│   │   ├── log-stream.gd.uid
-│   │   ├── logger.gd
-│   │   ├── logger.gd.uid
-│   │   ├── plugin.cfg
-│   │   ├── plugin.gd
-│   │   ├── plugin.gd.uid
-│   │   ├── settings.gd
-│   │   └── settings.gd.uid
-│   ├── pandora
-│   │   ├── api.gd
-│   │   ├── api.gd.uid
-│   │   ├── backend
-│   │   │   ├── entity_backend.gd
-│   │   │   └── entity_backend.gd.uid
-│   │   ├── context
-│   │   │   ├── context_manager.gd
-│   │   │   └── context_manager.gd.uid
-│   │   ├── icons
-│   │   │   ├── Array.svg
-│   │   │   ├── Array.svg.import
-│   │   │   ├── AssetLib.svg
-│   │   │   ├── AssetLib.svg.import
-│   │   │   ├── AtlasTexture.svg
-│   │   │   ├── AtlasTexture.svg.import
-│   │   │   ├── Clear.svg
-│   │   │   ├── Clear.svg.import
-│   │   │   ├── Color.svg
-│   │   │   ├── Color.svg.import
-│   │   │   ├── Edit.svg
-│   │   │   ├── Edit.svg.import
-│   │   │   ├── Folder.svg
-│   │   │   ├── Folder.svg.import
-│   │   │   ├── Font.svg.import
-│   │   │   ├── KeyValue.svg
-│   │   │   ├── KeyValue.svg.import
-│   │   │   ├── Object.svg
-│   │   │   ├── Object.svg.import
-│   │   │   ├── Reload.svg
-│   │   │   ├── Reload.svg.import
-│   │   │   ├── Remove.svg
-│   │   │   ├── Remove.svg.import
-│   │   │   ├── Save.svg
-│   │   │   ├── Save.svg.import
-│   │   │   ├── Search.svg
-│   │   │   ├── Search.svg.import
-│   │   │   ├── String.svg
-│   │   │   ├── String.svg.import
-│   │   │   ├── Vector2.svg
-│   │   │   ├── Vector2.svg.import
-│   │   │   ├── Vector2i.svg
-│   │   │   ├── Vector2i.svg.import
-│   │   │   ├── Vector3.svg
-│   │   │   ├── Vector3.svg.import
-│   │   │   ├── Vector3i.svg
-│   │   │   ├── Vector3i.svg.import
-│   │   │   ├── bool.svg
-│   │   │   ├── bool.svg.import
-│   │   │   ├── float.svg
-│   │   │   ├── float.svg.import
-│   │   │   ├── icon.png
-│   │   │   ├── icon.png.import
-│   │   │   ├── int.svg
-│   │   │   ├── int.svg.import
-│   │   │   ├── nanoid.svg
-│   │   │   ├── nanoid.svg.import
-│   │   │   ├── pandora-icon.svg
-│   │   │   ├── pandora-icon.svg.import
-│   │   │   ├── pandora-json-icon.svg
-│   │   │   └── pandora-json-icon.svg.import
-│   │   ├── model
-│   │   │   ├── category.gd
-│   │   │   ├── category.gd.uid
-│   │   │   ├── entity.gd
-│   │   │   ├── entity.gd.uid
-│   │   │   ├── property.gd
-│   │   │   ├── property.gd.uid
-│   │   │   ├── property_instance.gd
-│   │   │   ├── property_instance.gd.uid
-│   │   │   ├── reference.gd
-│   │   │   ├── reference.gd.uid
-│   │   │   ├── type.gd
-│   │   │   ├── type.gd.uid
-│   │   │   └── types
-│   │   ├── plugin.cfg
-│   │   ├── plugin.gd
-│   │   ├── plugin.gd.uid
-│   │   ├── settings
-│   │   │   ├── pandora_settings.gd
-│   │   │   └── pandora_settings.gd.uid
-│   │   ├── storage
-│   │   │   ├── data_storage.gd
-│   │   │   ├── data_storage.gd.uid
-│   │   │   └── json
-│   │   ├── ui
-│   │   │   ├── components
-│   │   │   └── editor
-│   │   └── util
-│   │       ├── category_id_file_generator.gd
-│   │       ├── category_id_file_generator.gd.uid
-│   │       ├── compression.gd
-│   │       ├── compression.gd.uid
-│   │       ├── entity_id_file_generator.gd
-│   │       ├── entity_id_file_generator.gd.uid
-│   │       ├── id_generator.gd
-│   │       ├── id_generator.gd.uid
-│   │       ├── nanoid_generator.gd
-│   │       ├── nanoid_generator.gd.uid
-│   │       ├── script_util.gd
-│   │       ├── script_util.gd.uid
-│   │       ├── sequential_id_generator.gd
-│   │       ├── sequential_id_generator.gd.uid
-│   │       ├── tokenizer.gd
-│   │       └── tokenizer.gd.uid
-│   ├── quest_system
-│   │   ├── LICENSE
-│   │   ├── abstract_manager.gd
-│   │   ├── abstract_manager.gd.uid
-│   │   ├── active_pool.gd
-│   │   ├── active_pool.gd.uid
-│   │   ├── assets
-│   │   │   ├── quest_resource.svg
-│   │   │   ├── quest_resource.svg.import
-│   │   │   ├── update.svg
-│   │   │   └── update.svg.import
-│   │   ├── available_pool.gd
-│   │   ├── available_pool.gd.uid
-│   │   ├── base_quest_pool.gd
-│   │   ├── base_quest_pool.gd.uid
-│   │   ├── completed_pool.gd
-│   │   ├── completed_pool.gd.uid
-│   │   ├── plugin.cfg
-│   │   ├── plugin.gd
-│   │   ├── plugin.gd.uid
-│   │   ├── quest_manager.gd
-│   │   ├── quest_manager.gd.uid
-│   │   ├── quest_resource.gd
-│   │   ├── quest_resource.gd.uid
-│   │   ├── settings.gd
-│   │   ├── settings.gd.uid
-│   │   ├── translation_plugin.gd
-│   │   ├── translation_plugin.gd.uid
-│   │   └── views
-│   │       ├── update_dialog.gd
-│   │       ├── update_dialog.gd.uid
-│   │       └── update_dialog.tscn
-│   ├── scene_manager
-│   │   ├── Dissolve2d.gdshader
-│   │   ├── Dissolve2d.gdshader.uid
-│   │   ├── NodeFlagsInspectorPlugin.gd
-│   │   ├── NodeFlagsInspectorPlugin.gd.uid
-│   │   ├── SceneManager.gd
-│   │   ├── SceneManager.gd.uid
-│   │   ├── SceneManager.tscn
-│   │   ├── SceneManagerConstants.gd
-│   │   ├── SceneManagerConstants.gd.uid
-│   │   ├── SceneManagerPlugin.gd
-│   │   ├── SceneManagerPlugin.gd.uid
-│   │   ├── ShaderFade.tres
-│   │   ├── SingletonCheckProperty.gd
-│   │   ├── SingletonCheckProperty.gd.uid
-│   │   ├── SingletonNameProperty.gd
-│   │   ├── SingletonNameProperty.gd.uid
-│   │   ├── icon.png
-│   │   ├── icon.png.import
-│   │   ├── plugin.cfg
-│   │   └── shader_patterns
-│   │       ├── circle.png
-│   │       ├── circle.png.import
-│   │       ├── curtains.png
-│   │       ├── curtains.png.import
-│   │       ├── diagonal.png
-│   │       ├── diagonal.png.import
-│   │       ├── horizontal.png
-│   │       ├── horizontal.png.import
-│   │       ├── radial.png
-│   │       ├── radial.png.import
-│   │       ├── scribbles.png
-│   │       ├── scribbles.png.import
-│   │       ├── squares.png
-│   │       ├── squares.png.import
-│   │       ├── vertical.png
-│   │       └── vertical.png.import
-│   ├── script-ide
-│   │   ├── LICENSE
-│   │   ├── README.md
-│   │   ├── icon
-│   │   │   ├── class.svg
-│   │   │   ├── class.svg.import
-│   │   │   ├── constant.svg
-│   │   │   ├── constant.svg.import
-│   │   │   ├── engine_func.svg
-│   │   │   ├── engine_func.svg.import
-│   │   │   ├── export.svg
-│   │   │   ├── export.svg.import
-│   │   │   ├── func.svg
-│   │   │   ├── func.svg.import
-│   │   │   ├── func_get.svg
-│   │   │   ├── func_get.svg.import
-│   │   │   ├── func_set.svg
-│   │   │   ├── func_set.svg.import
-│   │   │   ├── property.svg
-│   │   │   ├── property.svg.import
-│   │   │   ├── signal.svg
-│   │   │   └── signal.svg.import
-│   │   ├── plugin.cfg
-│   │   ├── plugin.gd
-│   │   ├── plugin.gd.uid
-│   │   └── quickopen
-│   │       ├── quick_open_panel.gd
-│   │       ├── quick_open_panel.gd.uid
-│   │       └── quick_open_panel.tscn
-│   └── sound_manager
-│       ├── LICENSE
-│       ├── SoundManager.cs
-│       ├── abstract_audio_player_pool.gd
-│       ├── abstract_audio_player_pool.gd.uid
-│       ├── ambient_sounds.gd
-│       ├── ambient_sounds.gd.uid
-│       ├── music.gd
-│       ├── music.gd.uid
-│       ├── plugin.cfg
-│       ├── plugin.gd
-│       ├── plugin.gd.uid
-│       ├── sound_effects.gd
-│       ├── sound_effects.gd.uid
-│       ├── sound_manager.gd
-│       └── sound_manager.gd.uid
+│   ├── SignalVisualizer
+│   ├── dialogic
+│   ├── limbo_console
+│   ├── limbo_console.cfg
+│   ├── limboai
+│   ├── logger
+│   ├── pandora
+│   ├── quest_system
+│   ├── scene_manager
+│   ├── script-ide
+│   └── sound_manager
 ├── ai
-│   ├── tasks
-│   │   ├── find_target.gd
-│   │   ├── find_target.gd.uid
-│   │   ├── move_to_position.gd
-│   │   ├── move_to_position.gd.uid
-│   │   ├── random_move_position.gd
-│   │   └── random_move_position.gd.uid
-│   └── trees
-│       ├── hank.tres
-│       └── skinny_pete.tres
+│   ├── tasks
+│   │   ├── find_target.gd
+│   │   ├── find_target.gd.uid
+│   │   ├── move_to_position.gd
+│   │   ├── move_to_position.gd.uid
+│   │   ├── random_move_position.gd
+│   │   └── random_move_position.gd.uid
+│   └── trees
+│       ├── hank.tres
+│       └── skinny_pete.tres
 ├── assets
-│   ├── Cars
-│   │   ├── car_front.png
-│   │   ├── car_front.png.import
-│   │   ├── car_right.png
-│   │   ├── car_right.png.import
-│   │   ├── city_cars.png
-│   │   └── city_cars.png.import
-│   ├── Characters
-│   │   ├── Jesse
-│   │   │   ├── Master File.aseprite
-│   │   │   ├── Read Me.txt
-│   │   │   ├── death.aseprite
-│   │   │   ├── death.png
-│   │   │   ├── death.png.import
-│   │   │   ├── hurt.aseprite
-│   │   │   ├── hurt.png
-│   │   │   ├── hurt.png.import
-│   │   │   ├── idle.aseprite
-│   │   │   ├── idle.png
-│   │   │   ├── idle.png.import
-│   │   │   ├── run.aseprite
-│   │   │   ├── run.png
-│   │   │   ├── run.png.import
-│   │   │   ├── walk.aseprite
-│   │   │   ├── walk.png
-│   │   │   └── walk.png.import
-│   │   ├── Low-Poly-Characters
-│   │   │   ├── Characters_V3_Colour.png
-│   │   │   └── Characters_V3_Colour.png.import
-│   │   └── Portraits
-│   │       ├── Doctor.png
-│   │       ├── Doctor.png.import
-│   │       ├── Hank.png
-│   │       ├── Hank.png.import
-│   │       ├── JR.png
-│   │       ├── JR.png.import
-│   │       ├── Skyler.png
-│   │       ├── Skyler.png.import
-│   │       ├── Walter.png
-│   │       └── Walter.png.import
-│   ├── Extra
-│   │   ├── Shadow.png
-│   │   └── Shadow.png.import
-│   ├── Fonts
-│   │   ├── Arial.ttf
-│   │   ├── Arial.ttf.import
-│   │   ├── Oswald-Regular.ttf
-│   │   ├── Oswald-Regular.ttf.import
-│   │   ├── pixel_font.ttf
-│   │   └── pixel_font.ttf.import
-│   ├── Prototype_Character
-│   │   ├── Prototype_Character.aseprite
-│   │   ├── Prototype_Character.png
-│   │   ├── Prototype_Character.png.import
-│   │   ├── Prototype_Character_Blue.png
-│   │   ├── Prototype_Character_Blue.png.import
-│   │   ├── Prototype_Character_Red.png
-│   │   └── Prototype_Character_Red.png.import
-│   ├── Tileset
-│   │   ├── Door.png
-│   │   ├── Door.png.import
-│   │   ├── GarageFloor.png
-│   │   ├── GarageFloor.png.import
-│   │   ├── Road.png
-│   │   ├── Road.png.import
-│   │   ├── WoodTile.png
-│   │   ├── WoodTile.png.import
-│   │   ├── bed.png
-│   │   ├── bed.png.import
-│   │   ├── house.png
-│   │   ├── house.png.import
-│   │   ├── interiors.png
-│   │   ├── interiors.png.import
-│   │   ├── kitchen.png
-│   │   ├── kitchen.png.import
-│   │   ├── kitchen16_blue.png
-│   │   ├── kitchen16_blue.png.import
-│   │   ├── white_tile1.png
-│   │   └── white_tile1.png.import
-│   ├── early_methaphetamine_batch.png
-│   └── early_methaphetamine_batch.png.import
+│   ├── Cars
+│   ├── Characters
+│   ├── Extra
+│   ├── Fonts
+│   ├── Prototype_Character
+│   ├── Tileset
+│   ├── early_methaphetamine_batch.png
+│   └── early_methaphetamine_batch.png.import
+├── backups
+│   ├── House
+│   │   ├── House.tscn.backup
+│   │   └── House.tscn.current
+│   └── House.tscn.backup
 ├── data.pandora
 ├── default_bus_layout.tres
 ├── dialogic
-│   ├── characters
-│   │   ├── JR.dch
-│   │   ├── JR.dch.uid
-│   │   ├── Skyler.dch
-│   │   ├── Skyler.dch.uid
-│   │   ├── Walter.dch
-│   │   ├── Walter.dch.uid
-│   │   ├── doctor.dch
-│   │   ├── doctor.dch.uid
-│   │   ├── hank.dch
-│   │   └── hank.dch.uid
-│   ├── styles
-│   │   └── style-o.tres
-│   └── timelines
-│       ├── diagnosis.dtl
-│       ├── diagnosis.dtl.uid
-│       ├── meth_lab.dtl
-│       ├── meth_lab.dtl.uid
-│       ├── ridewithhank.dtl
-│       ├── ridewithhank.dtl.uid
-│       ├── walter-skyler-jr-1st-inter.dtl
-│       └── walter-skyler-jr-1st-inter.dtl.uid
+│   ├── characters
+│   ├── styles
+│   └── timelines
 ├── icon.svg
 ├── icon.svg.import
 ├── pandora
-│   ├── categories.gd
-│   └── categories.gd.uid
+│   ├── categories.gd
+│   └── categories.gd.uid
 ├── project.godot
 ├── project_structure.txt
 └── quests
     └── GetToCar.tres
 
-153 directories, 662 files
+156 directories, 679 files
 
 # GITHUB PUSH PROCESS
 - Run these commands in the terminal: "
@@ -839,12 +214,16 @@
 - This project is a breaking bad story game in pixel art that copies the main storyline and converts it into a game, This will be released on steam and made commercial.
 
 # MOST IMPORTANT
-- The fewer lines the better
-- Proceed like a senior developer // 10x Engineer
-- Do not stop working until you have fully implemented this
-- If error, Start by writing 3 reasoning paragraphs analyse what the error might be. DO NOT JUMP TO CONCLUSIONS. Quiet the ego. Constantly question your assumptions.
-- Answer in short.
-- Summary of current state.
+- Deliver concise, precise explanations with practical examples
+- Optimize code for performance with focus on Godot's strengths
+- Prioritize Breaking Bad storyline authenticity in all game mechanics
+- Implement systems that elegantly handle character interactions and progression
+- Show systematic debugging techniques that build problem-solving skills
+- Maintain clean architecture separating logic, visuals, and data
+- Balance code modularity with pragmatic simplicity
+- Foster understanding of "why" behind solutions, not just "how"
+- Demonstrate industry best practices relevant to commercial game development
+- Avoid unnecessary abstractions that don't serve the project's goals
 
 # COMMENTS
 - Include no comments in your code. Definetly not.

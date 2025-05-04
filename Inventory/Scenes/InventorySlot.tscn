@@ -1,81 +1,12 @@
-[gd_scene load_steps=4 format=3 uid="uid://dqrhq2clc3jpp"]
+[gd_scene load_steps=2 format=3 uid="uid://du2vi7i8vtdcr"]
 
-[ext_resource type="Script" uid="uid://3lppsiystnbw" path="res://Inventory/Scripts/inventory_slot.gd" id="1_2twnc"]
-[ext_resource type="FontFile" uid="uid://bgx8gu7aobui5" path="res://assets/Fonts/pixel_font.ttf" id="1_vdvhb"]
+[ext_resource type="Script" path="res://Inventory/Scripts/inventory_slot.gd" id="1_pmpf4"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_orhgq"]
-bg_color = Color(0.196078, 0.196078, 0.196078, 1)
-corner_radius_top_left = 8
-corner_radius_top_right = 8
-corner_radius_bottom_right = 8
-corner_radius_bottom_left = 8
-
-[node name="InventorySlot" type="Panel"]
-custom_minimum_size = Vector2(80, 80)
-size_flags_horizontal = 3
-size_flags_vertical = 3
-theme_override_styles/panel = SubResource("StyleBoxFlat_orhgq")
-script = ExtResource("1_2twnc")
-
-[node name="Border" type="ReferenceRect" parent="."]
-layout_mode = 1
+[node name="InventorySlot" type="Control"]
+layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-border_color = Color(0.396078, 0.396078, 0.396078, 0.5)
-border_width = 2.0
-editor_only = false
-
-[node name="ItemTexture" type="TextureRect" parent="."]
-texture_filter = 3
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -32.0
-offset_top = -32.0
-offset_right = 32.0
-offset_bottom = 32.0
-grow_horizontal = 2
-grow_vertical = 2
-expand_mode = 1
-stretch_mode = 5
-
-[node name="QuantityLabel" type="Label" parent="."]
-layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -28.0
-offset_top = -28.0
-offset_right = -8.0
-offset_bottom = -8.0
-grow_horizontal = 0
-grow_vertical = 0
-theme_override_colors/font_color = Color(0.921569, 0.921569, 0.921569, 1)
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.611765)
-theme_override_constants/shadow_offset_x = 1
-theme_override_constants/shadow_offset_y = 1
-theme_override_fonts/font = ExtResource("1_vdvhb")
-theme_override_font_sizes/font_size = 16
-text = "0"
-horizontal_alignment = 2
-
-[node name="RarityIndicator" type="ColorRect" parent="."]
-visible = false
-layout_mode = 1
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_left = 8.0
-offset_top = -16.0
-offset_right = 16.0
-offset_bottom = -8.0
-grow_vertical = 0
-color = Color(0.278431, 0.780392, 0.913725, 1)
+script = ExtResource("1_pmpf4") 

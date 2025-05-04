@@ -2,7 +2,6 @@
 
 [ext_resource type="Script" uid="uid://bj58wvm3q3f" path="res://Entities/Scripts/Player/player.gd" id="1_k2g5q"]
 [ext_resource type="Texture2D" uid="uid://dsvvit8k8agxd" path="res://assets/Prototype_Character/Prototype_Character.png" id="2_tryav"]
-[ext_resource type="PackedScene" uid="uid://cg3vb5b5a4x8v" path="res://Inventory/Scenes/InventoryUI.tscn" id="3_30fh8"]
 [ext_resource type="FontFile" uid="uid://bgx8gu7aobui5" path="res://assets/Fonts/pixel_font.ttf" id="4_bkltx"]
 [ext_resource type="PackedScene" uid="uid://2n45pwc32vf8" path="res://UI/Scenes/HeatBar/heat_bar.tscn" id="6_0s0i4"]
 
@@ -608,6 +607,8 @@ physics_interpolation_mode = 1
 zoom = Vector2(3, 3)
 position_smoothing_enabled = true
 position_smoothing_speed = 10.0
+drag_horizontal_enabled = true
+drag_vertical_enabled = true
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 visible = false
@@ -767,6 +768,3 @@ offset_bottom = 165.0
 theme_override_fonts/font = ExtResource("4_bkltx")
 label_settings = SubResource("LabelSettings_82va7")
 vertical_alignment = 1
-
-[node name="InventoryUI" parent="CanvasLayer" instance=ExtResource("3_30fh8")]
-visible = false

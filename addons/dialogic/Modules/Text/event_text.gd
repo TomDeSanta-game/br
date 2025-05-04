@@ -51,45 +51,60 @@ func _clear_state() -> void:
 	dialogic.current_state_info.erase('text_sub_idx')
 	_disconnect_signals()
 
+
 func _execute() -> void:
 	if text.is_empty():
 		finish()
 		return
 
-	if (not character or character.custom_info.get('style', '').is_empty()) and dialogic.has_subsystem('Styles'):
-		# if previous characters had a custom style change back to base style
-		if dialogic.current_state_info.get('base_style') != dialogic.current_state_info.get('style'):
-			dialogic.Styles.change_style(dialogic.current_state_info.get('base_style', 'Default'))
-			await dialogic.get_tree().process_frame
 
-	var character_name_text := dialogic.Text.get_character_name_parsed(character)
-	if character:
-		dialogic.current_state_info['speaker'] = character.resource_path
-		if dialogic.has_subsystem('Styles') and character.custom_info.get('style', null):
-			dialogic.Styles.change_style(character.custom_info.style, false)
-			await dialogic.get_tree().process_frame
+	## Change Portrait and Active Speaker
+	if dialogic.has_subsystem("Portraits"):
+		if character:
 
+			dialogic.Portraits.change_speaker(character, portrait)
 
-		if portrait and dialogic.has_subsystem('Portraits') and dialogic.Portraits.is_character_joined(character):
-			dialogic.Portraits.change_character_portrait(character, portrait)
-		dialogic.Portraits.change_speaker(character, portrait)
-		var check_portrait: String = portrait if !portrait.is_empty() else dialogic.current_state_info['portraits'].get(character.resource_path, {}).get('portrait', '')
+			if portrait and dialogic.Portraits.is_character_joined(character):
+				dialogic.Portraits.change_character_portrait(character, portrait)
 
-		if check_portrait and character.portraits.get(check_portrait, {}).get('sound_mood', '') in character.custom_info.get('sound_moods', {}):
-			dialogic.Text.update_typing_sound_mood(character.custom_info.get('sound_moods', {}).get(character.portraits[check_portrait].get('sound_mood', {}), {}))
-		elif !character.custom_info.get('sound_mood_default', '').is_empty():
-			dialogic.Text.update_typing_sound_mood(character.custom_info.get('sound_moods', {}).get(character.custom_info.get('sound_mood_default'), {}))
 		else:
-			dialogic.Text.update_typing_sound_mood()
+			dialogic.Portraits.change_speaker(null)
 
+	## Change and Type Sound Mood
+	if character:
 		dialogic.Text.update_name_label(character)
+
+		var current_portrait: String = portrait
+		if portrait.is_empty():
+			portrait = dialogic.current_state_info["portraits"].get(character.resource_path, {}).get("portrait", "")
+
+		var current_portrait_sound_mood: String = character.portraits.get(current_portrait, {}).get("sound_mood", "")
+		dialogic.Text.update_typing_sound_mood_from_character(character, current_portrait_sound_mood)
+
 	else:
-		dialogic.Portraits.change_speaker(null)
 		dialogic.Text.update_name_label(null)
 		dialogic.Text.update_typing_sound_mood()
 
+
+	## Handle style changes
+	if dialogic.has_subsystem("Styles"):
+		var current_base_style: String = dialogic.current_state_info.get("base_style")
+		var current_style: String = dialogic.current_state_info.get("style", "")
+		var character_style: String = "" if not character else character.custom_info.get("style", "")
+
+		## Change back to base style, if another characters style is currently used
+		if (not character or character_style.is_empty()) and (current_base_style != current_style):
+			dialogic.Styles.change_style(dialogic.current_state_info.get("base_style", "Default"))
+			await dialogic.get_tree().process_frame
+
+		## Change to the characters style if this character has one
+		elif character and not character_style.is_empty():
+			dialogic.Styles.change_style(character_style, false)
+			await dialogic.get_tree().process_frame
+
 	_connect_signals()
 
+	var character_name_text := dialogic.Text.get_character_name_parsed(character)
 	var final_text: String = get_property_translated('text')
 	if ProjectSettings.get_setting('dialogic/text/split_at_new_lines', false):
 		match ProjectSettings.get_setting('dialogic/text/split_at_new_lines_as', 0):
@@ -310,12 +325,15 @@ func from_text(string:String) -> void:
 		else:
 			character = DialogicResourceUtil.get_character_resource(name)
 
-			if character == null and Engine.is_editor_hint() == false:
-				character = DialogicCharacter.new()
-				character.display_name = name
-				character.set_identifier(name)
-				if portrait:
-					character.color = Color(portrait)
+			if character == null:
+				if Engine.is_editor_hint() == false:
+					character = DialogicCharacter.new()
+					character.display_name = name
+					character.set_identifier(name)
+					if portrait:
+						character.color = Color(portrait)
+				else:
+					character_identifier = name
 
 	if not result:
 		return
@@ -443,7 +461,7 @@ func _get_code_completion(CodeCompletionHelper:Node, TextNode:TextEdit, line:Str
 
 
 func _get_start_code_completion(CodeCompletionHelper:Node, TextNode:TextEdit) -> void:
-	CodeCompletionHelper.suggest_characters(TextNode, CodeEdit.KIND_CLASS, true)
+	CodeCompletionHelper.suggest_characters(TextNode, CodeEdit.KIND_CLASS, self)
 
 
 func suggest_bbcode(TextNode:CodeEdit):

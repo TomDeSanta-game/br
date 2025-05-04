@@ -38,7 +38,7 @@ func load_game_state(_load_flag:=LoadFlags.FULL_LOAD) -> void:
 
 		ResourceLoader.load_threaded_request(character_path)
 
-		var load_status = ResourceLoader.load_threaded_get_status(character_path)
+		var load_status := ResourceLoader.load_threaded_get_status(character_path)
 		while load_status == ResourceLoader.THREAD_LOAD_IN_PROGRESS:
 			await get_tree().process_frame
 			load_status = ResourceLoader.load_threaded_get_status(character_path)
@@ -53,11 +53,11 @@ func load_game_state(_load_flag:=LoadFlags.FULL_LOAD) -> void:
 			push_error('[Dialogic] Failed to load character "' + str(character_path) + '".')
 
 	# Load Speaker Portrait
-	var speaker: Variant = dialogic.current_state_info.get('speaker', "")
+	var speaker: Variant = dialogic.current_state_info.get("speaker", "")
 	if speaker:
-		dialogic.current_state_info['speaker'] = ""
-		change_speaker(load(speaker))
-	dialogic.current_state_info['speaker'] = speaker
+		dialogic.current_state_info["speaker"] = ""
+		change_speaker(DialogicResourceUtil.get_character_resource(speaker))
+	dialogic.current_state_info["speaker"] = speaker
 
 
 func pause() -> void:
@@ -139,7 +139,7 @@ func _change_portrait(character_node: Node2D, portrait: String, fade_animation:=
 		if ResourceLoader.exists(scene_path):
 			ResourceLoader.load_threaded_request(scene_path)
 
-			var load_status = ResourceLoader.load_threaded_get_status(scene_path)
+			var load_status := ResourceLoader.load_threaded_get_status(scene_path)
 			while load_status == ResourceLoader.THREAD_LOAD_IN_PROGRESS:
 				await get_tree().process_frame
 				load_status = ResourceLoader.load_threaded_get_status(scene_path)
@@ -178,8 +178,7 @@ func _change_portrait(character_node: Node2D, portrait: String, fade_animation:=
 			if not fade_animation.is_empty() and fade_length > 0:
 				var fade_out := _animate_node(previous_portrait, fade_animation, fade_length, 1, true)
 				var _fade_in := _animate_node(portrait_node, fade_animation, fade_length, 1, false)
-				await fade_out.finished
-				previous_portrait.queue_free()
+				fade_out.finished.connect(previous_portrait.queue_free)
 			else:
 				previous_portrait.queue_free()
 
@@ -479,7 +478,7 @@ func add_character(character: DialogicCharacter, container: DialogicNode_Portrai
 		return null
 
 ## Changes the portrait of a character. Only works with joined characters.
-func change_character_portrait(character: DialogicCharacter, portrait: String, fade_animation:="DEFAULT", fade_length := -1.0) -> void:
+func change_character_portrait(character: DialogicCharacter, portrait: String, fade_animation:="", fade_length := -1.0) -> void:
 	if not is_character_joined(character):
 		return
 
@@ -488,7 +487,7 @@ func change_character_portrait(character: DialogicCharacter, portrait: String, f
 	if dialogic.current_state_info.portraits[character.resource_path].portrait == portrait:
 		return
 
-	if fade_animation == "DEFAULT":
+	if fade_animation == "":
 		fade_animation = ProjectSettings.get_setting('dialogic/animations/cross_fade_default', "Fade Cross")
 		fade_length = ProjectSettings.get_setting('dialogic/animations/cross_fade_default_length', 0.5)
 
@@ -613,13 +612,6 @@ func remove_character(character: DialogicCharacter) -> void:
 	dialogic.current_state_info['portraits'].erase(character.resource_path)
 
 
-func get_current_character() -> DialogicCharacter:
-	if dialogic.current_state_info.get('speaker', null):
-		return load(dialogic.current_state_info.speaker)
-	return null
-
-
-
 ## Returns true if the given character is currently joined.
 func is_character_joined(character: DialogicCharacter) -> bool:
 	if character == null or not character.resource_path in dialogic.current_state_info['portraits']:
@@ -733,16 +725,13 @@ func change_speaker(speaker: DialogicCharacter = null, portrait := "") -> void:
 
 		_change_portrait_mirror(character_node)
 
-	if speaker:
-		if speaker.resource_path != dialogic.current_state_info['speaker']:
-			if dialogic.current_state_info['speaker'] and is_character_joined(load(dialogic.current_state_info['speaker'])):
-				dialogic.current_state_info['portraits'][dialogic.current_state_info['speaker']].node.get_child(-1)._unhighlight()
+	var prev_speaker: DialogicCharacter = dialogic.Text.get_current_speaker()
+	if speaker != prev_speaker:
+		if is_character_joined(prev_speaker):
+			dialogic.current_state_info["portraits"][prev_speaker.resource_path].node.get_child(-1)._unhighlight()
 
-			if speaker and is_character_joined(speaker):
-				dialogic.current_state_info['portraits'][speaker.resource_path].node.get_child(-1)._highlight()
-
-	elif dialogic.current_state_info['speaker'] and is_character_joined(load(dialogic.current_state_info['speaker'])):
-		dialogic.current_state_info['portraits'][dialogic.current_state_info['speaker']].node.get_child(-1)._unhighlight()
+		if is_character_joined(speaker):
+			dialogic.current_state_info["portraits"][speaker.resource_path].node.get_child(-1)._highlight()
 
 #endregion
 
@@ -753,14 +742,15 @@ func change_speaker(speaker: DialogicCharacter = null, portrait := "") -> void:
 ## Called from the [portrait=something] text effect.
 func text_effect_portrait(_text_node:Control, _skipped:bool, argument:String) -> void:
 	if argument:
-		if dialogic.current_state_info.get('speaker', null):
-			change_character_portrait(load(dialogic.current_state_info.speaker), argument)
-			change_speaker(load(dialogic.current_state_info.speaker), argument)
+		var current_speaker := dialogic.Text.get_current_speaker()
+		if current_speaker:
+			change_character_portrait(current_speaker, argument)
+			change_speaker(current_speaker, argument)
 
 
 ## Called from the [extra_data=something] text effect.
 func text_effect_extradata(_text_node:Control, _skipped:bool, argument:String) -> void:
 	if argument:
-		if dialogic.current_state_info.get('speaker', null):
-			change_character_extradata(load(dialogic.current_state_info.speaker), argument)
+		if dialogic.Text.get_current_speaker():
+			change_character_extradata(dialogic.Text.get_current_speaker(), argument)
 #endregion

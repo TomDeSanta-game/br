@@ -19,13 +19,32 @@ var _last_heat_state: String = "normal"
 @onready var cold_indicator: Panel = $MainContainer/StateIndicators/ColdIndicator
 @onready var caution_indicator: Panel = $MainContainer/StateIndicators/CautionIndicator
 @onready var danger_indicator: Panel = $MainContainer/StateIndicators/DangerIndicator
+@onready var heat_progress = $HeatProgress
+@onready var heat_label = $HeatLabel
+@onready var detection_progress = $DetectionProgress
+
+var heat_bar_colors = {
+	"NONE": Color(0.2, 0.8, 0.2, 1.0),    # Green
+	"LOW": Color(0.8, 0.8, 0.2, 1.0),     # Yellow
+	"MEDIUM": Color(0.9, 0.6, 0.1, 1.0),  # Orange
+	"HIGH": Color(0.9, 0.3, 0.1, 1.0),    # Orange-Red
+	"WANTED": Color(0.9, 0.1, 0.1, 1.0)   # Red
+}
+
 func _ready() -> void:
-	cold_indicator.modulate.a = 0.4
-	caution_indicator.modulate.a = 0.4
-	danger_indicator.modulate.a = 0.4
+	modulate.a = 0
 	
-	fill(initial_heat)
-	_current_heat = initial_heat
+	# Wait one frame to ensure TensionManager is initialized
+	await get_tree().process_frame
+	
+	if get_node("/root/TensionManager"):
+		get_node("/root/TensionManager").heat_level_changed.connect(_on_heat_level_changed)
+		get_node("/root/TensionManager").player_detected.connect(_on_player_detected)
+		get_node("/root/TensionManager").police_alerted.connect(_on_police_alerted)
+		
+		show_heat_bar()
+		update_heat_display()
+
 func _process(delta: float) -> void:
 	if _is_filling_anisprotic:
 		var new_heat = _current_heat + (_fill_rate * delta)
@@ -34,6 +53,15 @@ func _process(delta: float) -> void:
 		
 		if _current_heat >= max_heat:
 			stop_fill_anisprotic()
+	
+	if get_node_or_null("/root/TensionManager"):
+		# Update the heat progress bar based on current tension
+		var tension = get_node("/root/TensionManager").tension_engine.get_normalized_tension()
+		heat_progress.value = tension
+		
+		# Update the detection progress based on the detection meter
+		detection_progress.value = get_node("/root/TensionManager").detection_meter
+
 func fill(value: float) -> void:
 	var clamped_value = clamp(value, min_heat, max_heat)
 	_current_heat = clamped_value
@@ -47,6 +75,7 @@ func fill(value: float) -> void:
 	value_display.text = str(int(clamped_value)) + "%"
 	
 	_update_heat_visual_state(clamped_value)
+
 func _update_heat_visual_state(heat_value: float) -> void:
 	cold_indicator.modulate.a = 0.4
 	caution_indicator.modulate.a = 0.4
@@ -101,9 +130,62 @@ func _update_heat_visual_state(heat_value: float) -> void:
 			shader_overlay.material.set_shader_parameter("speed", 0.5)
 	
 	_last_heat_state = current_state
+
 func fill_anisprotic(rate_per_second: float) -> void:
 	_fill_rate = rate_per_second
 	_is_filling_anisprotic = true
+
 func stop_fill_anisprotic() -> void:
 	_is_filling_anisprotic = false
-	_fill_rate = 0.0 
+	_fill_rate = 0.0
+
+func update_heat_display():
+	if get_node_or_null("/root/TensionManager"):
+		var tension_manager = get_node("/root/TensionManager")
+		var heat_level = tension_manager.current_heat_level
+		var heat_name = tension_manager.get_heat_level_name()
+		
+		heat_label.text = heat_name
+		heat_progress.modulate = heat_bar_colors[heat_name]
+		
+		if heat_level >= tension_manager.HEAT_LEVEL.MEDIUM:
+			detection_progress.modulate = heat_bar_colors[heat_name]
+		else:
+			detection_progress.modulate = heat_bar_colors["NONE"]
+
+func _on_heat_level_changed(new_level, old_level):
+	update_heat_display()
+	
+	if new_level > old_level:
+		animation_player.play("heat_increase")
+	
+	var tension_manager = get_node("/root/TensionManager")
+	if new_level >= tension_manager.HEAT_LEVEL.HIGH:
+		if !animation_player.is_playing() or animation_player.current_animation != "detection_pulse":
+			animation_player.play("detection_pulse")
+
+func _on_player_detected(detector_type):
+	animation_player.stop()
+	animation_player.play("detected")
+	await animation_player.animation_finished
+	
+	var tension_manager = get_node("/root/TensionManager")
+	if tension_manager.current_heat_level >= tension_manager.HEAT_LEVEL.HIGH:
+		animation_player.play("detection_pulse")
+
+func _on_police_alerted():
+	animation_player.stop()
+	animation_player.play("detected")
+	await animation_player.animation_finished
+	
+	var tension_manager = get_node("/root/TensionManager")
+	if tension_manager.current_heat_level >= tension_manager.HEAT_LEVEL.HIGH:
+		animation_player.play("detection_pulse")
+
+func show_heat_bar():
+	animation_player.play("fade_in")
+
+func hide_heat_bar():
+	var tween = create_tween()
+	tween.tween_property(self, "modulate:a", 0.0, 0.3)
+	await tween.finished 

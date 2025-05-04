@@ -4,7 +4,7 @@ extends CodeEdit
 ## Sub-Editor that allows editing timelines in a text format.
 
 @onready var timeline_editor := get_parent().get_parent()
-@onready var code_completion_helper: Node= find_parent('EditorsManager').get_node('CodeCompletionHelper')
+@onready var code_completion_helper: Node = find_parent('EditorsManager').get_node('CodeCompletionHelper')
 
 var label_regex := RegEx.create_from_string('label +(?<name>[^\n]+)')
 var channel_regex := RegEx.create_from_string(r'audio +(?<channel>[\w-]{2,}|[\w]+)')
@@ -91,7 +91,6 @@ func _gui_input(event):
 	match event.as_text():
 		"Ctrl+K", "Ctrl+Slash":
 			toggle_comment()
-
 		# TODO clean this up when dropping 4.2 support
 		"Alt+Up":
 			if has_method("move_lines_up"):
@@ -107,6 +106,16 @@ func _gui_input(event):
 			play_from_here()
 		"Ctrl+Shift+B" when OS.get_name() == "macOS": # Play from here
 			play_from_here()
+		"Enter":
+			if get_code_completion_options():
+				return
+			for caret in range(get_caret_count()):
+				var line := get_line(get_caret_line(caret)).strip_edges()
+				var event_res := DialogicTimeline.event_from_string(line, DialogicResourceUtil.get_event_cache())
+				if event_res.can_contain_events:
+					insert_text_at_caret("\n"+"\t".repeat(get_indent_level(get_caret_line(caret))/4+1), caret)
+				else:
+					insert_text_at_caret("\n"+"\t".repeat(get_indent_level(get_caret_line(caret))/4), caret)
 		_:
 			return
 	get_viewport().set_input_as_handled()
@@ -205,12 +214,23 @@ func _on_content_item_clicked(label:String) -> void:
 			return
 
 
-func _search_timeline(search_text:String) -> bool:
-	set_search_text(search_text)
-	queue_redraw()
+func _search_timeline(search_text:String, match_case := false, whole_words := false) -> bool:
+	var flags := 0
+	if match_case:
+		flags = flags | SEARCH_MATCH_CASE
+	if whole_words:
+		flags = flags | SEARCH_WHOLE_WORDS
 	set_meta("current_search", search_text)
+	set_meta("current_search_flags", flags)
 
-	return search(search_text, 0, 0, 0).y != -1
+	set_search_text(search_text)
+	set_search_flags(flags)
+	queue_redraw()
+
+	var result := search(search_text, flags, get_selection_from_line(), get_selection_from_column())
+	if result.y != -1:
+		select.call_deferred(result.y, result.x, result.y, result.x + search_text.length())
+	return result.y != -1
 
 
 func _search_navigate_down() -> void:
@@ -222,8 +242,18 @@ func _search_navigate_up() -> void:
 
 
 func search_navigate(navigate_up := false) -> void:
-	if not has_meta("current_search"):
+	var pos := get_next_search_position(navigate_up)
+	if pos.x == -1:
 		return
+	select(pos.y, pos.x, pos.y, pos.x+len(get_meta("current_search")))
+	set_caret_line(pos.y)
+	center_viewport_to_caret()
+	queue_redraw()
+
+
+func get_next_search_position(navigate_up := false) -> Vector2i:
+	if not has_meta("current_search"):
+		return Vector2i(-1, -1)
 	var pos: Vector2i
 	var search_from_line := 0
 	var search_from_column := 0
@@ -244,11 +274,56 @@ func search_navigate(navigate_up := false) -> void:
 		search_from_line = get_caret_line()
 		search_from_column = get_caret_column()
 
-	pos = search(get_meta("current_search"), 4 if navigate_up else 0, search_from_line, search_from_column)
-	select(pos.y, pos.x, pos.y, pos.x+len(get_meta("current_search")))
+	var flags := get_meta("current_search_flags", 0)
+	if navigate_up:
+		flags = flags | SEARCH_BACKWARDS
+	print()
+	pos = search(get_meta("current_search"), flags, search_from_line, search_from_column)
+	return pos
+
+
+func replace(replace_text:String) -> void:
+	if has_selection():
+		set_caret_line(get_selection_from_line())
+		set_caret_column(get_selection_from_column())
+
+	var pos := get_next_search_position()
+	if pos.x == -1:
+		return
+
+	if not has_meta("current_search"):
+		return
+
+	begin_complex_operation()
+	insert_text("@@", pos.y, pos.x)
+	if get_meta("current_search_flags") & SEARCH_MATCH_CASE:
+		text = text.replace("@@"+get_meta("current_search"), replace_text)
+	else:
+		text = text.replacen("@@"+get_meta("current_search"), replace_text)
+	end_complex_operation()
+
 	set_caret_line(pos.y)
-	center_viewport_to_caret()
-	queue_redraw()
+	set_caret_column(pos.x)
+
+	timeline_editor.replace_in_timeline()
+
+
+func replace_all(replace_text:String) -> void:
+	begin_complex_operation()
+	var next_pos := get_next_search_position()
+	var counter := 0
+	while next_pos.y != -1:
+		insert_text("@@", next_pos.y, next_pos.x)
+		if get_meta("current_search_flags") & SEARCH_MATCH_CASE:
+			text = text.replace("@@"+get_meta("current_search"), replace_text)
+		else:
+			text = text.replacen("@@"+get_meta("current_search"), replace_text)
+		next_pos = get_next_search_position()
+		set_caret_line(next_pos.y)
+		set_caret_column(next_pos.x)
+	end_complex_operation()
+
+	timeline_editor.replace_in_timeline()
 
 
 ################################################################################
