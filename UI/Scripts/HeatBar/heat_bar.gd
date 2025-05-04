@@ -24,17 +24,17 @@ var _last_heat_state: String = "normal"
 @onready var detection_progress = $DetectionProgress
 
 var heat_bar_colors = {
-	"NONE": Color(0.2, 0.8, 0.2, 1.0),    # Green
-	"LOW": Color(0.8, 0.8, 0.2, 1.0),     # Yellow
-	"MEDIUM": Color(0.9, 0.6, 0.1, 1.0),  # Orange
-	"HIGH": Color(0.9, 0.3, 0.1, 1.0),    # Orange-Red
-	"WANTED": Color(0.9, 0.1, 0.1, 1.0)   # Red
+	"NONE": Color(0.2, 0.8, 0.2, 1.0),
+	"LOW": Color(0.8, 0.8, 0.2, 1.0),
+	"MEDIUM": Color(0.9, 0.6, 0.1, 1.0),
+	"HIGH": Color(0.9, 0.3, 0.1, 1.0),
+	"WANTED": Color(0.9, 0.1, 0.1, 1.0)
 }
 
 func _ready() -> void:
 	modulate.a = 0
 	
-	# Wait one frame to ensure TensionManager is initialized
+
 	await get_tree().process_frame
 	
 	if get_node("/root/TensionManager"):
@@ -55,11 +55,11 @@ func _process(delta: float) -> void:
 			stop_fill_anisprotic()
 	
 	if get_node_or_null("/root/TensionManager"):
-		# Update the heat progress bar based on current tension
+
 		var tension = get_node("/root/TensionManager").tension_engine.get_normalized_tension()
 		heat_progress.value = tension
 		
-		# Update the detection progress based on the detection meter
+
 		detection_progress.value = get_node("/root/TensionManager").detection_meter
 
 func fill(value: float) -> void:

@@ -1,523 +1,453 @@
 extends Node
 
-signal deal_started(customer_data)
-signal deal_completed(deal_data)
-signal deal_failed(reason)
-signal territory_status_changed(territory_name, status)
+enum PRODUCT_TYPE { BLUE, WHITE, SPECIAL }
+enum CUSTOMER_TYPE { CASUAL, REGULAR, DEALER, JUNKIE, UNDERCOVER }
 
-@export_category("Dealing Settings")
 @export var enable_dealing: bool = true
-@export var base_deal_time: float = 60.0
-@export var max_customers_per_area: int = 5
-@export var customer_spawn_frequency: float = 120.0
-@export var price_fluctuation: float = 0.2
+@export var base_deal_time: float = 15.0
+@export var max_customers_per_area: int = 3
+@export var customer_spawn_frequency: float = 30.0
+@export var territory_heat_decay: float = 0.01
+@export var territory_reputation_decay: float = 0.005
 
-@export_category("Risk Settings")
-@export var base_heat_per_deal: float = 0.1
-@export var suspicion_threshold: float = 0.7
-@export var territory_heat_multiplier: float = 0.5
-@export var quality_risk_multiplier: float = 0.8
-
-@export_category("Product Settings")
-@export_enum("Low", "Medium", "High", "Very High") var methamphetamine_quality: int = 1
-@export var methamphetamine_purity: float = 0.8
-@export var meth_base_price: float = 1000.0
-@export var meth_max_amount: float = 20.0
-@export var current_meth_quantity: float = 0.0
-
-@export_category("Territories")
-@export var territories: Dictionary = {
-    "suburbs": {
-        "risk": 0.2,
-        "price_modifier": 0.8,
-        "customer_types": ["casual", "student"],
-        "police_presence": 0.4,
-    },
-    "downtown": {
-        "risk": 0.5,
-        "price_modifier": 1.0,
-        "customer_types": ["casual", "addict", "dealer"],
-        "police_presence": 0.6,
-    },
-    "industrial": {
-        "risk": 0.7,
-        "price_modifier": 1.2,
-        "customer_types": ["addict", "dealer", "gang"],
-        "police_presence": 0.3,
-    },
-    "cartel_territory": {
-        "risk": 0.9,
-        "price_modifier": 1.5,
-        "customer_types": ["dealer", "gang"],
-        "police_presence": 0.1,
-    }
-}
-
-var player = null
+var territories = {}
+var current_territory = ""
+var active_customers = {}
+var active_deals = {}
+var player_products = {}
+var player_cash = 0.0
+var player_reputation = 0.0
+var territory_heat = {}
+var territory_reputation = {}
+var dealing_enabled = true
 var signal_bus = null
 var tension_manager = null
-var police_response = null
-var active_customers = {}
-var active_territory = ""
-var current_reputation = {
-    "suburbs": 0.0,
-    "downtown": 0.0,
-    "industrial": 0.0,
-    "cartel_territory": 0.0
-}
-var territory_heat = {
-    "suburbs": 0.0,
-    "downtown": 0.0,
-    "industrial": 0.0,
-    "cartel_territory": 0.0
-}
-var customer_timer = 0.0
-var current_deal = null
-var meth_price_modifier = 1.0
-var dealing_allowed = true
 
 var customer_types = {
-    "casual": {
+    CUSTOMER_TYPE.CASUAL: {
+        "name": "casual",
         "price_sensitivity": 0.7,
-        "quantity_range": [0.1, 0.5],
+        "quality_sensitivity": 0.5,
+        "patience": 10.0,
         "risk": 0.2,
-        "negotiation_difficulty": 0.3,
-        "patience": 0.6
+        "purchase_amount": [0.5, 1.5],
+        "weight": 60
     },
-    "student": {
+    CUSTOMER_TYPE.REGULAR: {
+        "name": "regular",
+        "price_sensitivity": 0.5,
+        "quality_sensitivity": 0.7,
+        "patience": 15.0,
+        "risk": 0.1,
+        "purchase_amount": [1.0, 3.0],
+        "weight": 25
+    },
+    CUSTOMER_TYPE.DEALER: {
+        "name": "dealer",
         "price_sensitivity": 0.9,
-        "quantity_range": [0.2, 0.7],
-        "risk": 0.3,
-        "negotiation_difficulty": 0.4,
-        "patience": 0.5
+        "quality_sensitivity": 0.8,
+        "patience": 20.0,
+        "risk": 0.15,
+        "purchase_amount": [5.0, 10.0],
+        "weight": 10
     },
-    "addict": {
-        "price_sensitivity": 0.4,
-        "quantity_range": [0.3, 1.0],
-        "risk": 0.5,
-        "negotiation_difficulty": 0.5,
-        "patience": 0.3
-    },
-    "dealer": {
-        "price_sensitivity": 0.6,
-        "quantity_range": [1.0, 5.0],
-        "risk": 0.7,
-        "negotiation_difficulty": 0.7,
-        "patience": 0.4
-    },
-    "gang": {
+    CUSTOMER_TYPE.JUNKIE: {
+        "name": "junkie",
         "price_sensitivity": 0.3,
-        "quantity_range": [3.0, 10.0],
-        "risk": 0.9,
-        "negotiation_difficulty": 0.9,
-        "patience": 0.2
+        "quality_sensitivity": 0.2,
+        "patience": 5.0,
+        "risk": 0.4,
+        "purchase_amount": [0.25, 1.0],
+        "weight": 20
+    },
+    CUSTOMER_TYPE.UNDERCOVER: {
+        "name": "buyer",
+        "price_sensitivity": 0.6,
+        "quality_sensitivity": 0.6,
+        "patience": 25.0,
+        "risk": 0.8,
+        "purchase_amount": [1.0, 2.0],
+        "weight": 0,
+        "is_undercover": true
     }
 }
 
 var dialog_options = {
     "greeting": [
-        "Hey, heard you might have something I need.",
-        "Someone told me to talk to you.",
-        "You holding?",
-        "Got any crystal?",
-        "Need to score, you got the good stuff?"
-    ],
-    "negotiation": [
-        "That's way too steep for me.",
-        "Can you do any better on the price?",
-        "I was thinking something more like {price}.",
-        "Come on, I'm a regular. Hook me up.",
-        "That's not what I heard it was going for."
-    ],
-    "accept": [
-        "Alright, deal.",
-        "I'll take it.",
-        "Sounds fair enough.",
-        "That works for me.",
-        "Fine, let's do this quick."
-    ],
-    "reject": [
-        "Forget it, that's too much.",
-        "Nah, I'll find someone else.",
-        "You're trying to rip me off.",
-        "I'm out of here.",
-        "Not worth it."
-    ],
-    "police": [
-        "Hey, I think I saw a cop over there.",
-        "We need to be careful, police are patrolling today.",
-        "Let's keep this quick, I don't like the look of that car.",
-        "Cops have been busting people around here lately."
+        {"text": "Got any blue?", "product_type": "blue"},
+        {"text": "Looking for white...", "product_type": "white"},
+        {"text": "Got something special?", "product_type": "special"},
+        {"text": "Never mind", "action": "leave"}
     ]
 }
 
-var player_responses = {
-    "greeting": [
-        "What are you looking for?",
-        "I might have what you need.",
-        "Depends what you want.",
-        "Yeah, I got product. What's your price range?",
-        "Keep it down. What do you need?"
+var customer_responses = {
+    "accept": [
+        "Yeah, that works for me.",
+        "Deal.",
+        "That's what I'm talking about!",
+        "Let's do it."
     ],
-    "negotiation": [
-        "This is high quality stuff, worth every penny.",
-        "I can do {price}, but that's my final offer.",
-        "The price is the price, take it or leave it.",
-        "I might be able to work something out.",
-        "I have expenses too, you know."
+    "reject": [
+        "No way, that's too much.",
+        "You think I'm stupid?",
+        "I'll find someone else.",
+        "Forget about it."
     ],
-    "deal_complete": [
-        "Pleasure doing business.",
-        "Stay safe.",
-        "Don't use it all at once.",
-        "Come find me if you need more.",
-        "Don't tell anyone where you got it."
-    ],
-    "deal_reject": [
-        "Your loss.",
-        "I'm not desperate to sell.",
-        "Find someone else then.",
-        "No skin off my back.",
-        "Whatever, I've got other customers."
-    ],
-    "sketch": [
-        "Let's move somewhere less visible.",
-        "You a cop? You seem sketchy.",
-        "I don't like this. Let's postpone.",
-        "Hold up, something doesn't feel right.",
-        "We should bail, this feels off."
+    "negotiate": [
+        "Can you do any better?",
+        "That's steep... how about less?",
+        "I was thinking something lower.",
+        "That's not what I had in mind."
     ]
+}
+
+var product_data = {
+    "blue": {
+        "name": "Blue Crystal",
+        "base_price": 100,
+        "quality": 1.0,
+        "amount": 1.0,
+        "heat_modifier": 1.5
+    },
+    "white": {
+        "name": "White Crystal",
+        "base_price": 80,
+        "quality": 0.8,
+        "amount": 1.0,
+        "heat_modifier": 1.0
+    },
+    "special": {
+        "name": "Special Batch",
+        "base_price": 120,
+        "quality": 0.9,
+        "amount": 0.7,
+        "heat_modifier": 2.0
+    }
 }
 
 func _ready():
     signal_bus = get_node_or_null("/root/SignalBus")
     tension_manager = get_node_or_null("/root/TensionManager")
-    police_response = get_node_or_null("/root/PoliceResponse")
     
-    if signal_bus:
-        signal_bus.game_event.connect(_on_game_event)
+    player_products = {
+        "blue": {"quantity": 10.0, "quality": 0.95},
+        "white": {"quantity": 15.0, "quality": 0.7},
+        "special": {"quantity": 5.0, "quality": 0.9}
+    }
     
-    await get_tree().process_frame
-    player = get_tree().get_nodes_in_group("player").front()
-    
-    update_price_modifiers()
-    current_meth_quantity = 5.0
+    player_cash = 500.0
 
 func _process(delta):
-    if !enable_dealing || !player:
+    if !enable_dealing:
         return
     
-    update_customer_spawn(delta)
+    if tension_manager && tension_manager.current_level >= tension_manager.LEVEL.HIGH:
+        dealing_enabled = false
+    else:
+        dealing_enabled = true
+    
     update_territory_heat(delta)
-    check_player_territory()
-
-func update_customer_spawn(delta):
-    if !active_territory || !territories.has(active_territory):
-        return
-    
-    customer_timer -= delta
-    
-    if customer_timer <= 0 && active_customers.size() < max_customers_per_area:
-        customer_timer = customer_spawn_frequency * (1.0 + randf_range(-0.3, 0.3))
-        
-        var rep_bonus = current_reputation[active_territory] * 0.5
-        if randf() < 0.3 + rep_bonus:
-            spawn_customer()
 
 func update_territory_heat(delta):
-    for territory in territories.keys():
-        if territory_heat[territory] > 0:
-            var decay_rate = 0.01 * (1.0 - territories[territory].police_presence)
-            territory_heat[territory] = max(0.0, territory_heat[territory] - decay_rate * delta)
+    for territory_id in territory_heat:
+        if territory_heat[territory_id] > 0:
+            territory_heat[territory_id] = max(0, territory_heat[territory_id] - territory_heat_decay * delta)
+            
+            if signal_bus && territory_heat[territory_id] <= 0.1:
+                signal_bus.emit_signal("territory_cooled_down", territory_id)
 
-func check_player_territory():
-    if !player:
-        active_territory = ""
+func get_current_territory_data():
+    if current_territory == "" || !territories.has(current_territory):
+        return null
+    
+    return territories[current_territory].get_territory_data()
+
+func is_dealing_allowed() -> bool:
+    if !enable_dealing || !dealing_enabled:
+        return false
+    
+    var territory_data = get_current_territory_data()
+    if !territory_data || !territory_data.active:
+        return false
+    
+    return true
+
+func is_in_territory() -> bool:
+    return current_territory != "" && territories.has(current_territory)
+
+func register_territory(territory_node):
+    var territory_id = territory_node.territory_id
+    
+    if territory_id == "":
         return
     
-    var player_pos = player.global_position
-    var found_territory = false
+    territories[territory_id] = territory_node
     
-    for territory in territories.keys():
-        if area_contains_point(territory, player_pos):
-            if active_territory != territory:
-                active_territory = territory
-                found_territory = true
-                if signal_bus:
-                    signal_bus.emit_signal("game_event", "territory_entered", {"territory": territory})
-            break
+    if !territory_heat.has(territory_id):
+        territory_heat[territory_id] = 0.0
     
-    if !found_territory:
-        active_territory = ""
+    if !territory_reputation.has(territory_id):
+        territory_reputation[territory_id] = 0.5
 
-func area_contains_point(territory_name, point):
-    return false
+func set_current_territory(territory_id):
+    current_territory = territory_id
 
-func set_active_territory(territory_name: String):
-    if territory_name == active_territory:
-        return
+func generate_customer(territory_id = ""):
+    if !dealing_enabled:
+        return null
     
-    var old_territory = active_territory
-    active_territory = territory_name
+    var territory = null
     
-    if signal_bus:
-        signal_bus.emit_signal("territory_status_changed", territory_name, old_territory)
+    if territory_id == "":
+        if current_territory != "" && territories.has(current_territory):
+            territory_id = current_territory
+            territory = territories[current_territory]
+        else:
+            return null
+    elif territories.has(territory_id):
+        territory = territories[territory_id]
+    else:
+        return null
     
-    if territories.has(active_territory):
-        update_price_modifiers()
-
-func spawn_customer():
-    if !active_territory || !territories.has(active_territory):
-        return
+    var territory_data = territory.get_territory_data()
     
-    var available_types = territories[active_territory].customer_types
-    if available_types.size() == 0:
-        return
+    if !territory_data.active:
+        return null
     
-    var customer_type = available_types[randi() % available_types.size()]
-    var customer_data = generate_customer(customer_type)
+    var customer_id = "customer_" + str(randi())
+    while active_customers.has(customer_id):
+        customer_id = "customer_" + str(randi())
     
-    var customer_id = Time.get_unix_time_from_system() + randf()
-    active_customers[customer_id] = customer_data
+    var customer_type = _select_customer_type(territory_data)
+    var type_data = customer_types[customer_type].duplicate()
     
-    if signal_bus:
-        signal_bus.emit_signal("game_event", "customer_appeared", {"customer_id": customer_id, "customer": customer_data})
+    var greetings = [
+        "Hey, you holding?",
+        "Heard you might have something for me.",
+        "You got the stuff?",
+        "Looking to score."
+    ]
     
-    return customer_id
-
-func generate_customer(type):
-    if !customer_types.has(type):
-        type = "casual"
+    var greeting = greetings[randi() % greetings.size()]
     
-    var base = customer_types[type]
-    
-    var customer = {
-        "type": type,
-        "price_sensitivity": base.price_sensitivity * randf_range(0.8, 1.2),
-        "quantity_wanted": randf_range(base.quantity_range[0], base.quantity_range[1]),
-        "risk": base.risk * randf_range(0.8, 1.2),
-        "negotiation_difficulty": base.negotiation_difficulty * randf_range(0.8, 1.2),
-        "patience": base.patience * randf_range(0.8, 1.2),
-        "max_price": get_meth_price() * randf_range(0.7 / base.price_sensitivity, 1.2 / base.price_sensitivity),
-        "min_price": get_meth_price() * randf_range(0.5, 0.8),
-        "patience_timer": base_deal_time * base.patience,
-        "greeting": dialog_options.greeting[randi() % dialog_options.greeting.size()],
-        "suspicion": randf_range(0.1, 0.4) * base.risk,
-        "offer_count": 0,
-        "is_undercover": randf() < 0.05 * base.risk
+    var customer_data = {
+        "id": customer_id,
+        "type": type_data.name,
+        "type_enum": customer_type,
+        "greeting": greeting,
+        "greeting_options": dialog_options.greeting,
+        "negotiation_dialogue": "How much?",
+        "success_dialogue": "Thanks, pleasure doing business.",
+        "failure_dialogue": "No way, that's too much.",
+        "patience_timer": type_data.patience,
+        "price_sensitivity": type_data.price_sensitivity,
+        "quality_sensitivity": type_data.quality_sensitivity,
+        "is_undercover": type_data.get("is_undercover", false)
     }
     
-    customer.quantity_wanted = min(customer.quantity_wanted, current_meth_quantity)
+
+    active_customers[customer_id] = {
+        "data": customer_data
+    }
     
-    return customer
+
+    return customer_data
+
+func _select_customer_type(territory_data):
+    var allowed_types = []
+    var weights = []
+    var total_weight = 0
+    
+    for type in customer_types:
+        var weight = customer_types[type].weight
+        
+        if weight <= 0:
+            continue
+        
+        if territory_data.limit_customer_types && territory_data.allowed_customer_types.size() > 0:
+            if !territory_data.allowed_customer_types.has(customer_types[type].name):
+                continue
+        
+        allowed_types.append(type)
+        
+        var risk_modifier = 1.0
+        var reputation_mod = 1.0
+        
+        if territory_reputation.has(territory_data.id):
+            reputation_mod = lerp(0.5, 1.5, territory_reputation[territory_data.id])
+        
+        if type == CUSTOMER_TYPE.DEALER:
+            risk_modifier = lerp(0.5, 1.5, 1.0 - territory_data.base_risk)
+        elif type == CUSTOMER_TYPE.UNDERCOVER:
+            if !territory_heat.has(territory_data.id) || territory_heat[territory_data.id] < 0.5:
+                continue
+            risk_modifier = lerp(0.1, 3.0, territory_heat[territory_data.id])
+        
+        var adjusted_weight = weight * risk_modifier * reputation_mod
+        weights.append(adjusted_weight)
+        total_weight += adjusted_weight
+    
+    if allowed_types.size() == 0:
+        return CUSTOMER_TYPE.CASUAL
+    
+    var random_val = randf() * total_weight
+    var running_total = 0
+    
+    for i in range(weights.size()):
+        running_total += weights[i]
+        if random_val <= running_total:
+            return allowed_types[i]
+    
+    return allowed_types[0]
+
+func get_product_data(product_type):
+    if product_data.has(product_type):
+        return product_data[product_type]
+    return null
+
+func calculate_base_price(product_type, customer_data):
+    var product = get_product_data(product_type)
+    if !product:
+        return 0
+    
+    var territory_data = get_current_territory_data()
+    var price_mod = 1.0
+    
+    if territory_data && territory_data.has("price_modifier"):
+        price_mod = territory_data.price_modifier
+    
+    var base_price = product.base_price * price_mod
+    
+    if customer_data.has("type_enum"):
+        var type = customer_data.type_enum
+        if type == CUSTOMER_TYPE.DEALER:
+            base_price *= 0.85
+        elif type == CUSTOMER_TYPE.JUNKIE:
+            base_price *= 1.2
+    
+    return int(base_price)
+
+func calculate_success_chance(price, base_price, quality, customer_data):
+    var price_ratio = base_price / float(max(1, price))
+    var quality_bonus = quality * 0.5
+    
+    var price_weight = 0.6
+    var quality_weight = 0.4
+    
+    if customer_data.has("price_sensitivity") && customer_data.has("quality_sensitivity"):
+        price_weight = customer_data.price_sensitivity
+        quality_weight = customer_data.quality_sensitivity
+    
+    var price_score = lerp(0.0, 1.0, clamp(price_ratio, 0.5, 1.5))
+    var final_score = (price_score * price_weight) + (quality_bonus * quality_weight)
+    
+    return clamp(final_score, 0.0, 1.0)
 
 func start_deal(customer_id):
-    if !active_customers.has(customer_id) || current_deal != null:
+    if !active_customers.has(customer_id):
         return false
     
-    current_deal = {
-        "customer_id": customer_id,
-        "customer": active_customers[customer_id],
-        "stage": "greeting",
-        "offered_price": 0,
-        "offered_quantity": 0,
-        "suspicion": active_customers[customer_id].suspicion,
-        "territory": active_territory
-    }
+    active_deals[customer_id] = active_customers[customer_id]
     
     if signal_bus:
-        signal_bus.emit_signal("deal_started", current_deal)
+        signal_bus.emit_signal("deal_started", active_customers[customer_id].data)
     
     return true
 
-func offer_deal(price_per_gram, quantity):
-    if current_deal == null:
+func attempt_deal(customer_id, price, quality):
+    if !active_customers.has(customer_id) || !active_deals.has(customer_id):
         return false
     
-    var customer = current_deal.customer
-    current_deal.offered_price = price_per_gram
-    current_deal.offered_quantity = quantity
-    current_deal.stage = "negotiation"
+    var customer_data = active_customers[customer_id].data
+    var success_chance = calculate_success_chance(price, price, quality, customer_data)
     
-    var fair_price = get_meth_price()
-    var price_ratio = price_per_gram / fair_price
+    var roll = randf()
+    var success = roll <= success_chance
     
-    var acceptance_chance = 1.0 - (price_ratio * customer.price_sensitivity)
-    
-    acceptance_chance += methamphetamine_quality * 0.1
-    acceptance_chance += methamphetamine_purity * 0.2
-    
-    if active_territory && current_reputation.has(active_territory):
-        acceptance_chance += current_reputation[active_territory] * 0.2
-    
-    acceptance_chance -= customer.negotiation_difficulty * 0.3
-    
-    customer.offer_count += 1
-    acceptance_chance -= customer.offer_count * 0.1
-    
-    current_deal.suspicion += 0.05 + randf_range(0, 0.1) * territories[active_territory].risk
-    
-    if acceptance_chance > randf():
-        return complete_deal()
-    elif current_deal.suspicion >= suspicion_threshold:
-        return fail_deal("suspicion")
+    if success:
+        complete_deal(customer_id, price, "blue")
     else:
-        var counter_price = fair_price * randf_range(0.7, 0.9) / customer.price_sensitivity
-        current_deal.counter_price = counter_price
-        
         if signal_bus:
-            signal_bus.emit_signal("game_event", "counter_offer", {
-                "price": counter_price,
-                "customer": customer
-            })
-        
-        return false
+            signal_bus.emit_signal("deal_failed", customer_data.type)
+            
+        if customer_data.has("is_undercover") && customer_data.is_undercover:
+            if tension_manager:
+                tension_manager.add_heat(25.0)
+            
+            if signal_bus:
+                signal_bus.emit_signal("busted_by_undercover")
+    
+    if active_deals.has(customer_id):
+        active_deals.erase(customer_id)
+    
+    return success
 
-func complete_deal():
-    if current_deal == null:
+func complete_deal(customer_id, price, product_type):
+    if !active_customers.has(customer_id):
         return false
     
-    var deal_data = {
-        "customer": current_deal.customer,
-        "price": current_deal.offered_price,
-        "quantity": current_deal.offered_quantity,
-        "total_value": current_deal.offered_price * current_deal.offered_quantity,
-        "territory": current_deal.territory
-    }
+    var customer_data = active_customers[customer_id].data
     
-    current_meth_quantity -= current_deal.offered_quantity
+    player_cash += price
     
-    var deal_heat = base_heat_per_deal
-    deal_heat *= 1.0 + (current_deal.offered_quantity / meth_max_amount) * 3.0
-    deal_heat *= 1.0 + methamphetamine_quality * quality_risk_multiplier
-    deal_heat *= 1.0 + territories[active_territory].risk * territory_heat_multiplier
-    
-    if territory_heat.has(active_territory):
-        territory_heat[active_territory] += deal_heat
-    
-    if current_reputation.has(active_territory):
-        current_reputation[active_territory] = min(1.0, current_reputation[active_territory] + 0.02)
-    
-    if tension_manager && deal_heat > 0.2:
-        tension_manager.add_tension(deal_heat * 0.5)
-    
-    if police_response && randf() < deal_heat * territories[active_territory].police_presence:
-        police_response.add_crime_points(deal_heat, player.global_position)
-    
-    active_customers.erase(current_deal.customer_id)
+    var territory_data = get_current_territory_data()
+    if territory_data:
+        var heat_increase = 0.05
+        var reputation_increase = 0.02
+        
+        if product_data.has(product_type) && product_data[product_type].has("heat_modifier"):
+            heat_increase *= product_data[product_type].heat_modifier
+        
+        add_territory_heat(territory_data.id, heat_increase)
+        add_territory_reputation(territory_data.id, reputation_increase)
     
     if signal_bus:
-        signal_bus.emit_signal("deal_completed", deal_data)
-    
-    current_deal = null
+        signal_bus.emit_signal("deal_completed", price, customer_data.type)
+        signal_bus.emit_signal("cash_updated", player_cash)
     
     return true
 
-func fail_deal(reason):
-    if current_deal == null:
-        return false
+func add_territory_heat(territory_id, amount):
+    if !territory_heat.has(territory_id):
+        territory_heat[territory_id] = 0.0
     
-    var fail_data = {
-        "customer": current_deal.customer,
-        "territory": current_deal.territory,
-        "reason": reason,
-        "suspicion": current_deal.suspicion
-    }
+    territory_heat[territory_id] = clamp(territory_heat[territory_id] + amount, 0.0, 1.0)
     
-    if current_deal.customer.is_undercover:
-        if police_response:
-            police_response.add_crime_points(1.5, player.global_position)
-        
-        if tension_manager:
-            tension_manager.add_tension(0.5)
+    if territory_heat[territory_id] >= 0.8 && signal_bus:
+        signal_bus.emit_signal("territory_heat_critical", territory_id)
     
-    if current_reputation.has(active_territory):
-        current_reputation[active_territory] = max(0.0, current_reputation[active_territory] - 0.05)
-    
-    active_customers.erase(current_deal.customer_id)
-    
-    if signal_bus:
-        signal_bus.emit_signal("deal_failed", fail_data)
-    
-    current_deal = null
-    
-    return true
+    if tension_manager && territory_heat[territory_id] > 0.5:
+        tension_manager.add_heat(amount * 10.0)
 
-func cancel_deal():
-    if current_deal == null:
-        return false
+func add_territory_reputation(territory_id, amount):
+    if !territory_reputation.has(territory_id):
+        territory_reputation[territory_id] = 0.5
     
-    var fail_data = {
-        "customer": current_deal.customer,
-        "territory": current_deal.territory,
-        "reason": "player_cancelled",
-        "suspicion": current_deal.suspicion
-    }
+    territory_reputation[territory_id] = clamp(territory_reputation[territory_id] + amount, 0.0, 1.0)
     
-    if current_reputation.has(active_territory):
-        current_reputation[active_territory] = max(0.0, current_reputation[active_territory] - 0.02)
-    
-    active_customers.erase(current_deal.customer_id)
-    
-    if signal_bus:
-        signal_bus.emit_signal("deal_failed", fail_data)
-    
-    current_deal = null
-    
-    return true
+    if signal_bus && territory_reputation[territory_id] >= 0.8:
+        signal_bus.emit_signal("high_reputation_reached", territory_id)
 
-func get_meth_price():
-    var base_price = meth_base_price
-    
-    base_price *= 1.0 + (methamphetamine_quality * 0.2)
-    base_price *= 1.0 + ((methamphetamine_purity - 0.5) * 2.0)
-    
-    if active_territory && territories.has(active_territory):
-        base_price *= territories[active_territory].price_modifier
-    
-    base_price *= meth_price_modifier
-    
-    return base_price
+func get_territory_heat(territory_id):
+    if !territory_heat.has(territory_id):
+        return 0.0
+    return territory_heat[territory_id]
 
-func update_price_modifiers():
-    meth_price_modifier = 1.0 + randf_range(-price_fluctuation, price_fluctuation)
+func get_territory_reputation(territory_id):
+    if !territory_reputation.has(territory_id):
+        return 0.5
+    return territory_reputation[territory_id]
 
-func set_product_quality(quality, purity):
-    methamphetamine_quality = clamp(quality, 0, 3)
-    methamphetamine_purity = clamp(purity, 0.1, 1.0)
-
-func get_territory_risk(territory_name):
-    if territories.has(territory_name):
-        var base_risk = territories[territory_name].risk
-        var heat_factor = territory_heat[territory_name]
-        
-        return base_risk * (1.0 + heat_factor)
+func get_customer_data(customer_id):
+    if !active_customers.has(customer_id):
+        return {}
     
-    return 0.0
+    return active_customers[customer_id].data
 
-func add_product(amount):
-    current_meth_quantity = min(current_meth_quantity + amount, meth_max_amount)
-
-func _on_game_event(event_name, data):
-    match event_name:
-        "meth_cooked":
-            if data.has("amount") && data.has("quality") && data.has("purity"):
-                add_product(data.amount)
-                set_product_quality(data.quality, data.purity)
-        "police_raid":
-            if current_deal:
-                cancel_deal()
-            active_customers.clear()
-            dealing_allowed = false
-        "police_left":
-            dealing_allowed = true
-
-func reset():
-    active_customers.clear()
-    current_deal = null
+func get_customer_patience(customer_id):
+    if !active_customers.has(customer_id):
+        return 0.0
     
-    for territory in current_reputation.keys():
-        current_reputation[territory] = 0.0
-    
-    for territory in territory_heat.keys():
-        territory_heat[territory] = 0.0 
+    var customer_data = active_customers[customer_id].data
+    return customer_data.get("current_patience", customer_data.get("patience_timer", 10.0)) / customer_data.get("patience_timer", 10.0) 

@@ -52,7 +52,7 @@ func _ready():
 	
 	home_position = global_position
 	
-	# Set up detection area
+
 	if detection_area:
 		detection_area.body_entered.connect(_on_detection_area_body_entered)
 	
@@ -63,7 +63,7 @@ func _physics_process(delta):
 	if dead:
 		return
 		
-	# Update timers
+
 	if target_memory_timer > 0:
 		target_memory_timer -= delta
 	
@@ -72,7 +72,7 @@ func _physics_process(delta):
 	if attack_timer > 0:
 		attack_timer -= delta
 	
-	# State processing
+
 	match current_state:
 		STATE.PATROL:
 			process_patrol(delta)
@@ -85,13 +85,13 @@ func _physics_process(delta):
 		STATE.RETURN:
 			process_return(delta)
 	
-	# Apply movement
+
 	move_and_slide()
 	
-	# Check vision
+
 	check_vision()
 	
-	# Update animations
+
 	update_animation()
 
 func process_patrol(delta):
@@ -107,13 +107,13 @@ func process_patrol(delta):
 	var target_point = patrol_points[current_patrol_index]
 	
 	if global_position.distance_to(target_point) < 20:
-		# Reached patrol point, move to next one
+
 		current_patrol_index = (current_patrol_index + 1) % patrol_points.size()
 		current_patrol_wait_time = randf_range(1.0, 3.0)
 		velocity = Vector2.ZERO
 		return
 	
-	# Navigate to patrol point
+
 	if nav_update_timer <= 0 && navigation_agent:
 		navigation_agent.target_position = target_point
 		nav_update_timer = navigation_update_time
@@ -126,13 +126,13 @@ func process_investigate(delta):
 		return
 	
 	if global_position.distance_to(last_target_position) < 20:
-		# Reached investigation point, look around
+
 		current_patrol_wait_time = randf_range(3.0, 5.0)
 		
 		if current_patrol_wait_time > 0:
 			current_patrol_wait_time -= delta
 			
-			# Rotate to look around
+
 			current_direction = current_direction.rotated(delta * rotation_speed * 0.5)
 			
 			if current_patrol_wait_time <= 0:
@@ -141,7 +141,7 @@ func process_investigate(delta):
 			velocity = Vector2.ZERO
 			return
 	
-	# Navigate to investigation point
+
 	if nav_update_timer <= 0 && navigation_agent:
 		navigation_agent.target_position = last_target_position
 		nav_update_timer = navigation_update_time
@@ -160,12 +160,12 @@ func process_chase(delta):
 	last_target_position = target_pos
 	target_memory_timer = memory_time
 	
-	# Check if in attack range
+
 	if global_position.distance_to(target_pos) < attack_range:
 		set_state(STATE.ATTACK)
 		return
 	
-	# Navigate to target
+
 	if nav_update_timer <= 0 && navigation_agent:
 		navigation_agent.target_position = target_pos
 		nav_update_timer = navigation_update_time
@@ -184,20 +184,20 @@ func process_attack(delta):
 	last_target_position = target_pos
 	target_memory_timer = memory_time
 	
-	# Face the target
+
 	var direction = global_position.direction_to(target_pos)
 	current_direction = direction
 	
-	# Attack when in range and cooldown is done
+
 	if global_position.distance_to(target_pos) < attack_range:
 		if attack_timer <= 0:
 			attack()
 			attack_timer = attack_cooldown
 			
-		# Slow movement during attack
+
 		velocity = velocity.lerp(Vector2.ZERO, delta * 3.0)
 	else:
-		# Move toward target if out of range
+
 		set_state(STATE.CHASE)
 
 func process_return(delta):
@@ -209,7 +209,7 @@ func process_return(delta):
 		queue_free()
 		return
 	
-	# Navigate back to starting position
+
 	if nav_update_timer <= 0 && navigation_agent:
 		navigation_agent.target_position = home_position
 		nav_update_timer = navigation_update_time
@@ -231,13 +231,13 @@ func move_toward_point(point: Vector2, delta: float, move_speed: float):
 	
 	current_direction = direction
 	
-	# Apply acceleration toward the target direction
+
 	var target_velocity = direction * move_speed
 	velocity = velocity.lerp(target_velocity, delta * acceleration / move_speed)
 
 func check_vision():
 	if vision_raycast && target && is_instance_valid(target):
-		# Check if target is within vision distance and angle
+
 		var to_target = target.global_position - global_position
 		var distance = to_target.length()
 		
@@ -249,7 +249,7 @@ func check_vision():
 		if angle > deg_to_rad(vision_angle):
 			return
 		
-		# Cast ray to check for obstacles
+
 		vision_raycast.target_position = to_target
 		vision_raycast.force_raycast_update()
 		
@@ -262,15 +262,15 @@ func check_vision():
 func update_patrol_route():
 	patrol_points.clear()
 	
-	# Find patrol points in the scene
+
 	var points = get_tree().get_nodes_in_group("patrol_point")
 	
 	if points.size() > 0:
-		# Use existing patrol points
+
 		for point in points:
 			patrol_points.append(point.global_position)
 	else:
-		# Generate random patrol points around starting position
+
 		var radius = 200.0
 		for i in range(4):
 			var angle = i * TAU / 4.0 + randf_range(-0.5, 0.5)
@@ -304,11 +304,11 @@ func attack():
 	if !target || !is_instance_valid(target):
 		return
 	
-	# Play attack animation if available
+
 	if animation_player && animation_player.has_animation("attack"):
 		animation_player.play("attack")
 	
-	# Apply damage to target if it has a health property or take_damage method
+
 	if target.has_method("take_damage"):
 		target.take_damage(damage, self)
 	elif target.get("health") != null:
@@ -320,7 +320,7 @@ func take_damage(amount: float, attacker = null):
 	if health <= 0 && !dead:
 		die()
 	
-	# React to damage by chasing attacker
+
 	if attacker && !dead:
 		target = attacker
 		set_state(STATE.CHASE)
@@ -328,7 +328,7 @@ func take_damage(amount: float, attacker = null):
 func die():
 	dead = true
 	
-	# Play death animation if available
+
 	if animation_player && animation_player.has_animation("death"):
 		animation_player.play("death")
 		await animation_player.animation_finished
@@ -346,7 +346,7 @@ func update_animation():
 	if velocity.length() > 10:
 		anim = "walk"
 		
-		# Update sprite direction
+
 		if sprite:
 			if current_direction.x < 0:
 				sprite.flip_h = true

@@ -12,7 +12,7 @@ var manager = null
 
 func _ready():
 	collision_layer = 0
-	collision_mask = 2  # Player layer
+	collision_mask = 2
 	
 	body_entered.connect(_on_body_entered)
 	

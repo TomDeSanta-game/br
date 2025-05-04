@@ -21,7 +21,6 @@ Log="*res://addons/logger/logger.gd"
 IdManager="*res://Systems/Scripts/id_manager.gd"
 SignalBus="*res://Singletons/Scripts/SignalBus/signal_bus.gd"
 LLM="*res://Singletons/Scripts/Layers&Masks/llm.gd"
-LimboConsole="*res://addons/limbo_console/limbo_console.gd"
 QuestSystem="*res://addons/quest_system/quest_manager.gd"
 SceneManager="*res://addons/scene_manager/SceneManager.tscn"
 SoundManager="*res://addons/sound_manager/sound_manager.gd"
@@ -34,6 +33,7 @@ TensionEffects="*res://Systems/Scripts/tension_effects.gd"
 TensionSound="*res://Systems/Scripts/tension_sound.gd"
 PoliceResponse="*res://Systems/Scripts/police_response.gd"
 StreetDealing="*res://Systems/Scripts/street_dealing.gd"
+LimboConsole="*res://addons/limbo_console/limbo_console.gd"
 
 [debug]
 
@@ -104,7 +104,7 @@ window/stretch/aspect="expand"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/dialogic/plugin.cfg", "res://addons/limbo_console/plugin.cfg", "res://addons/limboai/plugin.cfg", "res://addons/logger/plugin.cfg", "res://addons/scene_manager/plugin.cfg", "res://addons/quest_system/plugin.cfg", "res://addons/sound_manager/plugin.cfg")
+enabled=PackedStringArray("res://addons/dialogic/plugin.cfg", "res://addons/limbo_console/plugin.cfg", "res://addons/logger/plugin.cfg", "res://addons/quest_system/plugin.cfg", "res://addons/scene_manager/plugin.cfg", "res://addons/sound_manager/plugin.cfg")
 
 [input]
 

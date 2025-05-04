@@ -1,153 +1,169 @@
 extends Node
 
-signal tension_changed(new_value, old_value)
-signal max_tension_reached
-signal min_tension_reached
-signal threshold_crossed(threshold_name, direction)
+@export_category("Tension Settings")
+@export var enable_tension: bool = true
+@export var default_tension: float = 0.0
+@export var tension_decay_rate: float = 0.05
+@export var tension_rise_rate: float = 0.1
+@export var min_tension: float = 0.0
+@export var max_tension: float = 1.0
+
+@export_category("Thresholds")
+@export var minimal_threshold: float = 0.1
+@export var low_threshold: float = 0.3
+@export var medium_threshold: float = 0.5
+@export var high_threshold: float = 0.7
+@export var critical_threshold: float = 0.9
 
 enum LEVEL {MINIMAL, LOW, MEDIUM, HIGH, CRITICAL}
 
-const THRESHOLDS = {
-	"MINIMAL": 0.0,
-	"LOW": 0.25,
-	"MEDIUM": 0.5,
-	"HIGH": 0.75,
-	"CRITICAL": 0.9
-}
-
-var current: float = 0.0
-var target: float = 0.0
-var max_value: float = 1.0
-var min_value: float = 0.0
-var decay_rate: float = 0.05
-var rise_rate: float = 0.1
-var decay_enabled: bool = true
-var current_level: LEVEL = LEVEL.MINIMAL
-var locked: bool = false
-var modifiers = {}
-var events = []
+var signal_bus = null
+var current = 0.0
+var target = 0.0
+var locked = false
+var active_modifiers = {}
+var last_level = LEVEL.MINIMAL
+var thresholds = {}
 
 func _ready():
-	set_process(true)
+	signal_bus = get_node_or_null("/root/SignalBus")
+	
+	thresholds = {
+		"MINIMAL": minimal_threshold,
+		"LOW": low_threshold,
+		"MEDIUM": medium_threshold,
+		"HIGH": high_threshold,
+		"CRITICAL": critical_threshold
+	}
+	
+	current = default_tension
+	target = default_tension
+	
+	if signal_bus:
+		reset()
 
 func _process(delta):
-	if locked:
+	if !enable_tension || locked:
 		return
-		
+	
 	var old_tension = current
 	
-	if decay_enabled and target < current:
-		current = move_toward(current, target, decay_rate * delta)
-	elif target > current:
-		current = move_toward(current, target, rise_rate * delta)
+	if current < target:
+		current = min(current + tension_rise_rate * delta, target)
+	elif current > target:
+		current = max(current - tension_decay_rate * delta, target)
 	
-	current = clamp(current, min_value, max_value)
+	current = clamp(current, min_tension, max_tension)
 	
 	if current != old_tension:
-		tension_changed.emit(current, old_tension)
-		check_threshold_crossing(old_tension)
+		check_tension_level()
 		
-	if current == max_value:
-		max_tension_reached.emit()
-	elif current == min_value:
-		min_tension_reached.emit()
+		if signal_bus:
+			signal_bus.emit_signal("tension_changed", current, old_tension)
 		
-	process_events(delta)
+		if current >= max_tension && old_tension < max_tension:
+			if signal_bus:
+				signal_bus.emit_signal("max_tension_reached")
+		elif current <= min_tension && old_tension > min_tension:
+			if signal_bus:
+				signal_bus.emit_signal("min_tension_reached")
 
-func check_threshold_crossing(old_tension):
-	var direction = 1 if current > old_tension else -1
+func add_tension(amount):
+	if !enable_tension:
+		return
 	
-	for threshold_name in THRESHOLDS:
-		var threshold_value = THRESHOLDS[threshold_name]
-		
-		if (old_tension < threshold_value and current >= threshold_value) or \
-		   (old_tension >= threshold_value and current < threshold_value):
-			threshold_crossed.emit(threshold_name, direction)
-			
-			var new_level = get_level_from_value(current)	
-			if new_level != current_level:
-				current_level = new_level
+	target = min(target + amount, max_tension)
 
-func get_level_from_value(value: float) -> LEVEL:
-	if value < THRESHOLDS["LOW"]:
+func reduce_tension(amount):
+	if !enable_tension:
+		return
+	
+	target = max(target - amount, min_tension)
+
+func set_tension(value):
+	if !enable_tension:
+		return
+	
+	target = clamp(value, min_tension, max_tension)
+
+func lock_tension():
+	locked = true
+
+func unlock_tension():
+	locked = false
+
+func reset():
+	current = default_tension
+	target = default_tension
+	active_modifiers.clear()
+	last_level = get_level_from_value(current)
+	
+	if signal_bus:
+		signal_bus.emit_signal("tension_changed", current, current)
+
+func get_tension():
+	return current
+
+func get_level():
+	return get_level_from_value(current)
+
+func get_level_from_value(value):
+	if value < minimal_threshold:
 		return LEVEL.MINIMAL
-	elif value < THRESHOLDS["MEDIUM"]:
+	elif value < low_threshold:
 		return LEVEL.LOW
-	elif value < THRESHOLDS["HIGH"]:
+	elif value < medium_threshold:
 		return LEVEL.MEDIUM
-	elif value < THRESHOLDS["CRITICAL"]:
+	elif value < high_threshold:
 		return LEVEL.HIGH
 	else:
 		return LEVEL.CRITICAL
 
-func add(amount: float):
-	if locked:
-		return
-		
-	target = min(target + amount, max_value)
-
-func reduce(amount: float):
-	if locked:
-		return
-		
-	target = max(target - amount, min_value)
-
-func set_value(value: float):
-	if locked:
-		return
-		
-	target = clamp(value, min_value, max_value)
-
-func set_immediate(value: float):
-	if locked:
-		return
-		
-	var old_tension = current
-	current = clamp(value, min_value, max_value)
-	target = current
+func check_tension_level():
+	var current_level = get_level()
 	
-	tension_changed.emit(current, old_tension)
-	check_threshold_crossing(old_tension)
+	if current_level != last_level:
+		check_threshold_crossed(current_level, last_level)
+		last_level = current_level
 
-func lock():
-	locked = true
-
-func unlock():
-	locked = false
-
-func reset():
-	var old_tension = current
-	current = min_value
-	target = min_value
-	modifiers.clear()
-	events.clear()
+func check_threshold_crossed(new_level, old_level):
+	var direction = "up" if new_level > old_level else "down"
+	var threshold_name = ""
 	
-	tension_changed.emit(current, old_tension)
-	check_threshold_crossing(old_tension)
-
-func add_modifier(id: String, amount: float, duration: float = 0.0):
-	modifiers[id] = {
-		"amount": amount,
-		"remaining": duration,
-		"permanent": duration <= 0
-	}
+	match new_level:
+		LEVEL.MINIMAL:
+			threshold_name = "MINIMAL"
+		LEVEL.LOW:
+			threshold_name = "LOW"
+		LEVEL.MEDIUM:
+			threshold_name = "MEDIUM"
+		LEVEL.HIGH:
+			threshold_name = "HIGH"
+		LEVEL.CRITICAL:
+			threshold_name = "CRITICAL"
 	
-	add(amount)
+	if signal_bus && threshold_name != "":
+		signal_bus.emit_signal("threshold_crossed", threshold_name, direction)
+
+func add_modifier(name, value):
+	active_modifiers[name] = value
+	update_modifiers()
+
+func remove_modifier(name):
+	if active_modifiers.has(name):
+		active_modifiers.erase(name)
+		update_modifiers()
+
+func update_modifiers():
+	var total_modifier = 0.0
 	
-	if duration > 0:
-		await get_tree().create_timer(duration).timeout
-		remove_modifier(id)
-
-func remove_modifier(id: String):
-	if modifiers.has(id):
-		reduce(modifiers[id].amount)
-		modifiers.erase(id)
-
-func get_level() -> LEVEL:
-	return current_level
+	for modifier in active_modifiers.values():
+		total_modifier += modifier
+	
+	add_tension(total_modifier)
 
 func get_level_name() -> String:
-	match current_level:
+	match get_level():
 		LEVEL.MINIMAL:
 			return "MINIMAL"
 		LEVEL.LOW:
@@ -162,37 +178,15 @@ func get_level_name() -> String:
 			return "UNKNOWN"
 
 func get_normalized() -> float:
-	return current / max_value
+	return current / max_tension
 
-func add_event(event_data: Dictionary):
-	events.append(event_data)
-
-func process_events(delta: float):
-	var i = events.size() - 1
-	
-	while i >= 0:
-		var event = events[i]
-		
-		if event.has("duration"):
-			event.elapsed = event.get("elapsed", 0.0) + delta
-			
-			if event.elapsed >= event.duration:
-				if event.has("on_complete") and event.on_complete is Callable:
-					event.on_complete.call()
-				events.remove_at(i)
-		
-		if event.has("update") and event.update is Callable:
-			event.update.call(delta, current)
-			
-		i -= 1
-		
 func get_percentage() -> float:
-	return (current / max_value) * 100.0
+	return (current / max_tension) * 100.0
 
 func increase_rise_rate(multiplier: float, duration: float = 5.0):
-	var original = rise_rate
-	rise_rate *= multiplier
+	var original = tension_rise_rate
+	tension_rise_rate *= multiplier
 	
 	get_tree().create_timer(duration).timeout.connect(func():
-		rise_rate = original
+		tension_rise_rate = original
 	) 

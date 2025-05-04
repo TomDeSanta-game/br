@@ -1,9 +1,5 @@
 extends CharacterBody2D
 
-signal deal_started
-signal deal_canceled
-signal customer_left
-
 @export_category("Movement")
 @export var walk_speed: float = 70.0
 @export var run_speed: float = 120.0
@@ -30,6 +26,7 @@ signal customer_left
 enum STATE {SPAWN, APPROACH, WANDER, INTERESTED, DEALING, LEAVING, FLEE}
 
 var street_dealing = null
+var signal_bus = null
 var customer_id = ""
 var customer_data = {}
 var current_state = STATE.SPAWN
@@ -40,7 +37,6 @@ var spawn_position = Vector2.ZERO
 var deal_position = Vector2.ZERO
 var patience_timer = 0.0
 var dialogue_displayed = false
-var signal_bus = null
 
 func _ready():
     street_dealing = get_node_or_null("/root/StreetDealing")
@@ -142,7 +138,8 @@ func set_state(new_state):
         STATE.INTERESTED:
             if player:
                 deal_position = global_position
-                emit_signal("deal_started")
+                if signal_bus:
+                    signal_bus.emit_signal("deal_started")
                 
                 patience_timer = customer_data.get("patience_timer", 10.0)
         
@@ -156,7 +153,8 @@ func set_state(new_state):
         
         STATE.LEAVING:
             if old_state == STATE.DEALING || old_state == STATE.INTERESTED:
-                emit_signal("deal_canceled")
+                if signal_bus:
+                    signal_bus.emit_signal("deal_canceled")
             
             set_target_position(spawn_position)
             
@@ -237,13 +235,15 @@ func leave(delta):
     var distance = global_position.distance_to(target_position)
     
     if distance < 20:
-        emit_signal("customer_left")
+        if signal_bus:
+            signal_bus.emit_signal("customer_left")
         queue_free()
         return
     
     if navigation_agent:
         if navigation_agent.is_navigation_finished():
-            emit_signal("customer_left")
+            if signal_bus:
+                signal_bus.emit_signal("customer_left")
             queue_free()
             return
             
@@ -267,13 +267,15 @@ func flee(delta):
     var distance = global_position.distance_to(target_position)
     
     if distance < 30:
-        emit_signal("customer_left")
+        if signal_bus:
+            signal_bus.emit_signal("customer_left")
         queue_free()
         return
     
     if navigation_agent:
         if navigation_agent.is_navigation_finished():
-            emit_signal("customer_left")
+            if signal_bus:
+                signal_bus.emit_signal("customer_left")
             queue_free()
             return
             

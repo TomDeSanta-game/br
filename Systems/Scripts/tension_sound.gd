@@ -35,7 +35,7 @@ var last_tension_level = -1
 var transitioning: bool = false
 
 func _ready():
-	# Create audio players
+
 	current_music_player = AudioStreamPlayer.new()
 	current_music_player.bus = sound_bus
 	current_music_player.volume_db = 0.0
@@ -56,7 +56,7 @@ func _ready():
 	sfx_player.volume_db = 0.0
 	add_child(sfx_player)
 	
-	# Connect to tension manager
+
 	manager = get_node_or_null("/root/TensionManager")
 	if manager:
 		manager.threshold_crossed.connect(_on_tension_threshold_crossed)
@@ -64,7 +64,7 @@ func _ready():
 	
 	effects = get_node_or_null("/root/TensionEffects")
 	
-	# Start with normal music and ambient
+
 	if normal_music:
 		play_music("normal", normal_music)
 	
@@ -77,7 +77,7 @@ func _process(delta):
 		
 	var current_level = manager.tension_engine.get_level_from_value(manager.tension_engine.current)
 	
-	# Check if level changed
+
 	if current_level != last_tension_level:
 		last_tension_level = current_level
 		_handle_tension_level_change(current_level)
@@ -92,7 +92,7 @@ func _handle_tension_level_change(level):
 				play_ambient("normal", normal_ambient)
 				
 		manager.tension_engine.LEVEL.LOW:
-			# Small audio cue but no music change
+
 			if sfx_player && tension_stinger && last_tension_level < level:
 				sfx_player.stream = tension_stinger
 				sfx_player.play()
@@ -109,7 +109,7 @@ func _handle_tension_level_change(level):
 				play_music("chase", chase_music)
 
 func _on_tension_threshold_crossed(from_level, to_level, threshold_value):
-	# Play audio stinger on rising tension
+
 	if from_level < to_level && tension_stinger && sfx_player:
 		sfx_player.stream = tension_stinger
 		sfx_player.play()
@@ -119,11 +119,11 @@ func _on_player_detected(is_detected):
 		sfx_player.stream = detection_stinger
 		sfx_player.play()
 		
-		# Switch to chase music if detected
+
 		if chase_music && current_music_name != "chase" && !transitioning:
 			play_music("chase", chase_music)
 	elif !is_detected && stealth_music && current_music_name == "chase" && !transitioning:
-		# Switch to stealth music after detection ends
+
 		play_music("stealth", stealth_music)
 
 func play_music(name: String, stream: AudioStream):
@@ -132,21 +132,21 @@ func play_music(name: String, stream: AudioStream):
 		
 	transitioning = true
 	
-	# Set up next track
+
 	next_music_player.stream = stream
 	next_music_player.volume_db = -40.0
 	next_music_player.play()
 	
-	# Create tween for crossfade
+
 	var tween = create_tween()
 	tween.parallel().tween_property(current_music_player, "volume_db", -40.0, music_crossfade_time)
 	tween.parallel().tween_property(next_music_player, "volume_db", 0.0, music_crossfade_time)
 	
-	# When done, swap players
+
 	tween.tween_callback(func(): 
 		current_music_player.stop()
 		
-		# Swap the players
+
 		var temp = current_music_player
 		current_music_player = next_music_player
 		next_music_player = temp
@@ -160,7 +160,7 @@ func play_ambient(name: String, stream: AudioStream):
 	if current_ambient_name == name || !stream || !ambient_player:
 		return
 		
-	# Create tween for crossfade
+
 	var tween = create_tween()
 	
 	if ambient_player.playing:

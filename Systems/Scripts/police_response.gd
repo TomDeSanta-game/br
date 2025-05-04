@@ -44,11 +44,11 @@ func _ready():
 	
 	signal_bus = get_node_or_null("/root/SignalBus")
 	
-	# Find the player node
+
 	await get_tree().process_frame
 	player = get_tree().get_nodes_in_group("player").front()
 	
-	# Register spawn points if any
+
 	for point in get_tree().get_nodes_in_group("police_spawn"):
 		spawn_points.append(point)
 
@@ -56,10 +56,10 @@ func _process(delta):
 	if !enable_police_response || !player:
 		return
 	
-	# Update last known player position
+
 	last_player_position = player.global_position
 	
-	# Handle wanted level decay
+
 	if current_wanted_level > 0 && current_alert_level < ALERT_LEVEL.PURSUIT:
 		wanted_decay_timer -= delta
 		if wanted_decay_timer <= 0:
@@ -67,13 +67,13 @@ func _process(delta):
 			if wanted_points < 0:
 				reduce_wanted_level()
 	
-	# Handle response timer
+
 	if active_response:
 		response_timer -= delta
 		if response_timer <= 0:
 			active_response = false
 	
-	# Clean up destroyed units
+
 	for i in range(active_units.size() - 1, -1, -1):
 		if !is_instance_valid(active_units[i]):
 			active_units.remove_at(i)
@@ -88,7 +88,7 @@ func add_crime_points(points: float, position: Vector2 = Vector2.ZERO):
 	if position != Vector2.ZERO:
 		report_crime_at_location(position)
 	
-	# Check if we should increase wanted level
+
 	var target_level = int(min(wanted_points, max_wanted_level))
 	if target_level > current_wanted_level:
 		set_wanted_level(target_level)
@@ -102,7 +102,7 @@ func set_wanted_level(level: int):
 			signal_bus.wanted_level_changed.emit(current_wanted_level, old_level)
 		
 		if current_wanted_level > old_level:
-			# Escalate alert level based on wanted level
+
 			var target_alert = ALERT_LEVEL.NONE
 			match current_wanted_level:
 				1: target_alert = ALERT_LEVEL.SUSPICIOUS
@@ -112,7 +112,7 @@ func set_wanted_level(level: int):
 			
 			set_alert_level(target_alert)
 			
-			# Immediate police response on level increase
+
 			trigger_police_response()
 
 func reduce_wanted_level():
@@ -134,7 +134,7 @@ func set_alert_level(level: ALERT_LEVEL):
 			signal_bus.police_alert_changed.emit(current_alert_level, old_level)
 		
 		if current_alert_level > old_level:
-			# Immediate response on escalation
+
 			trigger_police_response()
 		elif current_alert_level == ALERT_LEVEL.NONE:
 			for unit in active_units:
@@ -145,7 +145,7 @@ func report_crime_at_location(position: Vector2):
 	if current_alert_level <= ALERT_LEVEL.SUSPICIOUS:
 		set_alert_level(ALERT_LEVEL.SUSPICIOUS)
 		
-		# Spawn investigation unit after delay
+
 		var timer = get_tree().create_timer(initial_response_delay)
 		timer.timeout.connect(func(): spawn_investigation_at(position))
 
@@ -171,7 +171,7 @@ func trigger_police_response():
 	if signal_bus:
 		signal_bus.police_response.emit(response_type)
 	
-	# Spawn units based on response type
+
 	spawn_response_units(response_type)
 
 func spawn_response_units(response_type: RESPONSE_TYPE):
@@ -195,11 +195,11 @@ func spawn_response_units(response_type: RESPONSE_TYPE):
 
 func get_spawn_position() -> Vector2:
 	if spawn_points.size() > 0:
-		# Use random spawn point
+
 		var point = spawn_points[randi() % spawn_points.size()]
 		return point.global_position
 	
-	# No spawn points, generate position around player
+
 	var angle = randf() * TAU
 	var distance = spawn_distance + randf() * 200.0
 	return last_player_position + Vector2(cos(angle), sin(angle)) * distance
@@ -246,15 +246,15 @@ func spawn_unit(scene: PackedScene, position: Vector2):
 	get_tree().current_scene.add_child(unit)
 	unit.global_position = position
 	
-	# Connect to unit signals if available
+
 	if unit.has_signal("unit_destroyed"):
 		unit.unit_destroyed.connect(_on_unit_destroyed)
 	
-	# Initialize unit with target if needed
+
 	if unit.has_method("set_target") && player:
 		unit.set_target(player)
 	
-	# Add unit to active list
+
 	active_units.append(unit)
 
 func _on_unit_destroyed(unit):
@@ -267,7 +267,7 @@ func _on_tension_threshold_crossed(level, direction, threshold_value):
 	if !enable_police_response:
 		return
 		
-	# Increase wanted level on high tension thresholds
+
 	match level:
 		"HIGH":
 			if direction > 0 && current_wanted_level < 3:

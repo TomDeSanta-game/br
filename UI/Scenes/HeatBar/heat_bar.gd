@@ -8,11 +8,11 @@ extends Control
 var manager
 var displayed_heat = 0
 var heat_colors = {
-	0: Color(0.2, 0.8, 0.2), # None
-	1: Color(0.8, 0.8, 0.2), # Low
-	2: Color(0.9, 0.6, 0.1), # Medium
-	3: Color(0.9, 0.2, 0.2), # High
-	4: Color(0.9, 0.1, 0.1)  # Wanted
+	0: Color(0.2, 0.8, 0.2),
+	1: Color(0.8, 0.8, 0.2),
+	2: Color(0.9, 0.6, 0.1),
+	3: Color(0.9, 0.2, 0.2),
+	4: Color(0.9, 0.1, 0.1)
 }
 
 func _ready() -> void:

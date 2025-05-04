@@ -19,7 +19,7 @@ var effects = null
 
 func _ready():
 	collision_layer = 0
-	collision_mask = 2  # Player layer
+	collision_mask = 2
 	
 	body_entered.connect(_on_body_entered)
 	body_exited.connect(_on_body_exited)
@@ -85,12 +85,12 @@ func add_visual_effects():
 	var effect_level = get_effect_level()
 	
 	match effect_level:
-		0:  # Low
+		0:
 			effects.add_effect("slight_desaturation", 0.5)
-		1:  # Medium
+		1:
 			effects.add_effect("medium_desaturation", 0.6)
 			effects.add_effect("light_vignette", 0.4)
-		2:  # High
+		2:
 			effects.add_effect("heavy_desaturation", 0.8)
 			effects.add_effect("medium_vignette", 0.7)
 

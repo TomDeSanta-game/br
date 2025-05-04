@@ -45,16 +45,16 @@ func _process(delta):
 	if time_remaining > 0:
 		time_remaining -= delta
 		
-		# Update time display
+
 		if show_timer:
 			time_updated.emit(time_remaining, duration)
 			
-		# Handle critical time warning
+
 		if time_remaining <= critical_time_threshold:
 			if manager && manager.tension_engine.current < failure_tension:
 				manager.add_tension(delta * 0.1)
 				
-		# Check for timeout failure
+
 		if time_remaining <= 0 && fail_on_timeout:
 			fail_encounter()
 	
@@ -65,14 +65,14 @@ func start_encounter():
 	active = true
 	time_remaining = duration
 	
-	# Apply initial tension spike
+
 	if manager && initial_tension > 0:
 		manager.add_tension(initial_tension)
 	
-	# Signal that encounter has started
+
 	encounter_started.emit(encounter_name)
 	
-	# Show HUD elements if needed
+
 	if show_objective && get_node_or_null("/root/SignalBus"):
 		get_node("/root/SignalBus").emit_signal("show_mission_text", description)
 
@@ -83,14 +83,14 @@ func complete_encounter():
 	active = false
 	success = true
 	
-	# Reduce tension on success
+
 	if manager && success_tension_reduction > 0:
 		manager.reduce_tension(success_tension_reduction)
 	
-	# Signal completion
+
 	encounter_completed.emit(encounter_name, true)
 	
-	# Hide HUD elements if needed
+
 	if show_objective && get_node_or_null("/root/SignalBus"):
 		get_node("/root/SignalBus").emit_signal("hide_mission_text")
 
@@ -101,18 +101,18 @@ func fail_encounter():
 	active = false
 	success = false
 	
-	# Increase tension on failure
+
 	if manager && failure_tension_boost > 0:
 		manager.add_tension(failure_tension_boost)
 	
-	# Signal failure
+
 	encounter_failed.emit(encounter_name)
 	
-	# Update HUD elements if needed
+
 	if show_objective && get_node_or_null("/root/SignalBus"):
 		get_node("/root/SignalBus").emit_signal("update_mission_text", description + " (FAILED)")
 		
-		# Hide after a delay
+
 		var timer = get_tree().create_timer(3.0)
 		timer.timeout.connect(func(): get_node("/root/SignalBus").emit_signal("hide_mission_text"))
 
@@ -123,11 +123,11 @@ func set_objective_count(count: int):
 func complete_objective():
 	objectives_completed += 1
 	
-	# Check if all objectives are complete
+
 	if objectives_completed >= total_objectives && total_objectives > 0:
 		complete_encounter()
 		
-	# Update HUD if needed
+
 	if show_objective && get_node_or_null("/root/SignalBus"):
 		get_node("/root/SignalBus").emit_signal("update_mission_progress", objectives_completed, total_objectives)
 

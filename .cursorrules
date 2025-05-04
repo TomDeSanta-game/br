@@ -18,134 +18,57 @@
 │   ├── Scenes
 │   └── Scripts
 │       └── PlayerStateMachine
-│           ├── player_state_machine.gd
-│           └── player_state_machine.gd.uid
 ├── Entities
 │   ├── Scenes
 │   │   ├── Doctor
-│   │   │   └── Doctor.tscn
 │   │   ├── Jesse
-│   │   │   └── jesse.tscn
 │   │   ├── Npcs
-│   │   │   ├── NpcBase
-│   │   │   ├── Skyler
-│   │   │   └── WaltJR
 │   │   └── Player
-│   │       └── player.tscn
 │   └── Scripts
 │       ├── Doctor
-│       │   ├── doctor.gd
-│       │   └── doctor.gd.uid
 │       ├── Guards
-│       │   └── Tuco_Guard
 │       ├── Jesse
-│       │   ├── jesse.gd
-│       │   └── jesse.gd.uid
 │       └── Player
-│           ├── player.gd
-│           └── player.gd.uid
 ├── Inventory
 │   ├── Scenes
 │   │   ├── InventorySlot.tscn
 │   │   ├── InventoryUI.tscn
 │   │   └── ItemDetailsPanel.tscn
 │   └── Scripts
-│       ├── inventory_slot.gd
-│       ├── inventory_slot.gd.uid
-│       ├── inventory_ui.gd
-│       ├── inventory_ui.gd.uid
-│       ├── item_details_panel.gd
-│       └── item_details_panel.gd.uid
 ├── LICENSE
 ├── Levels
 │   ├── CarWash
-│   │   ├── CarWashLevel.tscn
-│   │   ├── car_wash.gd
-│   │   ├── car_wash.gd.uid
-│   │   ├── grid_visualizer.gd
-│   │   └── grid_visualizer.gd.uid
 │   ├── DoctorsOffice
-│   │   ├── DoctorsOffice.tscn
-│   │   ├── doctors_office.gd
-│   │   └── doctors_office.gd.uid
 │   ├── House
-│   │   ├── House.tscn
-│   │   ├── House.tscn.backup
-│   │   ├── House.tscn.fixed
-│   │   ├── house.gd
-│   │   └── house.gd.uid
 │   └── RideWithHank
-│       ├── meth_lab_button.gd
-│       ├── meth_lab_button.gd.uid
-│       ├── ride_with_hank.gd
-│       ├── ride_with_hank.gd.uid
-│       └── ride_with_hank.tscn
 ├── Objects
 │   ├── Scenes
 │   │   ├── Doors
-│   │   │   ├── Door.tscn
-│   │   │   └── PatchedDoors.tscn
 │   │   └── Early_Meth_Batch
-│   │       └── early_methaphetamine_batch.tscn
 │   └── Scripts
 │       ├── Doors
-│       │   ├── door.gd
-│       │   ├── door.gd.uid
-│       │   ├── patched_doors.gd
-│       │   └── patched_doors.gd.uid
 │       └── Early_Meth_Batch
-│           ├── early_methaphetamine_batch.gd
-│           └── early_methaphetamine_batch.gd.uid
 ├── README.md
 ├── Singletons
 │   ├── Scenes
 │   └── Scripts
 │       ├── Layers&Masks
-│       │   ├── llm.gd
-│       │   └── llm.gd.uid
 │       └── SignalBus
-│           ├── signal_bus.gd
-│           └── signal_bus.gd.uid
 ├── Systems
 │   └── Scripts
-│       ├── id_manager.gd
-│       └── id_manager.gd.uid
 ├── UI
 │   ├── Scenes
 │   │   ├── CarWashGame
-│   │   │   ├── CarModel.tscn
-│   │   │   ├── CarWashGame.tscn
-│   │   │   └── CarWashUI.tscn
 │   │   ├── HeatBar
-│   │   │   └── heat_bar.tscn
 │   │   ├── MainMenu.tscn
 │   │   ├── MethLab
-│   │   │   ├── Bubble.tscn
-│   │   │   ├── MethLabEntry.tscn
-│   │   │   └── MethLabGame.tscn
 │   │   └── OptionsMenu.tscn
 │   └── Scripts
 │       ├── CarWashGame
-│       │   ├── CarModel.gd
-│       │   ├── CarModel.gd.uid
-│       │   ├── CarWashGame.gd
-│       │   ├── CarWashGame.gd.uid
-│       │   ├── CarWashUI.gd
-│       │   └── CarWashUI.gd.uid
 │       ├── HeatBar
-│       │   ├── heat_bar.gd
-│       │   └── heat_bar.gd.uid
 │       ├── MainMenu.gd
-│       ├── MainMenu.gd.uid
 │       ├── MethLab
-│       │   ├── Bubble.gd
-│       │   ├── Bubble.gd.uid
-│       │   ├── MethLabEntry.gd
-│       │   ├── MethLabEntry.gd.uid
-│       │   ├── MethLabGame.gd
-│       │   └── MethLabGame.gd.uid
-│       ├── OptionsMenu.gd
-│       └── OptionsMenu.gd.uid
+│       └── OptionsMenu.gd
 ├── addons
 │   ├── SignalVisualizer
 │   ├── dialogic
@@ -160,15 +83,7 @@
 │   └── sound_manager
 ├── ai
 │   ├── tasks
-│   │   ├── find_target.gd
-│   │   ├── find_target.gd.uid
-│   │   ├── move_to_position.gd
-│   │   ├── move_to_position.gd.uid
-│   │   ├── random_move_position.gd
-│   │   └── random_move_position.gd.uid
 │   └── trees
-│       ├── hank.tres
-│       └── skinny_pete.tres
 ├── assets
 │   ├── Cars
 │   ├── Characters
@@ -179,10 +94,7 @@
 │   ├── early_methaphetamine_batch.png
 │   └── early_methaphetamine_batch.png.import
 ├── backups
-│   ├── House
-│   │   ├── House.tscn.backup
-│   │   └── House.tscn.current
-│   └── House.tscn.backup
+│   └── House
 ├── data.pandora
 ├── default_bus_layout.tres
 ├── dialogic
@@ -192,14 +104,13 @@
 ├── icon.svg
 ├── icon.svg.import
 ├── pandora
-│   ├── categories.gd
-│   └── categories.gd.uid
+│   └── categories.gd
 ├── project.godot
 ├── project_structure.txt
 └── quests
     └── GetToCar.tres
 
-156 directories, 679 files
+169 directories, 821 files
 
 # GITHUB PUSH PROCESS
 - Run these commands in the terminal: "

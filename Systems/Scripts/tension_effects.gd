@@ -171,7 +171,7 @@ func apply_vignette(level, intensity):
 		transition_tween.kill()
 		
 	transition_tween = create_tween()
-	# This assumes your environment has a color correction curve set up
+
 	transition_tween.tween_method(func(value): 
 		environment.environment.adjustment_color_correction.set_curve_texture_intensity(value), 
 		environment.environment.adjustment_color_correction.get_curve_texture_intensity(), 
@@ -184,7 +184,7 @@ func apply_camera_shake(intensity):
 	if camera.has_method("add_trauma"):
 		camera.add_trauma(intensity)
 	else:
-		# If no custom shake method, try direct shake
+
 		var shake_strength = 4.0 * intensity
 		var shake_duration = 0.3
 		
@@ -267,7 +267,7 @@ func reset_environment_effects():
 	transition_tween.parallel().tween_property(environment.environment, "glow_bloom", 
 		base.glow_bloom, 1.0).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_SINE)
 	
-	# This assumes your environment has a color correction curve set up
+
 	transition_tween.parallel().tween_method(func(value): 
 		environment.environment.adjustment_color_correction.set_curve_texture_intensity(value), 
 		environment.environment.adjustment_color_correction.get_curve_texture_intensity(), 
