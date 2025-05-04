@@ -36,3 +36,14 @@ Implement a color grading system that changes the game's visual tone based on ti
 
 ## Visual Quest Tracker
 Design a minimalist quest journal with Breaking Bad-themed iconography. Use simple icons representing key themes (money for financial goals, beakers for cooking, etc.) instead of complex art. Include a progress visualization system showing Walter's journey from teacher to kingpin. This provides visual feedback on story progress without requiring extensive new assets.
+
+# Completely Fresh Features
+
+## Walter's Chemistry Insights
+Interactive elements where Walter's chemistry background provides unique environmental solutions. When near specific objects (household chemicals, lab equipment), a special interaction prompt appears letting Walter analyze and combine them in ways other characters cannot. Implement as highlighted interaction nodes with special options available only to Walter, requiring only basic UI elements and existing props.
+
+## Family Time Management
+A scheduling system where Walter must balance criminal activities with family obligations. Missing key events (dinner, Walt Jr's birthday) damages family relationships but attending them limits criminal operations. Implement with a calendar interface showing upcoming events and timed choices between family and "business" that meaningfully impact both storytelling paths.
+
+## Psychological Deterioration Effects
+Visual and gameplay effects that intensify as Walter becomes more corrupted. Early-game Walter sees neutral world representations, while late-game experiences include paranoia effects like shadow movements, distorted audio, and hallucinated threats. Implement using shader distortions, audio filters, and occasional false threat indicators that create psychological immersion with minimal new assets.
