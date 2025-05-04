@@ -1,10 +1,21 @@
-# Breaking Bad Game - Implementation Ideas
+# Breaking Bad Game - Implementation Ideas (Minimal Art Required)
 
-## Interactive Meth Cooking Minigame
-A chemistry-based minigame where Walter and Jesse cook meth. Players balance temperature gauges, mix chemicals in correct sequences, and time reactions. The quality of the batch affects in-game currency and reputation. Implement with simple UI sliders, timers, and particle effects for visual feedback. Success or failure determines product purity percentage.
+## Reputation System
+A numerical system tracking relationships with different factions (Law Enforcement, Cartel, Civilians). Actions affect different factions differently - bribing police decreases Law rep but might increase Cartel trust. Implement using a dictionary of faction values in a global singleton. Display as simple text percentages or basic UI bars. This affects dialogue options, pricing, and quest availability without requiring new art.
 
-## Character Heat System
-A dynamic "heat" meter tracking how much attention characters draw from law enforcement. Actions like cooking meth, dealing, or suspicious behavior increase heat, while lying low or performing legitimate activities decrease it. Heat levels affect NPC interactions, police spawn rates, and quest availability. Implement using a global variable with timed decay and visual indicator.
+## Timed Decision System
+Critical moments in Walter's story presented as timed choices with significant consequences. When confronted by Tuco or deciding how to handle problematic characters, a simple text prompt appears with a timer. Choices affect story branches and relationship values. Implement using a modal dialog with countdown timer, requiring only basic UI elements and text.
 
-## Environmental Storytelling
-Transform key Breaking Bad locations with interactive objects that reveal narrative without dialogue. The RV's equipment tells the cooking story, Walter's home shows family dynamics, and Gus's restaurant conceals lab hints. Implement using interactable objects with subtle visual cues (highlights on hover) that trigger brief camera focus or UI elements showing significance. 
+## Dynamic Phone Calls & Messages
+Narrative delivery through Walter's phone. Characters call or message with information, threats, or opportunities. Player chooses response options affecting relationships and plot progression. Implement using existing UI framework with text-only content displayed as messages or simple dialogue. This creates immersion without cutscenes or character art.
+
+# Crucial Story-Driven Features
+
+## Cancer Progression System
+Track Walter's cancer development as a core narrative mechanic. Implement a hidden timer with periodic health checks that affect gameplay (reduced movement speed or stamina during advanced stages). Tie treatment decisions to the financial system - choosing between expensive treatment or saving money for family affects both health progression and story outcomes.
+
+## Dual Identity Management
+Toggle between "Walter White" and "Heisenberg" personas. Each identity has different dialogue options, abilities, and reputation impacts. Implement using a simple state machine that affects dialogue trees, available actions, and character responses. Staying too long in either persona creates consequences (family suspicion as Heisenberg, lost criminal opportunities as Walter).
+
+## Territory Control Mechanic
+Visualize cartel territories as a simple color-coded map interface. Players can take control of territories through story missions, increasing income but also raising heat and rival attention. Implement using a grid-based data structure with ownership values and income generation. This creates escalating conflict with Gus Fring and other rivals as the story progresses. 
