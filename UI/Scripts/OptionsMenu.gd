@@ -8,4 +8,4 @@ func _on_vsync_button_toggled(button_pressed):
 	else:
 		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED)
 func _on_back_button_pressed():
-	SceneManager.change_scene("res://UI/Scenes/MainMenu.tscn") 
+	SceneManager.change_scene("res:

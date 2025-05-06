@@ -1,9 +1,9 @@
-[gd_scene load_steps=42 format=3 uid="uid://dextyluhrr7ge"]
+[gd_scene load_steps=41 format=3 uid="uid://dextyluhrr7ge"]
 
-[ext_resource type="Script" uid="uid://bj58wvm3q3f" path="res://Entities/Scripts/Player/player.gd" id="1_k2g5q"]
+[ext_resource type="Script" uid="uid://c424cntveb0a" path="res://Entities/Scripts/Player/player.gd" id="1_k2g5q"]
 [ext_resource type="Texture2D" uid="uid://dsvvit8k8agxd" path="res://assets/Prototype_Character/Prototype_Character.png" id="2_tryav"]
 [ext_resource type="FontFile" uid="uid://bgx8gu7aobui5" path="res://assets/Fonts/pixel_font.ttf" id="4_bkltx"]
-[ext_resource type="PackedScene" uid="uid://2n45pwc32vf8" path="res://UI/Scenes/HeatBar/heat_bar.tscn" id="6_0s0i4"]
+[ext_resource type="PackedScene" uid="uid://cu1yy5jcprk4p" path="res://UI/Scenes/HeatBar/heat_bar.tscn" id="6_0s0i4"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_2fnmh"]
 atlas = ExtResource("2_tryav")

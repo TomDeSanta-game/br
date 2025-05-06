@@ -13,7 +13,6 @@ func _ready() -> void:
 	else:
 		sl.flip_h = true
 		sr.flip_h = false
-	
 	if dt == "R":
 		sl.frame = 0
 		sr.frame = 0

@@ -31,7 +31,6 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	if game_completed:
 		return
-		
 	var left_bound = bg_start_x
 	var right_bound = bg_start_x + meter_width - indicator_width
 	if current_dir == "RIGHT":
@@ -44,7 +43,6 @@ func _physics_process(delta: float) -> void:
 		if indicator.position.x <= left_bound:
 			indicator.position.x = left_bound
 			flip()
-			
 	if Input.is_action_just_pressed("Zerostovik") and can_press:
 		check_indicator_position()
 func animate_meter() -> void:
@@ -66,9 +64,7 @@ func check_indicator_position() -> void:
 	var indicator_center = indicator.position.x + indicator_width / 2
 	var gz_left = gz.position.x
 	var gz_right = gz.position.x + gz_size.x
-	
 	can_press = false
-	
 	if indicator_center >= gz_left and indicator_center <= gz_right:
 		add_points(5)
 		success_feedback()
@@ -81,15 +77,12 @@ func add_points(amount: int) -> void:
 	points += amount
 	var original_scale = label.scale
 	var original_color = label.modulate
-	
 	var color_tween = create_tween()
 	color_tween.tween_property(label, "modulate", Color(1.2, 1.2, 1.2), 0.1)
 	color_tween.tween_property(label, "modulate", original_color, 0.2)
-	
 	var scale_tween = create_tween()
 	scale_tween.tween_property(label, "scale", Vector2(1.15, 1.15), 0.1)
 	scale_tween.tween_property(label, "scale", original_scale, 0.2)
-	
 	if points >= max_score:
 		points = max_score
 		cleanliness_percent = 100
@@ -101,7 +94,6 @@ func add_points(amount: int) -> void:
 		cleanliness_percent = int((float(points) / max_score) * 100)
 		label.text = "Score: " + str(cleanliness_percent) + "%"
 		update_progress_bar()
-	
 func success_feedback() -> void:
 	var style = gz.get_theme_stylebox("panel").duplicate()
 	style.bg_color = Color(0.4, 0.9, 0.2, 1.0)
@@ -117,7 +109,6 @@ func success_feedback() -> void:
 	var panel_tween = create_tween()
 	panel_tween.tween_property(score_panel, "scale", Vector2(1.05, 1.05), 0.1)
 	panel_tween.tween_property(score_panel, "scale", Vector2(1.0, 1.0), 0.2)
-	
 func failure_feedback() -> void:
 	var style = indicator.get_theme_stylebox("panel").duplicate()
 	style.bg_color = Color(0.9, 0.2, 0.2, 1)
@@ -147,7 +138,6 @@ func update_progress_bar() -> void:
 	for i in range(tick_marks.get_children().size()):
 		var tick = tick_marks.get_children()[i]
 		var tick_position = float(i) / (tick_marks.get_children().size() - 1)
-		
 		if tick_position <= progress_percent:
 			var tick_tween = create_tween()
 			tick_tween.tween_property(tick, "color", Color(0.3, 0.8, 0.3), 0.2)

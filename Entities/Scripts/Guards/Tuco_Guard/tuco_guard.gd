@@ -6,9 +6,9 @@ func _ready() -> void:
 	SignalBus.csaf.connect(csaf)
 func _process(_delta: float) -> void:
 	if back == true:
-		animated_sprite.play("Up_Idle") 
+		animated_sprite.play("Up_Idle")
 	elif front == true:
-		animated_sprite.play("Down_Idle") 
+		animated_sprite.play("Down_Idle")
 func csaf() -> void:
 	Log.info("hello")
 	animated_sprite.play("Attack")

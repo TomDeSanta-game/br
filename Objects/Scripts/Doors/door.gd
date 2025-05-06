@@ -10,7 +10,6 @@ func _ready() -> void:
 		sprite.flip_h = false
 	else:
 		sprite.flip_h = true
-	
 	if dt == "R":
 		sprite.frame = 0
 	elif dt == "C":

@@ -7,14 +7,11 @@ func _tick(_delta: float) -> Status:
     if not is_instance_valid(target):
         return FAILURE
     blackboard.set_var(target_var, target)
-    
     if target:
         blackboard.set_var(&"position", target.global_position)
-    
     return SUCCESS
 func _get_target_node() -> CharacterBody2D:
     var nodes: Array[Node] = agent.get_tree().get_nodes_in_group(group)
-    
     if nodes.is_empty():
         return null
     match group:
@@ -27,5 +24,4 @@ func _get_target_node() -> CharacterBody2D:
             return nodes.front() as CharacterBody2D if nodes.front() != agent else null
         &"Player":
             return nodes.front() as CharacterBody2D
-    
     return null

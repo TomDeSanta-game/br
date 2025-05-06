@@ -14,4 +14,4 @@ func play_wax_effect():
 func set_car_texture(texture_path):
 	if ResourceLoader.exists(texture_path):
 		var texture = load(texture_path)
-		$CarSprite.texture = texture 
+		$CarSprite.texture = texture

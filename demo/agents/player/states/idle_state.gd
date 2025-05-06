@@ -1,12 +1,9 @@
 
 extends LimboState
-
 @export var animation_player: AnimationPlayer
 @export var idle_animation: StringName
-
 func _enter() -> void:
 	animation_player.play(idle_animation, 0.1)
-
 func _update(_delta: float) -> void:
 	var horizontal_move: float = Input.get_axis(&"move_left", &"move_right")
 	var vertical_move: float = Input.get_axis(&"move_up", &"move_down")

@@ -21,7 +21,6 @@ func _physics_process(_delta: float) -> void:
 	handle_movement()
 func handle_movement() -> void:
 	var input_vector = get_input_vector()
-	
 	if input_vector != Vector2.ZERO:
 		velocity = input_vector * speed
 		direction = input_vector
@@ -30,7 +29,6 @@ func handle_movement() -> void:
 		velocity = Vector2.ZERO
 		direction = Vector2.ZERO
 		handle_idle()
-		
 	if not is_interact_mode:
 		move_and_slide()
 func get_input_vector() -> Vector2:

@@ -47,3 +47,22 @@ A scheduling system where Walter must balance criminal activities with family ob
 
 ## Psychological Deterioration Effects
 Visual and gameplay effects that intensify as Walter becomes more corrupted. Early-game Walter sees neutral world representations, while late-game experiences include paranoia effects like shadow movements, distorted audio, and hallucinated threats. Implement using shader distortions, audio filters, and occasional false threat indicators that create psychological immersion with minimal new assets.
+
+# Car Wash Interior (Minimal Art)
+
+1. New Node2D scene: "CarWashInterior"
+2. TileMap: black/gray tiles for walls, floor, bays
+3. PointLight2D: blue-white, flicker for mood
+4. Simple shapes: machines, counter, office
+5. Area2D: doors, register, office triggers
+6. GPUParticles2D: water spray, steam
+7. ParallaxBackground: depth with layers
+8. Rectangle2D: wet floor, reflections
+9. Overlay grime shapes for wear
+10. Text signs: "Office", "Wash Bay"
+11. LightOccluder2D: shadows
+12. AudioStreamPlayer2D: water, machines
+13. Camera2D: slight zoom, smooth
+14. Interactables: mop, safe, clipboard
+
+By layering simple shapes, lighting, and subtle effects, you'll create a visually rich, story-driven car wash interior. Each area should visually communicate its function and narrative importance, guiding the player through both the literal and metaphorical "cleaning" that defines Walter's journey.
