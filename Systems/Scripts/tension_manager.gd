@@ -14,7 +14,7 @@ var wanted_timer: float = 0.0
 var wanted_duration: float = 300.0
 var suspicion_zones = []
 func _ready():
-	tension_engine = load("res://Systems/Scripts/tension_engine.gd").new()
+	tension_engine = load("res:
 	add_child(tension_engine)
 	var signal_bus = get_node_or_null("/root/SignalBus")
 	if signal_bus:

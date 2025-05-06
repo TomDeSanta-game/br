@@ -2,7 +2,7 @@ extends Node
 var id_map: Dictionary = {
 	"01": {
 	"name": "Early Methaphetamine Batch",
-	"texture": preload("res://assets/early_methaphetamine_batch.png"),
+	"texture": preload("res:
 	"quantity": 1
 	},
 }
