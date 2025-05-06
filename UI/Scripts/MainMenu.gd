@@ -37,25 +37,28 @@ func _on_button_mouse_entered(button):
 func transition_to_scene(scene_path):
 	if is_transitioning:
 		return
+	
 	var fixed_path = scene_path
 	if !ResourceLoader.exists(fixed_path):
 		if scene_path.contains("Door.tscn"):
-			fixed_path = "res:
+			fixed_path = "res://Objects/Scenes/Doors/Door.tscn"
 		elif scene_path.contains("PatchedDoors.tscn"):
-			fixed_path = "res:
+			fixed_path = "res://Objects/Scenes/Doors/PatchedDoors.tscn"
+	
 	if !ResourceLoader.exists(fixed_path):
 		Log.err("Scene file not found: " + scene_path)
 		return
+	
 	is_transitioning = true
 	menu_tween = create_tween().set_ease(Tween.EASE_IN)
 	menu_tween.tween_property($MenuPanel, "modulate:a", 0.0, 0.3)
 	await menu_tween.finished
 	get_tree().change_scene_to_file(fixed_path)
 func _on_start_button_pressed():
-	transition_to_scene("res:
+	transition_to_scene("res://Levels/House/House.tscn")
 func _on_methlab_button_pressed():
-	transition_to_scene("res:
+	transition_to_scene("res://UI/Scenes/MethLab/MethhLab.tscn")
 func _on_options_button_pressed():
-	transition_to_scene("res:
+	transition_to_scene("res://UI/Scenes/OptionsMenu.tscn")
 func _on_quit_button_pressed():
 	get_tree().quit()

@@ -91,7 +91,7 @@ var quest_activated: bool = false
 var timer_countdown_active: bool = false
 var game_over_shown: bool = false
 @onready var meth_lab_button = $MethLabButton
-@onready var player = $Player
+@onready var player_node = $Player
 @onready var hank = $Hank
 @onready var dialog_area = $DialogTrigger
 @onready var meth_lab_entrance = $MethLabEntrance
@@ -153,9 +153,9 @@ func _ready() -> void:
 	quest_manager = get_node("/root/QuestManager")
 	signal_bus.connect("game_over", _on_game_over)
 	signal_bus.connect("quest_updated", _on_quest_updated)
-	signal_func.connect("meth_lab_step_complete", _on_meth_lab_step_complete)
-	signal_func.connect("ingredient_collected", _on_ingredient_collected)
-	signal_func.connect("meth_lab_success", _on_meth_lab_success)
+	signal_bus.connect("meth_lab_step_complete", _on_meth_lab_step_complete)
+	signal_bus.connect("ingredient_collected", _on_ingredient_collected)
+	signal_bus.connect("meth_lab_success", _on_meth_lab_success)
 	police_response.connect("police_response_changed", _on_police_response_changed)
 	player = get_tree().get_first_node_in_group("player")
 	if player:
@@ -385,7 +385,7 @@ func update_car_focus(delta: float) -> void:
 			Dialogic.timeline_ended.connect(_on_dialogic_timeline_ended)
 func open_meth_lab() -> void:
 	if meth_lab_unlocked:
-		get_tree().change_scene_to_file("res:
+		get_tree().change_scene_to_file("res://UI/Scenes/MethLab/MethLabGame.tscn")
 func _on_dialogic_timeline_ended():
 	meth_lab_unlocked = true
 	if meth_lab_button:
@@ -507,7 +507,7 @@ func _on_dialog_trigger_entered(body):
 func _on_meth_lab_entrance_entered(body):
 	if body.is_in_group("Player") and not entering_lab:
 		entering_lab = true
-		get_tree().change_scene_to_file("res:
+		get_tree().change_scene_to_file("res://UI/Scenes/MethLab/MethLabGame.tscn")
 		SignalBus.player_entered_meth_lab.emit()
 func find_hiding_spots():
 	hiding_spots = get_tree().get_nodes_in_group("hiding_spot")
@@ -660,7 +660,7 @@ func _on_meth_lab_success():
 	police_scan_timer = 0
 	if current_quest:
 		quest_manager.mark_objective_active(current_quest, "ReturnToRV")
-	var meth_batch = load("res:
+	var meth_batch = load("res://Objects/Scenes/Early_Meth_Batch/Early_Meth_Batch.tscn").instantiate()
 	call_deferred("add_child", meth_batch)
 	meth_batch.global_position = player.global_position + Vector2(0, 40)
 	chase_trigger_area.monitoring = true
@@ -691,7 +691,7 @@ func _on_exit_trigger_area_body_entered(body):
 			quest_manager.complete_objective(current_quest, "ReturnToRV")
 			quest_manager.complete_quest(current_quest)
 		police_response.set_response_level(0)
-		get_tree().change_scene_to_file("res:
+		get_tree().change_scene_to_file("res://Levels/House/House.tscn")
 func _on_hiding_spot_entered():
 	if police_response_level > 0 and not player_hidden and hiding_cooldown <= 0:
 		player_hidden = true

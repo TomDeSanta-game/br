@@ -1,9 +1,8 @@
-
 extends CharacterBody2D
 signal death
-const MINION_RESOURCE := "res:
-const NinjaStar := preload("res:
-const Fireball := preload("res:
+const MINION_RESOURCE := "res://demo/agents/minion/minion.tscn"
+const NinjaStar := preload("res://demo/agents/ninja_star/ninja_star.tscn")
+const Fireball := preload("res://demo/agents/fireball/fireball.tscn")
 var summon_count: int = 0
 var _frames_since_facing_update: int = 0
 var _is_dead: bool = false
