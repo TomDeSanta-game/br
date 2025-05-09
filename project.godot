@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Breaking Bad"
-run/main_scene="res://Levels/House/House.tscn"
+run/main_scene="uid://cnx4ney8jniti"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
 
@@ -33,6 +33,12 @@ PoliceResponse="*res://Systems/Scripts/police_response.gd"
 StreetDealing="*res://Systems/Scripts/street_dealing.gd"
 LimboConsole="*res://addons/limbo_console/limbo_console.gd"
 Dialogic="*res://addons/dialogic/Core/DialogicGameHandler.gd"
+DynamicLighting="*res://Systems/Scripts/dynamic_lighting_autoload.gd"
+UIController="*res://UI/Scripts/ui_controller.gd"
+EnvironmentalEffects="*res://Systems/Scripts/environmental_effects.gd"
+DrugEffectsController="*res://Systems/Scripts/drug_effects_controller.gd"
+UnifiedPostProcess="*res://Systems/Scripts/unified_post_process.gd"
+SurveillanceCameraSystem="*res://Systems/Scripts/surveillance_camera_system.gd"
 
 [debug]
 

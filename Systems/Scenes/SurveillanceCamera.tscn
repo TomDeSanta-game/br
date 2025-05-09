@@ -1,0 +1,148 @@
+[gd_scene load_steps=4 format=3 uid="uid://cyolqitb0xtxh"]
+
+[ext_resource type="Script" path="res://Systems/Scripts/surveillance_camera_node.gd" id="1_lgumv"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_j6lf2"]
+radius = 50.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qv4t7"]
+size = Vector2(400, 300)
+
+[node name="SurveillanceCamera" type="Node2D"]
+script = ExtResource("1_lgumv")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+enabled = false
+zoom = Vector2(1.2, 1.2)
+
+[node name="CameraSprite" type="Sprite2D" parent="."]
+modulate = Color(1, 0, 0, 1)
+scale = Vector2(0.5, 0.5)
+
+[node name="InteractionArea" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractionArea"]
+shape = SubResource("CircleShape2D_j6lf2")
+
+[node name="ViewArea" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+monitoring = false
+
+[node name="ViewCone" type="CollisionShape2D" parent="ViewArea"]
+position = Vector2(200, 0)
+shape = SubResource("RectangleShape2D_qv4t7")
+
+[node name="ViewIndicator" type="Line2D" parent="."]
+points = PackedVector2Array(0, 0, 400, -150, 400, 150, 0, 0)
+width = 1.0
+default_color = Color(1, 0, 0, 0.196078)
+
+[node name="IdLabel" type="Label" parent="."]
+offset_left = -51.0
+offset_top = -69.0
+offset_right = 49.0
+offset_bottom = -43.0
+text = "CAM 01"
+horizontal_alignment = 1
+
+[node name="StaticOverlay" type="ColorRect" parent="."]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -640.0
+offset_top = -360.0
+offset_right = 640.0
+offset_bottom = 360.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.2, 0.2, 0.2, 0.192157)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = 5
+visible = false
+
+[node name="CameraUI" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Border" type="ColorRect" parent="CanvasLayer/CameraUI"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 0)
+
+[node name="CameraInfo" type="Label" parent="CanvasLayer/CameraUI"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -150.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = 36.0
+grow_horizontal = 0
+text = "CAM 01"
+horizontal_alignment = 2
+
+[node name="RecordingIndicator" type="Label" parent="CanvasLayer/CameraUI"]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 162.0
+offset_bottom = 36.0
+text = "● REC"
+
+[node name="StatusLabel" type="Label" parent="CanvasLayer/CameraUI"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -177.0
+offset_top = -36.0
+offset_right = -10.0
+offset_bottom = -10.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "SURVEILLANCE MODE"
+horizontal_alignment = 2
+
+[node name="Instructions" type="Label" parent="CanvasLayer/CameraUI"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -149.5
+offset_top = -36.0
+offset_right = 149.5
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "Press ESC to exit, 1-9 to switch cameras"
+horizontal_alignment = 1
+
+[node name="MotionSensor" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+
+[connection signal="body_entered" from="InteractionArea" to="." method="_on_interaction_area_body_entered"]
+[connection signal="body_exited" from="InteractionArea" to="." method="_on_interaction_area_body_exited"]
+[connection signal="body_entered" from="ViewArea" to="." method="_on_view_area_body_entered"]
+[connection signal="body_exited" from="ViewArea" to="." method="_on_view_area_body_exited"]
+[connection signal="timeout" from="MotionSensor" to="." method="_on_motion_sensor_timeout"] 
